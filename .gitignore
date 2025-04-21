@@ -1,0 +1,12 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/GDB.Web/.vs/GDB.Web/FileContentIndex
+/GDB.Web/.vs/GDB.Web/FileContentIndex/15ed5960-a0af-47f5-8c30-b99eb3613d98.vsidx
+/GDB.Web/.vs/GDB.Web/FileContentIndex/9915d28b-37ca-47c2-9b64-4ad17132a6db.vsidx
+/GDB.Web/.vs/GDB.Web/FileContentIndex/9f5c4bbb-878f-4198-ad39-e26f90990f33.vsidx
+/GDB.Web/.vs/GDB.Web/FileContentIndex/a35515dc-fc91-451f-ba86-cbff865a1ec4.vsidx
+/GDB.Web/.vs/GDB.Web/FileContentIndex/ace082f8-9100-4571-b8b5-8383ebb74003.vsidx
+/GDB.Web/.vs/GDB.Web/DesignTimeBuild
+/GDB.Web/.vs/GDB.Web/DesignTimeBuild/.dtbcache.v2
