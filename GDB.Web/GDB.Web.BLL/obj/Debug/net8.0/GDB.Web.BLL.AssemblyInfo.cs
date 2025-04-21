@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("GDB.Web.BLL")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b2168b041edaefad208c20d017e96c88f26c5c8f")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b598fe63db9bdf541f6ef34df67508d7e20b8233")]
 [assembly: System.Reflection.AssemblyProductAttribute("GDB.Web.BLL")]
 [assembly: System.Reflection.AssemblyTitleAttribute("GDB.Web.BLL")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
