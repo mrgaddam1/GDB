@@ -1,7 +1,7 @@
 {
   "mainAssemblyName": "GDB.Web.Client",
   "resources": {
-    "hash": "sha256-QoZukt+uv7Ks2jNIWM5t8SjqoEMZ+bCNJ7MeK5ABdjA=",
+    "hash": "sha256-Jy73Wcd64oJZ7l3bu0om68wrmujdn5xQLZKPJGbcXkM=",
     "jsModuleNative": {
       "dotnet.native.js": "sha256-VdKq87/z5NIxZKmuM+fv38XF+RcEb/bg3jVBwQSfwP4="
     },
@@ -302,22 +302,22 @@
       "mscorlib.wasm": "sha256-04e4k5XU8HWGB/dq/2+j84xzzGPflTs0IYWI0OxogVc=",
       "netstandard.wasm": "sha256-gnGZURPnoSmjXuYNCOJi5tt8qn2LRImWgue1Ru3/TDQ=",
       "System.Private.CoreLib.wasm": "sha256-6w3jYr0arcp8jnt4aeqh+AmqrLA6q7jl9rQYAwLzE0M=",
-      "GDB.Web.BLL.wasm": "sha256-ZtijqC6MPXINgDqgsXOE0mk/z21UvdunNkiwKJ9pXuM=",
-      "GDB.Web.Client.Infrastructure.wasm": "sha256-I9c+VND/6ViPDmuK9o45wpmOhQEzSNVm8Th3SG9UrI0=",
-      "GDB.Web.Common.wasm": "sha256-ZWMYle7NrPjvVGTk6JFrXVDSR67zfO+EUlVz5QY+8RY=",
-      "GDB.Web.Core.wasm": "sha256-VPMsKs/Rg259ZHG7m606mndPkikq8QumVY0FBO0aPSM=",
-      "GDB.Web.DataAccess.wasm": "sha256-Kdr+IkzVDbXJBq2EMfRgaWgx25TGB1tux5bY4qU5WL8=",
-      "GDB.Web.Shared.wasm": "sha256-wxnmUNSQuDuro5Ls6Txra/QJ+s4Slfp4H5a7dpWVoGY=",
-      "GDB.Web.Client.wasm": "sha256-HwVl432Kqpkp1Cu2ihyTjOTqbvFoSpG1YYx8aULKXPU="
+      "GDB.Web.BLL.wasm": "sha256-NU5TCbNjPNlq7d4ZOAg3aVO3jPtV3BOB3Yewy2t04NY=",
+      "GDB.Web.Client.Infrastructure.wasm": "sha256-AqyMtoadMLQlNiXTHZxWJrDNibUURFcTb1D1X/Xijbk=",
+      "GDB.Web.Common.wasm": "sha256-OK3ior9FyjjHdrjIEzCOQSx50cwGiLaVAbRYb8BruYk=",
+      "GDB.Web.Core.wasm": "sha256-sKI/OQP/UhB3V4Vz9nAtcKoYQsiqI6bErx6d37Gwxy8=",
+      "GDB.Web.DataAccess.wasm": "sha256-A9aP734sqUHLSHVBxcjZ0mRNobHOSmSZwqJuR6wQDzQ=",
+      "GDB.Web.Shared.wasm": "sha256-IWbSMGDHMMgEjbM+dWvhST/wjbIXrxrQNA+RkXpBCwU=",
+      "GDB.Web.Client.wasm": "sha256-hdCDxxyMmIymeEzdzq//CoSKg+nJnMEC6coS0+miI/0="
     },
     "pdb": {
-      "GDB.Web.Shared.pdb": "sha256-iDSrRaYy0FAH72KmDIKLAtQUz7rzS0k8VwcAd375B8E=",
-      "GDB.Web.BLL.pdb": "sha256-2Q53BXYMaw2a2x13Af8bUUOIdhdp0uiv4EYDndSwvW4=",
-      "GDB.Web.Client.Infrastructure.pdb": "sha256-SC+uQsaN8D4DNCGDkAroRip0vzIEVfcYUXlm7vWD54k=",
-      "GDB.Web.Common.pdb": "sha256-Px9t3GMqzgOmqsPK3MHD1Wumuuz/Y98AEoLYEP7yvLI=",
-      "GDB.Web.Core.pdb": "sha256-t8WF8dszkajlJrPqPPl8PVHZ5f7+/RPjN1O8GSCPZHE=",
-      "GDB.Web.DataAccess.pdb": "sha256-b4epxR6akLUc+L46ZCxHvDaN3BQKKhXez+/R2VSoo8U=",
-      "GDB.Web.Client.pdb": "sha256-EE1KxKIBdXSoD1VDf3K8iO67yWHVXbDza5nRklpQpkk="
+      "GDB.Web.Shared.pdb": "sha256-mZ0cQs9Z8b8Uk/PlT1CeYHc62CalyjO5OEqcx89we38=",
+      "GDB.Web.BLL.pdb": "sha256-x5x+DvTAyTsLkiZovaRtiktln/rklxtbxTdw3o8knbw=",
+      "GDB.Web.Client.Infrastructure.pdb": "sha256-TIWoJdqHYmW/XU5NpW/DIf2tFVQbwkWKrnzj6FiexCc=",
+      "GDB.Web.Common.pdb": "sha256-PSHqj6rQhYCYCMHnDkCjZPDZQl41CiBT7CDPNjZtBeE=",
+      "GDB.Web.Core.pdb": "sha256-8Ch+kPMD6yFuxc/JIqOhv4KMTT+XctgPp2z3YFbTXuU=",
+      "GDB.Web.DataAccess.pdb": "sha256-zM3hb471nHZ5eWvYX0j0k2TuuAHsH+ss6bgQ36mJB3A=",
+      "GDB.Web.Client.pdb": "sha256-ZlS7MZ7M4D4n98Q0d9uZt+Mm0kQYXYeq5KHr3XuCeqM="
     },
     "satelliteResources": {
       "cs": {

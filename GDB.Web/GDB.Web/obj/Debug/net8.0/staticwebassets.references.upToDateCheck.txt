@@ -952,3 +952,9 @@ D:\Projects\GDB\GDB.Web\GDB.Web.Client\obj\Debug\net8.0\staticwebassets.build.js
 D:\Projects\GDB\GDB.Web\GDB.Web.Client\obj\Debug\net8.0\staticwebassets.build.json
 D:\Projects\GDB\GDB.Web\GDB.Web.Client\obj\Debug\net8.0\staticwebassets.build.json
 D:\Projects\GDB\GDB.Web\GDB.Web.Client\obj\Debug\net8.0\staticwebassets.build.json
+D:\Projects\GDB\GDB\GDB.Web\GDB.Web.Client\obj\Debug\net8.0\staticwebassets.build.json
+D:\Projects\GDB\GDB\GDB.Web\GDB.Web.Client\obj\Debug\net8.0\staticwebassets.build.json
+D:\Projects\GDB\GDB\GDB.Web\GDB.Web.Client\obj\Debug\net8.0\staticwebassets.build.json
+D:\Projects\GDB\GDB\GDB.Web\GDB.Web.Client\obj\Debug\net8.0\staticwebassets.build.json
+D:\Projects\GDB\GDB\GDB.Web\GDB.Web.Client\obj\Debug\net8.0\staticwebassets.build.json
+D:\Projects\GDB\GDB\GDB.Web\GDB.Web.Client\obj\Debug\net8.0\staticwebassets.build.json
