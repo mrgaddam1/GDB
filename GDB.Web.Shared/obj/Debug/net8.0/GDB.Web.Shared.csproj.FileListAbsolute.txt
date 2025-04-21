@@ -1,0 +1,12 @@
+D:\Projects\GDB\GDB.Web.Shared\bin\Debug\net8.0\GDB.Web.Shared.deps.json
+D:\Projects\GDB\GDB.Web.Shared\bin\Debug\net8.0\GDB.Web.Shared.dll
+D:\Projects\GDB\GDB.Web.Shared\bin\Debug\net8.0\GDB.Web.Shared.pdb
+D:\Projects\GDB\GDB.Web.Shared\obj\Debug\net8.0\GDB.Web.Shared.csproj.AssemblyReference.cache
+D:\Projects\GDB\GDB.Web.Shared\obj\Debug\net8.0\GDB.Web.Shared.GeneratedMSBuildEditorConfig.editorconfig
+D:\Projects\GDB\GDB.Web.Shared\obj\Debug\net8.0\GDB.Web.Shared.AssemblyInfoInputs.cache
+D:\Projects\GDB\GDB.Web.Shared\obj\Debug\net8.0\GDB.Web.Shared.AssemblyInfo.cs
+D:\Projects\GDB\GDB.Web.Shared\obj\Debug\net8.0\GDB.Web.Shared.csproj.CoreCompileInputs.cache
+D:\Projects\GDB\GDB.Web.Shared\obj\Debug\net8.0\GDB.Web.Shared.dll
+D:\Projects\GDB\GDB.Web.Shared\obj\Debug\net8.0\refint\GDB.Web.Shared.dll
+D:\Projects\GDB\GDB.Web.Shared\obj\Debug\net8.0\GDB.Web.Shared.pdb
+D:\Projects\GDB\GDB.Web.Shared\obj\Debug\net8.0\ref\GDB.Web.Shared.dll

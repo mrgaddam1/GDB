@@ -1,0 +1,120 @@
+﻿@page "/expenses/list"
+@using Blazorise.DataGrid
+@using GDB.Web.BLL.Implementation
+@using GDB.Web.BLL.Interface
+@using GDB.Web.Shared
+@using System.Globalization
+
+@inject IExpensesService ExpensesService
+@inject IOrderService OrderService
+@inject HttpClient HttpClient
+@inject NavigationManager NavigationManager
+@rendermode @(new InteractiveServerRenderMode(prerender:false))
+
+
+
+<div class="row">
+    <div class="col-lg-6" align="left">
+        <h2>Expenses</h2>
+    </div>
+    <div class="col-lg-6" align="right">
+        <button @onclick="AddNewExpenses" class="btn btn-success">
+            <i class="fa fa-plus" aria-hidden="true"></i>
+            &nbsp;&nbsp;Add Expenses
+        </button>
+    </div>
+</div>
+<div class="row">
+    @if (expensesViewModel != null)
+    {
+        <DataGrid Class="table table-bordered"
+                  TItem="ExpensesViewModel"
+                  Data="@expensesViewModel"
+                  Responsive
+                  ShowPager="true"
+                  Sortable
+                  SortMode="DataGridSortMode.Single"
+                  PageSize="15"
+                  RowStyling="@OnRowStyling"
+                  Editable
+                  SelectedRowStyling="@OnSelectedRowStyling">
+            <DataGridColumns>
+                <DataGridColumn Field="@nameof(ExpensesViewModel.ExpensesId)" Caption="Expenses Id" />
+                <DataGridColumn Field="@nameof(ExpensesViewModel.WeekNumber)" Caption="Week" />
+                <DataGridColumn Field="@nameof(ExpensesViewModel.GroceryDescription)" Caption="Grocery Description" />
+                <DataGridColumn Field="@nameof(ExpensesViewModel.QuantityDescription)" Caption="Quantity Description" />
+                <DataGridColumn Field="@nameof(ExpensesViewModel.StoreName)" Caption="Store Name" />
+                <DataGridColumn Field="@nameof(ExpensesViewModel.ExpensesAmount)" Caption="Expenses Amount" DisplayFormat="{0:C}" DisplayFormatProvider="@System.Globalization.CultureInfo.GetCultureInfo("en-GB")" />
+                <DataGridColumn Field="@nameof(ExpensesViewModel.ExpensesDate)" Caption="OrderType Name" DisplayFormat="{0:dd/MM/yyyy}" />
+            </DataGridColumns>
+        </DataGrid>
+
+    }
+</div>
+ 
+@code {
+    public List<ExpensesViewModel> expensesViewModel { get; set; }
+    public int CurrentWeekId { get; set; }
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            expensesViewModel = new List<ExpensesViewModel>();
+            expensesViewModel = await ExpensesService.GetAllExpenses<List<ExpensesViewModel>>();
+            CurrentWeekId = await OrderService.GetMaxWeekId<int>();
+        }
+        catch (Exception ex)
+        {
+            string errorMessage = ex.Message;
+        }
+    }
+    private void AddNewExpenses()
+    {
+        NavigationManager.NavigateTo("/expenses/add");
+    }
+    private void OnRowStyling(ExpensesViewModel expensesViewModel, DataGridRowStyling styling)
+    {
+        if (expensesViewModel.WeekNumber == CurrentWeekId)
+        {
+            styling.Style = "color:#0f5132;background-color:#d1e7dd !important;"; 
+        }   
+        else if (expensesViewModel.WeekNumber == 17)
+        {
+            styling.Style = "color:#ffffff;background-color:#5F9EA0 !important;";
+        }
+        else if (expensesViewModel.WeekNumber == 16)
+        {
+            styling.Style = "color:#ffffff;background-color:#483D8B !important;";
+        }
+        else if (expensesViewModel.WeekNumber == 15)
+        {
+            styling.Style = "color:#ffffff;background-color:#F08080 !important;";
+        }
+        else if ((expensesViewModel.WeekNumber == 14))
+        {
+            styling.Style = "color:#ffffff;background-color:#8FBC8F !important;";
+        }
+        else if ((expensesViewModel.WeekNumber == 13))
+        {
+            styling.Style = "color:#ffffff;background-color:#20B2AA !important;";
+        }
+        else if ((expensesViewModel.WeekNumber == 12))
+        {
+            styling.Style = "color:#ffffff;background-color:#7B68EE !important;";
+        }
+        else
+        {
+            styling.Style = "color:#ffffff;background-color:#DB7093 !important;";
+        }
+     }
+    private void OnSelectedRowStyling(ExpensesViewModel expensesViewModel, DataGridRowStyling styling)
+    {
+        styling.Background = Blazorise.Background.Primary;
+        NavigationManager.NavigateTo("/expenses/updateExpenses" + "/" + Convert.ToString(expensesViewModel.ExpensesId));
+    }
+
+
+  
+
+}
+ 

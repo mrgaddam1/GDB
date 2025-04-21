@@ -1,0 +1,59 @@
+﻿@page "/masterMaintenance/store/list"
+@using Blazorise.DataGrid
+@using GDB.Web.BLL.Interface
+@using GDB.Web.Shared
+@using System.Globalization
+@using Radzen.Blazor
+
+@inject IStoreService StoreService
+@inject NavigationManager NavigationManager
+@rendermode @(new InteractiveServerRenderMode(prerender:false))
+
+
+<div class="col-lg-6">
+    <table>
+        <tr>
+            <td>
+                <h2>Stores</h2>
+            </td>
+            <td style="text-align:right;">
+                <button @onclick="Add" class="btn btn-primary">
+                    <i class="fa fa-plus" aria-hidden="true"></i>
+                    &nbsp;&nbsp;Add New
+                </button>
+            </td>
+        </tr>
+        <tr style="padding-top:-5px;vertical-align:top;">
+            <td colspan="2">
+                @if (storesData != null)
+                {
+                    <RadzenDataGrid Data="storesData" AllowFiltering="true" AllowPaging="true" AllowSorting="true" PageSize="20">
+                        <Columns>
+                            <RadzenDataGridColumn TItem="StoreViewModel" Property="StoreId" Title="Id" />
+                            <RadzenDataGridColumn TItem="StoreViewModel" Property="StoreName" Title="Store Name" />
+                        </Columns>
+                    </RadzenDataGrid>
+                }
+            </td>
+        </tr>
+    </table>
+</div>
+
+@code {
+
+    private List<StoreViewModel> storesData { get; set; }
+    
+    protected override async Task OnInitializedAsync()
+    {
+        storesData = new List<StoreViewModel>();
+        storesData = await StoreService.GetAll<List<StoreViewModel>>();
+    }
+    void OnRowSelect(StoreViewModel store)
+    {
+        // Optional: Do something on row select
+    }
+    private void Add()
+    {
+        NavigationManager.NavigateTo("/masterMaintenance/store/addStore");
+    }
+}

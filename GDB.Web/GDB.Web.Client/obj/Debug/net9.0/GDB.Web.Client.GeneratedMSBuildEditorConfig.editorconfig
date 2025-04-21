@@ -1,0 +1,137 @@
+is_global = true
+build_property.EnableAotAnalyzer = 
+build_property.EnableSingleFileAnalyzer = 
+build_property.EnableTrimAnalyzer = false
+build_property.IncludeAllContentForSelfExtract = 
+build_property.TargetFramework = net9.0
+build_property.TargetFramework = net9.0
+build_property.TargetPlatformMinVersion = 
+build_property.TargetPlatformMinVersion = 
+build_property.UsingMicrosoftNETSdkWeb = 
+build_property.UsingMicrosoftNETSdkWeb = 
+build_property.ProjectTypeGuids = 
+build_property.ProjectTypeGuids = 
+build_property.InvariantGlobalization = false
+build_property.InvariantGlobalization = false
+build_property.PlatformNeutralAssembly = 
+build_property.PlatformNeutralAssembly = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property._SupportedPlatformList = browser
+build_property._SupportedPlatformList = browser
+build_property.RootNamespace = GDB.Web.Client
+build_property.RootNamespace = GDB.Web.Client
+build_property.ProjectDir = D:\Projects\GDB\GDB.Web\GDB.Web.Client\
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = false
+build_property.RazorLangVersion = 9.0
+build_property.SupportLocalizedComponentNames = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = 
+build_property.MSBuildProjectDirectory = D:\Projects\GDB\GDB.Web\GDB.Web.Client
+build_property._RazorSourceGeneratorDebug = 
+build_property.EffectiveAnalysisLevelStyle = 9.0
+build_property.EnableCodeStyleSeverity = 
+
+[D:/Projects/GDB/GDB.Web/GDB.Web.Client/Pages/Counter.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ291bnRlci5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Projects/GDB/GDB.Web/GDB.Web.Client/Pages/Customers/AddCustomer.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ3VzdG9tZXJzXEFkZEN1c3RvbWVyLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Projects/GDB/GDB.Web/GDB.Web.Client/Pages/Customers/List.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ3VzdG9tZXJzXExpc3QucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Projects/GDB/GDB.Web/GDB.Web.Client/Pages/Customers/UpdateCustomer.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ3VzdG9tZXJzXFVwZGF0ZUN1c3RvbWVyLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Projects/GDB/GDB.Web/GDB.Web.Client/Pages/Expenses/Add.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRXhwZW5zZXNcQWRkLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Projects/GDB/GDB.Web/GDB.Web.Client/Pages/Expenses/List.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRXhwZW5zZXNcTGlzdC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Projects/GDB/GDB.Web/GDB.Web.Client/Pages/Orders/Add.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcT3JkZXJzXEFkZC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Projects/GDB/GDB.Web/GDB.Web.Client/Pages/Orders/OrdersList.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcT3JkZXJzXE9yZGVyc0xpc3QucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Projects/GDB/GDB.Web/GDB.Web.Client/Pages/Orders/Update.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcT3JkZXJzXFVwZGF0ZS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Projects/GDB/GDB.Web/GDB.Web.Client/Pages/Reports/CustomerReports/CustomerVisitsBy2Weeks.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUmVwb3J0c1xDdXN0b21lclJlcG9ydHNcQ3VzdG9tZXJWaXNpdHNCeTJXZWVrcy5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Projects/GDB/GDB.Web/GDB.Web.Client/Pages/Reports/CustomerReports/CustomerVisitsByAll.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUmVwb3J0c1xDdXN0b21lclJlcG9ydHNcQ3VzdG9tZXJWaXNpdHNCeUFsbC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Projects/GDB/GDB.Web/GDB.Web.Client/Pages/Reports/CustomerReports/CustomerVisitsByHalfYearly.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUmVwb3J0c1xDdXN0b21lclJlcG9ydHNcQ3VzdG9tZXJWaXNpdHNCeUhhbGZZZWFybHkucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Projects/GDB/GDB.Web/GDB.Web.Client/Pages/Reports/CustomerReports/CustomerVisitsByMonthly.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUmVwb3J0c1xDdXN0b21lclJlcG9ydHNcQ3VzdG9tZXJWaXNpdHNCeU1vbnRobHkucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Projects/GDB/GDB.Web/GDB.Web.Client/Pages/Reports/CustomerReports/CustomerVisitsByQuarterly.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUmVwb3J0c1xDdXN0b21lclJlcG9ydHNcQ3VzdG9tZXJWaXNpdHNCeVF1YXJ0ZXJseS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Projects/GDB/GDB.Web/GDB.Web.Client/Pages/Reports/CustomerReports/CustomerVisitsByWeekly.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUmVwb3J0c1xDdXN0b21lclJlcG9ydHNcQ3VzdG9tZXJWaXNpdHNCeVdlZWtseS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Projects/GDB/GDB.Web/GDB.Web.Client/Pages/Reports/CustomerReports/CustomerVisitsByYearly.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUmVwb3J0c1xDdXN0b21lclJlcG9ydHNcQ3VzdG9tZXJWaXNpdHNCeVllYXJseS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Projects/GDB/GDB.Web/GDB.Web.Client/Pages/Reports/Orders/OrdersByBI-Weekly.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUmVwb3J0c1xPcmRlcnNcT3JkZXJzQnlCSS1XZWVrbHkucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Projects/GDB/GDB.Web/GDB.Web.Client/Pages/Reports/Orders/OrdersByHalfYearly.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUmVwb3J0c1xPcmRlcnNcT3JkZXJzQnlIYWxmWWVhcmx5LnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Projects/GDB/GDB.Web/GDB.Web.Client/Pages/Reports/Orders/OrdersByMonthly.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUmVwb3J0c1xPcmRlcnNcT3JkZXJzQnlNb250aGx5LnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Projects/GDB/GDB.Web/GDB.Web.Client/Pages/Reports/Orders/OrdersByQuarterly.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUmVwb3J0c1xPcmRlcnNcT3JkZXJzQnlRdWFydGVybHkucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Projects/GDB/GDB.Web/GDB.Web.Client/Pages/Reports/Orders/OrdersByWeekly.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUmVwb3J0c1xPcmRlcnNcT3JkZXJzQnlXZWVrbHkucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Projects/GDB/GDB.Web/GDB.Web.Client/Pages/Reports/Orders/OrdersByYearly.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUmVwb3J0c1xPcmRlcnNcT3JkZXJzQnlZZWFybHkucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Projects/GDB/GDB.Web/GDB.Web.Client/Pages/Reports/ReportsHome.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUmVwb3J0c1xSZXBvcnRzSG9tZS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Projects/GDB/GDB.Web/GDB.Web.Client/Pages/SalesPrediction/Sales.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2FsZXNQcmVkaWN0aW9uXFNhbGVzLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Projects/GDB/GDB.Web/GDB.Web.Client/Pages/User/UserLogin.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVXNlclxVc2VyTG9naW4ucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Projects/GDB/GDB.Web/GDB.Web.Client/_Imports.razor]
+build_metadata.AdditionalFiles.TargetPath = X0ltcG9ydHMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 

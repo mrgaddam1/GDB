@@ -1,0 +1,170 @@
+﻿ @page "/user/login"
+
+@using Blazored.SessionStorage
+@using GDB.Web.BLL.Interface
+@using GDB.Web.Client.Security
+@using GDB.Web.Shared
+@using System.Security.Claims
+@using System.IdentityModel.Tokens.Jwt
+@using Microsoft.AspNetCore.Components.Authorization
+
+@inject ISessionStorageService SessionStorageService
+@inject IUserService UserService
+@inject NavigationManager Navigation
+
+@inject IJSRuntime JS
+@inject CustomAuthStateProvider CustomAuthStateProvider
+@rendermode @(new InteractiveServerRenderMode(prerender:false)) 
+
+ 
+ 
+<div class="login-container">
+    <h2>Login</h2>
+    <EditForm Model="@LoginModel" OnValidSubmit="HandleLogin">
+        <div class="input-group">               
+            <div class="col-md-2">
+                <label for="password">Email</label>
+            </div>
+            <div class="col-lg-6">
+                <InputText id="email" 
+                @bind-Value="LoginModel.EmailId" 
+                class="form-control" 
+                style="width:370px;"
+                placeholder="Enter your email" required />
+            </div>
+        </div>
+        <div class="input-group" >
+            <div class="col-md-2">
+                <label for="password">Password</label>
+            </div>
+            <div class="col-lg-6">
+                <InputText type="password" 
+                id="password" 
+                @bind-Value="LoginModel.Password" 
+                class="form-control" 
+                style="width:370px;"
+                placeholder="Enter your password" required />
+            </div>                
+        </div>
+        <button type="submit" class="login-btn">Login</button>
+        <a href="#" class="forgot-password">Forgot Password?</a>
+    </EditForm>
+</div>
+@* </body>
+
+</html> *@
+
+
+@code {
+    private LoginRequest LoginModel = new();
+    private UserViewModel userData = new();
+    private string ErrorMessage = "";
+  
+    private async Task HandleLogin()
+    {
+        userData = new UserViewModel();
+        var response = await UserService.UserLogin<UserViewModel>(LoginModel);
+
+        if (response.Token != null)
+        {
+     
+            var userName = response.UserName;
+
+            await JS.InvokeVoidAsync("sessionStorage.setItem", "authToken", response.Token);   
+            
+            await CustomAuthStateProvider.MarkUserAsAuthenticated(response.UserName);        
+            Navigation.NavigateTo("/", forceLoad: true);
+        }
+    }
+}
+
+<style type="text/css">
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        background-size: 400% 400%;
+            animation: gradientBG 6s infinite alternate ease-in-out;*/
+       /*    display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background: url('/images/GDBHomePage.JPG') no-repeat center center/cover;  */
+    } 
+  
+    .login-container {
+        background: #fff;
+        padding: 2rem;
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        width: 500px;
+        text-align: center;
+    }
+
+        .login-container h2 {
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+
+    .input-group {
+        margin-bottom: 1rem;
+        text-align: left;
+        width:500px;
+    }
+
+        .input-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            outline: none;
+            transition: 0.3s;
+        }
+
+            .input-group input:focus {
+                border-color: #667eea;
+            }
+
+    .login-btn {
+        width: 100%;
+        padding: 10px;
+        border: none;
+        border-radius: 5px;
+        background: #667eea;
+        color: white;
+        font-weight: 600;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+        .login-btn:hover {
+            background: #5a67d8;
+        }
+
+    .forgot-password {
+        display: block;
+        margin-top: 1rem;
+        font-size: 0.9rem;
+        color: #667eea;
+        text-decoration: none;
+    }
+
+        .forgot-password:hover {
+            text-decoration: underline;
+        }
+</style> 

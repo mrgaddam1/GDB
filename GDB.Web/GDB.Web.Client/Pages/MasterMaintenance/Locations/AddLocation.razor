@@ -1,0 +1,106 @@
+﻿@page "/masterMaintenance/locations/add"
+@using GDB.Web.BLL.Interface
+@using GDB.Web.Shared
+
+@inject ILocationService LocationService
+@inject NavigationManager NavigationManager
+@inject ILogger<AddLocation> Logger
+@rendermode @(new InteractiveAutoRenderMode(prerender:false))
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-8 mx-auto">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    Add Location
+                </div>
+                <div class="card-body">
+                    <div class="col-lg-12">
+                        <EditForm Model="@location" OnValidSubmit="HandleValidSubmit">
+                            @if (errorMessages != null)
+                            {
+                                if (!string.IsNullOrEmpty(errorMessages))
+                                {
+                                    <ul class="alert alert-danger mt-3 text-left">
+                                        <li>@errorMessages</li>
+                                    </ul>
+                                }
+                            }
+                            <div class="row rowMargin">
+                                <div class="col-sm-3">
+                                    First Name
+                                </div>
+                                <div class="col-sm-6">
+                                    <InputText @bind-Value="location.LocationName" class="form-control" />
+                                </div>
+                            </div>
+
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-primary">Save</button>
+                            </div>
+                            @if (!string.IsNullOrEmpty(successMessage))
+                            {
+                                <div class="alert alert-success mt-3 text-center">@successMessage</div>
+                            }
+                        </EditForm>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@code {
+    private LocationViewModel location = new();
+    private string errorMessages;
+    private string successMessage = string.Empty;
+
+    private async void HandleValidSubmit()
+    {
+        errorMessages = Validations(location);
+
+        if ((errorMessages == null) || (errorMessages == ""))
+        {
+            var response = await LocationService.Add(location);
+            if (response.Value)
+            {
+                Logger.LogInformation("New Location added successfully.");
+                successMessage = "New Location added  successfully!";
+                Reset();
+            }
+            else
+            {
+                Logger.LogInformation("Unable to add new Location.");
+                successMessage = "Unable to add new Location.";
+            }
+        }
+        else
+        {
+            //validations = "";
+        }
+    }
+
+    private async void Reset()
+    {
+        location = new LocationViewModel();
+        errorMessages = "";
+        StateHasChanged();
+    }
+
+    private string Validations(LocationViewModel locationViewModel)
+    {
+        string validationMessage = "";
+        if (locationViewModel.LocationName == null)
+        {
+            validationMessage = "Location Name: Please enter Location Name";
+        }
+        return validationMessage;
+    }
+}
+<style type="text/css">
+    .rowMargin {
+        margin-bottom: 10px;
+    }
+</style>
+

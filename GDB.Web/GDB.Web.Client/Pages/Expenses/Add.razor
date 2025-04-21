@@ -1,0 +1,243 @@
+﻿@page "/expenses/add" 
+@using GDB.Web.BLL.Interface
+@using GDB.Web.Shared
+
+@inject IStoreService StoreService
+@inject IGroceryService GroceryService
+@inject IExpensesService ExpensesService
+@inject IOrderService OrderService
+@inject HttpClient HttpClient
+@inject NavigationManager NavigationManager
+@inject ILogger<Add> Logger
+@rendermode @(new InteractiveAutoRenderMode(prerender:false))
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-8 mx-auto">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    Add Expenses
+                </div>
+                <div class="card-body">
+                    <div class="col-lg-12">
+                        <EditForm Model="@expenses" OnValidSubmit="HandleValidSubmit">
+                            @if (errorMessages != null)
+                            {
+                                @foreach (var message in errorMessages)
+                                {
+                                    if (!string.IsNullOrEmpty(message))
+                                    {
+                                        <ul class="alert alert-danger mt-3 text-left">
+                                            <li>@message</li>
+                                        </ul>
+                                    }
+                                }
+                            }
+                            <div class="row rowMargin">
+                                <div class="col-sm-3">
+                                    Store
+                                </div>
+                                <div class="col-sm-6">
+                                    <select style="width:250px;font-size:13px;"
+                                    @onchange="OnstoreSelectionIndexChanged"
+                                    id="ddlStore"
+                                    name="StoreId"
+                                    class="form-select">
+                                        <option>@StoreInitialText</option>
+                                        @if (storeViewModelData != null)
+                                        {
+                                            @foreach (var item in storeViewModelData)
+                                            {
+                                                <option value="@item.StoreId">@item.StoreName</option>
+                                            }
+                                        }
+                                    </select> 
+                                </div>
+                            </div>
+
+                            <div class="row rowMargin">
+                                <div class="col-sm-3">
+                                    Grocery
+                                </div>
+                                <div class="col-sm-6">
+                                    <select style="width:250px;font-size:13px;"
+                                    @onchange="OnGrocerySelectionIndexChanged"
+                                    id="ddlGrocery"
+                                    name="GroceryId"
+                                    class="form-select">
+                                        <option>@GroceryInitialText</option>
+                                        @if (groceryViewModelData != null)
+                                        {
+                                            @foreach (var item in groceryViewModelData)
+                                            {
+                                                <option value="@item.GroceryId">@item.GroceryDescription</option>
+                                            }
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+
+                               <div class="row rowMargin">
+                                <div class="col-sm-3">
+                                    Quantity Description
+                                </div>
+                                <div class="col-sm-6">
+                                    <InputText @bind-Value="expenses.QuantityDescription" class="form-control" />
+                                </div>
+                            </div>  
+
+
+                             <div class="row rowMargin">
+                                <div class="col-sm-3">
+                                    Amount
+                                </div>
+                                <div class="col-sm-6">
+                                    <InputNumber @bind-Value="expenses.ExpensesAmount" class="form-control" />
+                                </div>
+                            </div>
+
+                            <div class="row rowMargin">
+                                <div class="col-sm-3">
+                                    Expenses Date
+                                </div>
+                                <div class="col-sm-6">
+                                    <InputDate @bind-Value="expenses.ExpensesDate" class="form-control" />
+                                </div>
+                            </div> 
+
+                            <div class="row rowMargin">
+                                <div class="col-sm-3">
+                                    WeekId
+                                </div>
+                                <div class="col-sm-6">
+                                    <InputNumber @bind-Value="expenses.WeekNumber" style="width:250px" readonly class="form-control textRed" />
+                                </div>
+                            </div>  
+
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-primary">Submit Order</button>
+                            </div>
+
+                            @if (!string.IsNullOrEmpty(successMessage))
+                            {
+                                <div class="alert alert-success mt-3 text-center">@successMessage</div>
+                            }
+                        </EditForm>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@code {
+    private ExpensesViewModel expenses = new();
+    private string[] errorMessages;
+    private string successMessage = string.Empty;   
+    public string GroceryInitialText { get; set; } = "---Select Grocery---";
+    public string StoreInitialText { get; set; } = "---Select store---";
+
+    //public IEnumerable<GroceryViewModel> groceryViewModelData;
+    //public IEnumerable<StoreViewModel> storeViewModelData;
+
+    public List<GroceryViewModel> groceryViewModelData = new();
+    public List<StoreViewModel> storeViewModelData = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        groceryViewModelData = new List<GroceryViewModel>();
+        storeViewModelData = new List<StoreViewModel>();
+
+        groceryViewModelData = await GroceryService.GetAll<List<GroceryViewModel>>();          
+        storeViewModelData = await StoreService.GetAll<List<StoreViewModel>>();
+        expenses.WeekNumber = await OrderService.GetMaxWeekId<int>();
+    }    
+
+    private async Task OnstoreSelectionIndexChanged(ChangeEventArgs e)
+    {
+        expenses.StoreId= Convert.ToInt32(e.Value.ToString());
+        StateHasChanged();
+    }
+    private async Task OnGrocerySelectionIndexChanged(ChangeEventArgs e)
+    {
+        expenses.GroceryId = Convert.ToInt32(e.Value.ToString());
+        StateHasChanged();
+    }
+
+
+    private async void HandleValidSubmit()
+    {
+        errorMessages = Validations(expenses);
+        string validations = string.Join(" ", errorMessages);
+        if ((validations == null) || (validations == ""))
+        {
+            var response = await ExpensesService.Add(expenses);
+            if (response.Value)
+            {
+                Logger.LogInformation("Expenses details are added successfully.");
+                successMessage = "Expenses details submitted successfully!";
+                await OnInitializedAsync();
+                Reset();
+            }
+            else{
+                Logger.LogInformation("Unable to create new Expenses.");
+                successMessage = "Unable to create new Expenses.";
+                validations = "";
+            }           
+        }      
+        else{
+            Logger.LogInformation("Unable to create new Expenses.");
+            successMessage = "Unable to create new Expenses.";
+            validations = "";
+        }
+    }
+
+    private async void Reset()
+    {
+        expenses = new ExpensesViewModel();
+        expenses.WeekNumber = await OrderService.GetMaxWeekId<int>();
+        errorMessages = [];
+        StateHasChanged();
+    }
+
+    private string[] Validations(ExpensesViewModel expensesViewModel)
+    {
+        string[] result;
+        string validationMessage = "";
+        if ((expensesViewModel.ExpensesAmount == null) || (expensesViewModel.ExpensesAmount == 0))
+        {
+            validationMessage = "Amount: Please enter Expenses Amount.";
+        }
+        if (expensesViewModel.ExpensesDate == null)
+        {
+            validationMessage = validationMessage != null ? validationMessage +
+                                ", " + Environment.NewLine + "Expenses Date: Please select Expenses Date."
+                                : "Expenses Date: Please select Expenses Date.";
+        }      
+        if ((expensesViewModel.StoreId == 0) ||(expensesViewModel.StoreId == null))
+        {
+            validationMessage = validationMessage != null
+                                ? validationMessage + ", " + Environment.NewLine + "Store: Please select Store."
+                                : "Store: Please select Store.";
+        }
+        if ((expensesViewModel.GroceryId == 0) || (expensesViewModel.GroceryId == null))
+        {
+            validationMessage = validationMessage != null
+                                ? validationMessage + ", " + Environment.NewLine + "Grocery: Please select Grocery."
+                                : "Grocery: Please select Grocery.";
+        }
+        return result = validationMessage.Split(',').Select(s => s.Trim()).ToArray();
+    }
+}
+<style type="text/css">
+    .rowMargin {
+        margin-bottom: 10px;
+    }
+
+    .textRed {
+        color: red;
+    }
+
+</style> 

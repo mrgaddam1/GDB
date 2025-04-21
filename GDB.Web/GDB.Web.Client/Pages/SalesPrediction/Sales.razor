@@ -1,0 +1,164 @@
+﻿@page "/salesPrediction/sales"
+
+@using Blazorise.DataGrid
+@using GDB.Web.BLL.Interface
+@using GDB.Web.Shared
+@using System.Globalization
+
+@inject IMLModelService MLModelService
+@inject NavigationManager NavigationManager
+@rendermode @(new InteractiveServerRenderMode(prerender:false))
+
+
+
+
+<div class="row" style="width:80%;">
+
+    <div class="col-lg-3" style="width:20%;margin-top:20px;">
+        <table>
+            <tr>
+                <td colspan="2" >
+                    @if (existingSalesData != null)
+                    {
+                        <h5>Existing Sales Data</h5>
+                        <DataGrid Class="table table-bordered"
+                                  TItem="OrderPredictions"
+                                  Data="@existingSalesData"
+                                  ShowPager="true"
+                                  Sortable
+                                  SortMode="DataGridSortMode.Single"
+                                  PageSize="20"
+                                  >
+                            <DataGridColumns >
+                                <DataGridColumn Field="@nameof(OrderPredictions.WeekId)" Caption="Week" />
+                                <DataGridColumn Field="@nameof(OrderPredictions.Sales)" Caption="Sales" 
+                                DisplayFormat="{0:C}"
+                                DisplayFormatProvider="@System.Globalization.CultureInfo.GetCultureInfo("en-GB")" />
+                             </DataGridColumns>
+                        </DataGrid>                       
+                    }
+                </td>
+            </tr>
+        </table>
+    </div>
+
+
+    <div class="col-lg-3" style="width:28%;margin-top:20px;margin-left:10px;">
+        <table>
+            <tr style="margin-bottom:35px;">
+                <td colspan="2">
+                    @if (predictions != null)
+                    {
+                        <h5>Sales Predictions-Next 10 Weeks</h5>
+                        <DataGrid Class="table table-bordered"
+                                  TItem="OrderPredictions"
+                                  Data="@predictions"
+                                  ShowPager="true"
+                                  Sortable
+                                  SortMode="DataGridSortMode.Single"
+                                  PageSize="20">
+                            <DataGridColumns>
+                                <DataGridColumn Field="@nameof(OrderPredictions.WeekId)" Caption="Week" />
+                                <DataGridColumn Field="@nameof(OrderPredictions.Sales)" Caption="Sales" DisplayFormat="{0:C}" DisplayFormatProvider="@System.Globalization.CultureInfo.GetCultureInfo("en-GB")" />
+                            </DataGridColumns>
+                        </DataGrid>
+                       }
+                </td>
+            </tr>
+        </table>
+    </div>
+
+
+    <div class="col-lg-3" style="width:20%;margin-top:20px;">
+        <table>
+            <tr style="margin-bottom:35px;">
+                <td colspan="2">
+                    @if (existingExpensesData!= null)
+                    {
+                        <h5 style="color:indigo">Existing Expenses</h5>
+                        <DataGrid Class="table table-bordered"
+                                  TItem="ExpensesPredictions"
+                                  Data="@existingExpensesData"
+                                  ShowPager="true"
+                                  Sortable
+                                  SortMode="DataGridSortMode.Single"
+                                  PageSize="20">
+                            <DataGridColumns>
+                                <DataGridColumn Field="@nameof(ExpensesPredictions.WeekId)" Caption="Week" />
+                                <DataGridColumn Field="@nameof(ExpensesPredictions.Expenses)" Caption="Expenses" DisplayFormat="{0:C}" DisplayFormatProvider="@System.Globalization.CultureInfo.GetCultureInfo("en-GB")" />
+                            </DataGridColumns>
+                        </DataGrid>
+
+                       
+                    }
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="col-lg-3" style="width:27%;margin-top:20px;margin-left:10px;">
+        <table>
+            <tr>
+                <td colspan="2">
+                    @if (expensesPredictions != null)
+                    {
+                        <h5 style="color:indigo">Expenses Predictions-Next 10 Weeks</h5>
+
+                        <DataGrid Class="table table-bordered"
+                                  TItem="ExpensesPredictions"
+                                  Data="@expensesPredictions"
+                                  ShowPager="true"
+                                  Sortable
+                                  SortMode="DataGridSortMode.Single"
+                                  PageSize="20">
+                            <DataGridColumns>
+                                <DataGridColumn Field="@nameof(ExpensesPredictions.WeekId)" Caption="Week" />
+                                <DataGridColumn Field="@nameof(ExpensesPredictions.Expenses)" Caption="Expenses" DisplayFormat="{0:C}" DisplayFormatProvider="@System.Globalization.CultureInfo.GetCultureInfo("en-GB")" />
+                            </DataGridColumns>
+                        </DataGrid>
+                        
+                    }
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+
+
+@code {
+    private List<OrderPredictions> predictions { get; set; }
+    private List<ExpensesPredictions> expensesPredictions { get; set; }
+
+
+    private List<OrderPredictions> existingSalesData { get; set; }
+    private List<ExpensesPredictions> existingExpensesData { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            predictions = new List<OrderPredictions>();
+            expensesPredictions = new List<ExpensesPredictions>();
+            predictions = await MLModelService.PredictSales<List<OrderPredictions>>();
+            expensesPredictions = await MLModelService.PredictExpenses<List<ExpensesPredictions>>();
+
+
+            existingSalesData = new List<OrderPredictions>();
+            existingExpensesData = new List<ExpensesPredictions>();
+            existingSalesData = await MLModelService.GetExistingSalesData<List<OrderPredictions>>();
+            existingExpensesData = await MLModelService.GetExistingExpensesData<List<ExpensesPredictions>>();
+        }
+        catch (Exception ex)
+        {
+            string errorMessage = ex.Message;
+        }
+    }
+}
+
+<style type="text/css" >
+ .cellColour:{
+     color:red;
+ }
+</style>
+            

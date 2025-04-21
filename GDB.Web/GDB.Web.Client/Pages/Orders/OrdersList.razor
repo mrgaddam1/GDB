@@ -1,0 +1,153 @@
+﻿@page "/orders/ordersList"
+@using Blazorise.DataGrid
+@using GDB.Web.BLL.Interface
+@using GDB.Web.Shared
+@using System.Globalization
+
+@inject IOrderService OrderService
+@inject HttpClient HttpClient
+@inject NavigationManager NavigationManager
+@rendermode @(new InteractiveServerRenderMode(prerender:false)) 
+
+
+<div class="row">
+    <div class="col-lg-6" align="left">
+        <h2>Orders</h2>
+    </div>
+    <div class="col-lg-6" align="right">
+        <button @onclick="AddNewOrder" class="btn btn-primary">
+            <i class="fa fa-plus" aria-hidden="true"></i>
+            &nbsp;&nbsp;Add Order
+        </button>
+    </div>
+</div>
+<div class="row">
+    @if (ordersViewModel != null)
+    {
+        <DataGrid Class="table table-bordered"
+                  TItem="OrdersViewModel"
+                  Data="@ordersViewModel"
+                  Responsive
+                  ShowPager="true"
+                  Sortable
+                  SortMode="DataGridSortMode.Single"
+                  PageSize="20"
+                  RowStyling="@OnRowStyling"
+                  Editable
+                  SelectedRowStyling="@OnSelectedRowStyling">
+            <DataGridColumns>
+                <DataGridColumn Field="@nameof(OrdersViewModel.WeekId)" Caption="Week" />
+                <DataGridColumn Field="@nameof(OrdersViewModel.FirstName)" Caption="Customer Name" />
+                <DataGridColumn Field="@nameof(OrdersViewModel.MobileNumber)" Caption="Mobile Number" />
+                <DataGridColumn Field="@nameof(OrdersViewModel.Location)" Caption="Location" />
+                @* <DataGridColumn Field="@nameof(OrdersViewModel.AdvertisementDescription)" Caption="How did hear?" /> *@
+                <DataGridColumn Field="@nameof(OrdersViewModel.OrderTypeName)" Caption="OrderType Name" />
+                <DataGridColumn Field="@nameof(OrdersViewModel.OrderDate)" Caption="OrderDate" DisplayFormat="{0:dd/MM/yyyy}" />
+                <DataGridColumn Field="@nameof(OrdersViewModel.Quantity)" Caption="Quantity" />
+                <DataGridColumn Field="@nameof(OrdersViewModel.AmountPaid)" Caption="AmountPaid" />
+                <DataGridColumn Field="@nameof(OrdersViewModel.Amount)" Caption="Amount" DisplayFormat="{0:C}" DisplayFormatProvider="@System.Globalization.CultureInfo.GetCultureInfo("en-GB")" />
+                <DataGridColumn Field="@nameof(OrdersViewModel.AmountPaidDate)" DisplayFormat="{0:dd/MM/yyyy}" Caption="AmountPaid Date" />
+                <DataGridColumn Field="@nameof(OrdersViewModel.PaymentType)" Caption="Payment Type" />
+            </DataGridColumns>
+        </DataGrid>
+    }
+</div> 
+
+@code {
+    public List<OrdersViewModel> ordersViewModel{ get; set; }
+    public int currentWeekId { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            ordersViewModel = new List<OrdersViewModel>();
+            ordersViewModel = await OrderService.GetAllOrders<List<OrdersViewModel>>();
+            currentWeekId = await OrderService.GetMaxWeekId<int>();
+
+        }
+        catch(Exception ex)
+        {
+            string errorMessage = ex.Message;
+        }     
+    }
+
+    private void AddNewOrder()
+    {
+        NavigationManager.NavigateTo("/orders/add");
+    }   
+    private void UpdateOrder()
+    {
+        NavigationManager.NavigateTo("/orders/update" + "/" + Convert.ToString(ordersViewModel.FirstOrDefault().OrderId));
+    }
+    private void OnRowStyling(OrdersViewModel ordersViewModel, DataGridRowStyling styling)
+    {
+        if ( (ordersViewModel.AmountPaid == null)  || (ordersViewModel.AmountPaid == false))
+        {
+            styling.Style = "color:#842029;background-color:#f8d7da !important;";           
+        }
+        else if (ordersViewModel.AmountPaid == true && ordersViewModel.WeekId == currentWeekId)
+        {
+            styling.Style = "color:white;background-color:green; !important;";
+        }        
+        else if (ordersViewModel.WeekId == currentWeekId)
+        {
+            styling.Style = "color:#0f5132;background-color:#f5d6e0 !important;";
+        }
+        else if ((ordersViewModel.WeekId == 18))
+        {
+            styling.Style = "color:#0f5132;background-color:#d6e6ff !important;";
+        }
+        else if ((ordersViewModel.WeekId == 17))
+        {
+            styling.Style = "color:#0f5132;background-color:#e5d4ef !important;";
+        }
+        else if (ordersViewModel.WeekId == 16)
+        {
+           styling.Style = "color:black;background-color:#d7d1fa !important;";
+        }
+        else if (ordersViewModel.WeekId == 15)
+        {
+           styling.Style = "color:black;background-color:#fbe0e0 !important;";
+        }
+        // else if ((ordersViewModel.WeekId == 14))
+        // {
+        //     //styling.Style = "color:#ffffff;background-color:#8FBC8F !important;";
+        // }
+        // else if ((ordersViewModel.WeekId == 13))
+        // {
+        //     //styling.Style = "color:black;background-color:#fff4e6 !important;";
+        // }
+        // else if ((ordersViewModel.WeekId == 12))
+        // {
+        //     //styling.Style = "color:black;background-color:#b8b1e7 !important;";
+        // }
+        else  
+        {
+            styling.Style = "color:#0f5132;background-color:#d1e7dd !important;";
+        }
+        
+    }
+    private void OnSelectedRowStyling(OrdersViewModel ordersViewModel, DataGridRowStyling styling)
+    {
+        styling.Background = Blazorise.Background.Primary;
+        NavigationManager.NavigateTo("/orders/update" + "/" + Convert.ToString(ordersViewModel.OrderId));
+    }
+
+    
+}
+<style type="text/css">
+ .gridItemColor{
+     color:red;
+ }
+
+    .green-text {
+        color: green;
+        font-weight: bold;
+    }
+
+    .red-text {
+        color: red;
+        font-weight: bold;
+    }
+</style>

@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.13" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.13" />
+    <PackageReference Include="Microsoft.ML" Version="4.0.2" />
+    <PackageReference Include="Microsoft.ML.AutoML" Version="0.22.2" />
+    <PackageReference Include="Microsoft.ML.TimeSeries" Version="4.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\GDB.Web.Core\GDB.Web.Core.csproj" />
+    <ProjectReference Include="..\..\GDB.Web.Shared\GDB.Web.Shared.csproj" />
+    <ProjectReference Include="..\GDB.Web.Common\GDB.Web.Common.csproj" />
+  </ItemGroup>
+
+</Project>

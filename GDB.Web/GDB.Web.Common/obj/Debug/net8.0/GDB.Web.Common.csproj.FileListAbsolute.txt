@@ -1,0 +1,12 @@
+D:\Projects\GDB\GDB.Web\GDB.Web.Common\bin\Debug\net8.0\GDB.Web.Common.deps.json
+D:\Projects\GDB\GDB.Web\GDB.Web.Common\bin\Debug\net8.0\GDB.Web.Common.dll
+D:\Projects\GDB\GDB.Web\GDB.Web.Common\bin\Debug\net8.0\GDB.Web.Common.pdb
+D:\Projects\GDB\GDB.Web\GDB.Web.Common\obj\Debug\net8.0\GDB.Web.Common.csproj.AssemblyReference.cache
+D:\Projects\GDB\GDB.Web\GDB.Web.Common\obj\Debug\net8.0\GDB.Web.Common.GeneratedMSBuildEditorConfig.editorconfig
+D:\Projects\GDB\GDB.Web\GDB.Web.Common\obj\Debug\net8.0\GDB.Web.Common.AssemblyInfoInputs.cache
+D:\Projects\GDB\GDB.Web\GDB.Web.Common\obj\Debug\net8.0\GDB.Web.Common.AssemblyInfo.cs
+D:\Projects\GDB\GDB.Web\GDB.Web.Common\obj\Debug\net8.0\GDB.Web.Common.csproj.CoreCompileInputs.cache
+D:\Projects\GDB\GDB.Web\GDB.Web.Common\obj\Debug\net8.0\GDB.Web.Common.dll
+D:\Projects\GDB\GDB.Web\GDB.Web.Common\obj\Debug\net8.0\refint\GDB.Web.Common.dll
+D:\Projects\GDB\GDB.Web\GDB.Web.Common\obj\Debug\net8.0\GDB.Web.Common.pdb
+D:\Projects\GDB\GDB.Web\GDB.Web.Common\obj\Debug\net8.0\ref\GDB.Web.Common.dll

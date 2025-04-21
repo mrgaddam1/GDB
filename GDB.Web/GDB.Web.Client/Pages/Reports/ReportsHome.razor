@@ -1,0 +1,117 @@
+﻿@page "/reports/reportsHome"
+
+
+<div class="row" align="center" style="padding-top:20px;margin-left:150px;">
+    <div class="col-md-3">
+        <div class="card" style="width: 18rem;">
+            <div class="card-header" align="left">
+                <h4 class="card-title">Orders</h4>
+            </div>
+            <ul class="list-group list-group-flush" align="left">
+                <li class="list-group-item text-primary">
+                    <a href="/reports/orders/ordersWeekly" class="text-success">Orders by Weekly</a>
+                </li>
+                <li class="list-group-item text-primary">
+                    <a href="/reports/orders/ordersByBiWeekly" class="text-success">Orders by Bi-Weekly</a>
+                </li>
+                <li class="list-group-item text-primary">
+                    <a href="/reports/orders/ordersByMonthly" class="text-success">Orders by Monthly</a>
+                </li>
+                <li class="list-group-item text-primary">
+                    <a href="/reports/orders/ordersByQuarterly" class="text-success">Orders by Quarterly</a>
+                </li>
+                <li class="list-group-item text-primary">
+                    <a href="/reports/orders/ordersByHalfYearly" class="text-success">Orders by Half-yearly</a>
+                </li>
+                <li class="list-group-item text-primary">
+                    <a href="/reports/orders/ordersByYearly" class="text-success">Orders by Yearly</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card" style="width: 18rem;">
+            <div class="card-header" align="left">
+                <h4 class="card-title">Sales</h4>
+            </div>
+            <ul class="list-group list-group-flush" align="left">
+                <li class="list-group-item text-primary">Sales by Weekly</li>
+                <li class="list-group-item text-primary">Sales by Bi-Weekly</li>
+                <li class="list-group-item text-primary">Sales by Monthly</li>
+                <li class="list-group-item text-primary">Sales by Quarterly</li>
+                <li class="list-group-item text-primary">Sales by Half-yearly</li>
+            </ul>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card" style="width: 18rem;">
+            <div class="card-header" align="left">
+                <h4 class="card-title">Expenses</h4>
+            </div>
+            <ul class="list-group list-group-flush" align="left">
+                <li class="list-group-item text-primary">
+
+                    Expenses by Weekly
+                </li>
+                <li class="list-group-item text-primary">Expenses by Bi-Weekly</li>
+                <li class="list-group-item text-primary">Expenses by Monthly</li>
+                <li class="list-group-item text-primary">Expenses by Quarterly</li>
+                <li class="list-group-item text-primary">Expenses by Half-yearly</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="row" align="center" style="padding-top:10px;margin-left:150px;">
+    <div class="col-md-3">
+        <div class="card" style="width: 18rem;">
+            <div class="card-header" align="left">
+                <h4 class="card-title">Customers</h4>
+            </div>
+            <ul class="list-group list-group-flush" align="left">
+                <li class="list-group-item text-primary">
+                    <a href="/reports/customerReports/AllCustomerVisits" class="text-success"> All Customer Visits</a>
+                </li>
+                <li class="list-group-item text-primary"><a href="/reports/customerReports/customerVisitsByWeek" class="text-success"> Customers Visits by Weekly</a></li>
+                <li class="list-group-item text-primary"><a href="/reports/customerReports/customerVisitsByTwoWeeks" class="text-success"> Customers Visits by Bi-Weekly</a></li>
+                <li class="list-group-item text-primary"><a href="/reports/customerReports/customerVisitsByMonthly" class="text-success"> Customers Visits by Monthly</a></li>
+                <li class="list-group-item text-primary"><a href="/reports/customerReports/customerVisitsByQuarterly" class="text-success"> Customers Visits by Quarterly</a></li>
+                <li class="list-group-item text-primary"><a href="/reports/customerReports/customerVisitsByHalfYearly" class="text-success"> Customers Visits by Half-yearly</a></li>
+                <li class="list-group-item text-primary"><a href="/reports/customerReports/customerVisitsByYearly" class="text-success"> Customers Visits by Yearly</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card" style="width: 18rem;">
+            <div class="card-header" align="left">
+                <h4 class="card-title">Reports</h4>
+            </div>
+            <ul class="list-group list-group-flush" align="left">
+                <li class="list-group-item text-primary">Orders Vs Sales</li>
+                <li class="list-group-item text-primary">Sales by Customers</li>
+                <li class="list-group-item text-primary">Expenses Vs Sales</li>
+                <li class="list-group-item text-primary">Sales By Order Types</li>
+                <li class="list-group-item text-primary">&nbsp;</li>
+            </ul>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card" style="width: 18rem;">
+            <div class="card-header" align="left">
+                <h4 class="card-title">Settings</h4>
+            </div>
+            <ul class="list-group list-group-flush" align="left">
+                <li class="list-group-item text-primary">My Profile</li>
+                <li class="list-group-item text-primary">Change Password</li>
+                <li class="list-group-item text-primary">Update my Profile</li>
+                <li class="list-group-item text-primary">&nbsp;</li>
+                <li class="list-group-item text-primary">&nbsp;</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+
+
+@code {
+
+}

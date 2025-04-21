@@ -1,0 +1,103 @@
+﻿@page "/layout/navMenu"
+@using Blazored.SessionStorage
+@using GDB.Web.Client.Infrastructure.Common
+@using GDB.Web.Shared
+@using Microsoft.AspNetCore.Components.Authorization
+@using Microsoft.AspNetCore.SignalR.Client
+
+@inject ISessionStorageService SessionStorageService
+@inject HttpClient httpClient
+@inject NavigationManager Navigation
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@rendermode @(new InteractiveServerRenderMode(prerender:false))
+
+
+
+    <div class="navbar navber-inverse navbar-fixed-top" style="background-color:cornflowerblue;width:100%;">
+        <div class="col-md-6">
+            <div class="navbe-header" style="padding-left:1em;">
+                <img src="/images/GDMLogo.png" style="width:35%; height:35%" />
+            </div>
+        </div>
+        <div class="col-md-6" align="right" style="padding-right:1em;">
+            <div class="navbar-header">
+                <b style="color:white;font-size:25px;">Gaddam Order Management System (GORMS)</b>
+                &nbsp;
+                <b style="color:white;font-size:xx-small;">Version:1</b>
+            </div>
+            <div class="navbar-header">
+                <b style="color:white;font-size:13px;">
+                    Hello,Chandrakanth (CEO)
+                </b>
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                <a href="#" class="forgot-password">Log out</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <ul class="menu" style="width:100%;">
+            <li>
+                <NavLink href="/home/dashboard" class="menu-item" ActiveClass="active">Home</NavLink>
+            </li>
+            <li>
+                <NavLink href="customers/list" class="menu-item" ActiveClass="active">Customers</NavLink>
+            </li>
+            <li>
+                <NavLink href="expenses/list" class="menu-item" ActiveClass="active">Expenses</NavLink>
+            </li>
+            <li>
+                <NavLink href="orders/ordersList" class="menu-item" ActiveClass="active">Orders</NavLink>
+            </li>
+            <li>
+                <NavLink href="salesPrediction/sales" class="menu-item" ActiveClass="active">Sales Prediction</NavLink>
+            </li>
+            <li>
+                <NavLink href="reports/reportsHome" class="menu-item" ActiveClass="active">Reports</NavLink>
+            </li>
+            <li>
+                <NavLink href="sms/sendMessages" class="menu-item" ActiveClass="active">Send Messages</NavLink>
+            </li>
+        <li>
+            <NavLink href="masterMaintenace/index" class="menu-item" ActiveClass="active">Master Maintenance</NavLink>
+        </li>
+        </ul>
+    </div>
+
+<style type="text/css">
+
+    /* Spinner */
+    .spinner {
+        width: 200px;
+        height: 200px;
+        border: 3px solid rgba(255, 255, 255, 0.3);
+        border-top: 3px solid white;
+        border-radius: 50%;
+        display: inline-block;
+        animation: spin 1s linear infinite;
+        margin-right: 5px;
+    }
+
+    /* Spinner Animation */
+
+    .menu {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        background-color: lightgrey;
+        width: 100%;
+        color: dimgray;
+    }
+
+    .menu-item {
+        display: block;
+        padding: 10px 20px;
+        color: dimgray;
+        text-decoration: none;
+    }
+
+        .menu-item:hover {
+            background-color: whitesmoke;
+        }
+</style>

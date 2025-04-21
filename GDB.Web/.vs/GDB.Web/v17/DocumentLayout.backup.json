@@ -1,0 +1,147 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\Projects\\GDB\\GDB.Web\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{0C4AB538-3CB5-49D6-A1F3-E84F42B97584}|GDB.Web.Client\\GDB.Web.Client.csproj|d:\\projects\\gdb\\gdb.web\\gdb.web.client\\pages\\mastermaintenance\\index.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{0C4AB538-3CB5-49D6-A1F3-E84F42B97584}|GDB.Web.Client\\GDB.Web.Client.csproj|solutionrelative:gdb.web.client\\pages\\mastermaintenance\\index.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0C4AB538-3CB5-49D6-A1F3-E84F42B97584}|GDB.Web.Client\\GDB.Web.Client.csproj|d:\\projects\\gdb\\gdb.web\\gdb.web.client\\pages\\mastermaintenance\\ordertype\\list.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{0C4AB538-3CB5-49D6-A1F3-E84F42B97584}|GDB.Web.Client\\GDB.Web.Client.csproj|solutionrelative:gdb.web.client\\pages\\mastermaintenance\\ordertype\\list.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 24,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "List.razor",
+              "DocumentMoniker": "D:\\Projects\\GDB\\GDB.Web\\GDB.Web.Client\\Pages\\MasterMaintenance\\OrderType\\List.razor",
+              "RelativeDocumentMoniker": "GDB.Web.Client\\Pages\\MasterMaintenance\\OrderType\\List.razor",
+              "ToolTip": "D:\\Projects\\GDB\\GDB.Web\\GDB.Web.Client\\Pages\\MasterMaintenance\\OrderType\\List.razor",
+              "RelativeToolTip": "GDB.Web.Client\\Pages\\MasterMaintenance\\OrderType\\List.razor",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAADUAAABCAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-04-21T07:08:49.487Z",
+              "IsPinned": true,
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:129:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:130:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{d78612c7-9962-4b83-95d9-268046dad23a}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:133:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:134:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:132:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:131:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:130:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:135:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:137:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:136:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:139:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:140:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:141:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:142:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:143:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:144:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:138:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:134:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:129:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:131:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:133:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Index.razor",
+              "DocumentMoniker": "D:\\Projects\\GDB\\GDB.Web\\GDB.Web.Client\\Pages\\MasterMaintenance\\Index.razor",
+              "RelativeDocumentMoniker": "GDB.Web.Client\\Pages\\MasterMaintenance\\Index.razor",
+              "ToolTip": "D:\\Projects\\GDB\\GDB.Web\\GDB.Web.Client\\Pages\\MasterMaintenance\\Index.razor",
+              "RelativeToolTip": "GDB.Web.Client\\Pages\\MasterMaintenance\\Index.razor",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAABcAAAAOAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-04-21T06:55:38.588Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+D:\Projects\GDB\GDB.Web.Client.Infrastructure\bin\Debug\net8.0\GDB.Web.Client.Infrastructure.deps.json
+D:\Projects\GDB\GDB.Web.Client.Infrastructure\bin\Debug\net8.0\GDB.Web.Client.Infrastructure.dll
+D:\Projects\GDB\GDB.Web.Client.Infrastructure\bin\Debug\net8.0\GDB.Web.Client.Infrastructure.pdb
+D:\Projects\GDB\GDB.Web.Client.Infrastructure\obj\Debug\net8.0\GDB.Web.Client.Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
+D:\Projects\GDB\GDB.Web.Client.Infrastructure\obj\Debug\net8.0\GDB.Web.Client.Infrastructure.AssemblyInfoInputs.cache
+D:\Projects\GDB\GDB.Web.Client.Infrastructure\obj\Debug\net8.0\GDB.Web.Client.Infrastructure.AssemblyInfo.cs
+D:\Projects\GDB\GDB.Web.Client.Infrastructure\obj\Debug\net8.0\GDB.Web.Client.Infrastructure.csproj.CoreCompileInputs.cache
+D:\Projects\GDB\GDB.Web.Client.Infrastructure\obj\Debug\net8.0\GDB.Web.Client.Infrastructure.dll
+D:\Projects\GDB\GDB.Web.Client.Infrastructure\obj\Debug\net8.0\refint\GDB.Web.Client.Infrastructure.dll
+D:\Projects\GDB\GDB.Web.Client.Infrastructure\obj\Debug\net8.0\GDB.Web.Client.Infrastructure.pdb
+D:\Projects\GDB\GDB.Web.Client.Infrastructure\obj\Debug\net8.0\ref\GDB.Web.Client.Infrastructure.dll

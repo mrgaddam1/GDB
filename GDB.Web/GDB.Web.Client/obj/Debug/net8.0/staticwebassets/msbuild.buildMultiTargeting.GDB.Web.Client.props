@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\GDB.Web.Client.props" />
+</Project>

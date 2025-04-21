@@ -1,0 +1,163 @@
+﻿@page "/home/dashboard"
+@using Blazorise.DataGrid
+@using GDB.Web.BLL.Interface
+@using GDB.Web.Shared
+@using System.Globalization
+@using Radzen.Blazor
+
+@inject IOrderService OrderService
+@inject IExpensesService ExpensesService
+@inject IMLModelService MLModelService
+@inject NavigationManager NavigationManager
+@rendermode @(new InteractiveServerRenderMode(prerender:false))
+
+
+@if (ordersSalesDatas.Count > 0)
+{
+    <div class="row">
+        <div class="col-lg-6">
+            <h3 style="margin-left:50px;">Orders by Customer by Weekly</h3>
+            <RadzenChart>
+                <RadzenColumnSeries FillRange="@fillRange" Data="@ordersSalesDatas" CategoryProperty="Week" Title="Order Sales" LineType="LineType.Dashed" ValueProperty="OrderSales" />
+                <RadzenColumnOptions Radius="5" />
+                <RadzenValueAxis Formatter="@FormatAsGBP">
+                    <RadzenGridLines Visible="true" />
+                    <RadzenAxisTitle Text="Revenue in GBP" />
+                </RadzenValueAxis>
+                <RadzenLegend Visible="false" />
+            </RadzenChart>
+        </div>
+        <div class="col-lg-6" style="margin-top:60px;">
+            @if (ordersViewModel != null)
+            {
+                <DataGrid Class="table table-bordered"
+                          TItem="TotalOrdersByWeekViewModel"
+                          Data="@ordersViewModel"
+                          Responsive
+                          ShowPager="true"
+                          Sortable
+                          SortMode="DataGridSortMode.Single"
+                          PageSize="7"
+                          Editable>
+                    <DataGridColumns>
+                        <DataGridColumn Field="@nameof(TotalOrdersByWeekViewModel.WeekId)" Caption="Week" />
+                         <DataGridColumn Field="@nameof(TotalOrdersByWeekViewModel.OrderAmount)" Caption="Amount" DisplayFormat="{0:C}" DisplayFormatProvider="@System.Globalization.CultureInfo.GetCultureInfo("en-GB")" />
+                      </DataGridColumns>
+                </DataGrid>
+            }
+        </div>
+    </div>
+    <hr />
+    <div class="row" style="margin-left:0px;margin-top:5px;">
+        <div class="col-lg-6">
+            <h3 style="margin-left:50px;">Expenses by Weekly</h3>
+            <RadzenChart>
+                <RadzenColumnSeries FillRange="@fillRange" Data="@expensesByWeekDatas" CategoryProperty="Week" Title="Expeses By Week" LineType="LineType.Dashed" ValueProperty="ExpensesAmount" />
+                <RadzenColumnOptions Radius="5" />
+                <RadzenValueAxis Formatter="@FormatAsGBP">
+                    <RadzenGridLines Visible="true" />
+                    <RadzenAxisTitle Text="Revenue in GBP" />
+                </RadzenValueAxis>
+                <RadzenLegend Visible="false" />
+            </RadzenChart>  
+        </div>
+        <div class="col-lg-6" style="margin-top:60px;">
+            @if (expensesViewModel != null)
+            {
+                <DataGrid Class="table table-bordered"
+                          TItem="TotalExpensesByWeekViewModel"
+                          Data="@expensesViewModel"
+                          Responsive
+                          ShowPager="true"
+                          Sortable
+                          SortMode="DataGridSortMode.Single"
+                          PageSize="7"                          
+                         >
+                    <DataGridColumns>
+                        <DataGridColumn Field="@nameof(TotalExpensesByWeekViewModel.WeekId)" Caption="Week" />
+                        <DataGridColumn Field="@nameof(TotalExpensesByWeekViewModel.ExpensesAmount)" Caption="Expenses Amount" DisplayFormat="{0:C}" DisplayFormatProvider="@System.Globalization.CultureInfo.GetCultureInfo("en-GB")" />
+                     </DataGridColumns>
+                </DataGrid>
+
+            }
+
+
+        </div>
+    </div>
+   
+}
+
+
+
+@code {
+
+    private List<OrderPredictions> existingSalesData { get; set; }    
+    public List<TotalOrdersByWeekViewModel> ordersViewModel { get; set; }
+    public List<TotalExpensesByWeekViewModel> expensesViewModel { get; set; }
+
+    List<SeriesColorRange> fillRange = new List<SeriesColorRange>()
+    {
+        new SeriesColorRange() {Min = 0, Max = 20, Color = "#48cae4"},
+        new SeriesColorRange() {Min = 31, Max = 40, Color = "#03045e"},
+        new SeriesColorRange() {Min = 41, Max = 10000000, Color = "#f28482"},
+    };
+    string FormatAsGBP(object value)
+    {
+        return ((double)value).ToString("C0", CultureInfo.CreateSpecificCulture("en-GB"));
+    }
+
+    private List<OrderSalesData> ordersSalesDatas { get; set; }
+    private List<ExpensesByWeekData> expensesByWeekDatas { get; set; } 
+
+    public class OrderSalesData
+    {
+        public string Week { get; set; }
+        public int OrderSales { get; set; }
+    }
+    public class ExpensesByWeekData
+    {
+        public string Week { get; set; }
+        public int ExpensesAmount { get; set; }
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        ordersSalesDatas = new List<OrderSalesData>();
+        expensesByWeekDatas = new List<ExpensesByWeekData>();
+
+        var salesData = await MLModelService.GetExistingSalesData<List<OrderPredictions>>();  
+
+        var expensesData = await MLModelService.GetExistingExpensesData<List<ExpensesPredictions>>();
+        foreach (var item in salesData)
+        {
+            var sales = new OrderSalesData()
+                {
+                    Week = "Week " + item.WeekId,
+                    OrderSales = Convert.ToInt32(Math.Round(item.Sales)),
+                };
+            ordersSalesDatas.Add(sales);
+        }
+
+        foreach (var item in expensesData)
+        {
+            var expenses = new ExpensesByWeekData()
+            {
+                Week = "Week " + item.WeekId,
+                ExpensesAmount = Convert.ToInt32(Math.Round(item.Expenses)),
+            };                
+            expensesByWeekDatas.Add(expenses);
+        }
+
+        ordersViewModel = new List<TotalOrdersByWeekViewModel>();
+        ordersViewModel = await OrderService.GetTotalOrdersByWeekwise<List<TotalOrdersByWeekViewModel>>();
+
+        expensesViewModel = new List<TotalExpensesByWeekViewModel>();
+        expensesViewModel = await ExpensesService.GetTotalExpensesByWeekwise<List<TotalExpensesByWeekViewModel>>();
+
+    } 
+
+   
+    
+  
+     
+}

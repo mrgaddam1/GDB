@@ -1,0 +1,180 @@
+﻿@page "/customers/list"
+@using GDB.Web.BLL.Interface
+@using GDB.Web.Shared
+@using Microsoft.AspNetCore.Components.Authorization
+@using Radzen.Blazor
+
+@inject ICustomerService CustomerService
+@inject HttpClient HttpClient
+@inject NavigationManager NavigationManager
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@rendermode @(new InteractiveServerRenderMode(prerender:false))
+
+<div class="row">
+    <div class="col-lg-6" align="left">
+        <h2>Customers</h2>
+    </div>
+    <div class="col-lg-6" align="right">
+        <button @onclick="AddNewCustomer" class="btn btn-success">
+            <i class="fa fa-plus" aria-hidden="true"></i>
+            &nbsp;&nbsp;Add Customer
+        </button>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        @if (customerViewModel != null)
+        {
+            <RadzenDataGrid class="radzen-grid"
+                Data="@customerViewModel"
+                TItem="CustomerViewModel"
+                EditMode="Radzen.DataGridEditMode.Single" 
+                AllowFiltering="true" 
+                AllowPaging="true" 
+                AllowSorting="true"
+                PageSize="15"
+                GridLines="@GridLines">
+                <Columns>
+                    <RadzenDataGridColumn Property="CustomerId" Title="Id" Width="100" Visible="false" />
+                    <RadzenDataGridColumn Property="FirstName" Title="First Name" />
+                    <RadzenDataGridColumn Property="LastName" Title="Last Name" />
+                       
+                    <RadzenDataGridColumn Property="MobileNumber" Title="Mobile Number">
+                        <Template Context="data">
+                            @{
+                                var maskedNumber = MaskMobile((string)data.MobileNumber);
+                            }
+                            <span>
+                                @maskedNumber
+                            </span>
+                        </Template>                       
+                    </RadzenDataGridColumn>
+                    <RadzenDataGridColumn Property="LocationName" Title="Location" />
+                    <RadzenDataGridColumn Property="AdvertiseSource" Title="Communication Source" />
+
+                    <RadzenDataGridColumn TItem="CustomerViewModel" >
+                            <Template Context="data">
+                            <RadzenButton ButtonType="Radzen.ButtonType.Button" 
+                                          Icon="edit" Size="Radzen.ButtonSize.Small" 
+                                          Style="margin-right:5px;"
+                                          Click="@(() => EditRow(data))" />
+                            </Template>               
+                    </RadzenDataGridColumn>
+                </Columns>
+            </RadzenDataGrid>
+        }
+    </div>
+</div>
+
+@code {
+    public List<CustomerViewModel> customerViewModel = new();
+    private RadzenDataGrid<CustomerViewModel> customerGrid;
+    Radzen.DataGridGridLines GridLines = Radzen.DataGridGridLines.Both;
+    string MaskMobile(string number)
+    {
+        if (string.IsNullOrWhiteSpace(number) || number.Length < 4)
+            return "****";
+
+        // Mask all but last 4 digits
+        return new string('*', number.Length - 4) + number[^4..];
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            customerViewModel = await CustomerService.GetAllCustomers<List<CustomerViewModel>>();
+
+        }
+        catch (Exception ex)
+        {
+            string errorMessage = ex.Message;
+        }
+    }
+    void EditRow(CustomerViewModel customerViewModel)
+    {
+        //customerGrid.EditRow(customerViewModel);
+        NavigationManager.NavigateTo("/customers/updateCustomer" + "/" + Convert.ToString(customerViewModel.CustomerId));
+    }
+
+
+
+    // private void OnRowStyling(CustomerViewModel customer, DataGridRowStyling styling)
+    // {
+    //     if (customer.AdvertiseSource == "Biriyani Group")
+    //     {
+    //         styling.Style = "color:#842029;background-color:#d7d1fa !important;";
+    //     }
+    //     else if (customer.AdvertiseSource == "Friend Referral")
+    //     {
+    //         styling.Style = "color:black;background-color:#ffdacc !important;";
+    //     }
+    //     else if (customer.AdvertiseSource == "KTC Kent Telugu Community Group")
+    //     {
+    //         styling.Style = "color:black;background-color:#d3d9de !important;";
+    //     }
+    //     else if (customer.AdvertiseSource == "Medway Telugu Community")
+    //     {
+    //         styling.Style = "color:#842029;background-color:#e0d6f5 !important;";
+    //     }
+    //     else if (customer.AdvertiseSource == "Nissal Local")
+    //     {
+    //         styling.Style = "color:#842029;background-color:lightyellow !important;";
+    //     }
+    //     else if (customer.AdvertiseSource == "Oral Communication")
+    //     {
+    //         styling.Style = "color:#842029;background-color:whitesmoke !important;";
+    //     }
+    //     else if (customer.AdvertiseSource == "Royal Super Market")
+    //     {
+    //         styling.Style = "color:#842029;background-color:lightred !important;";
+    //     }
+
+    // }
+
+    private void AddNewCustomer()
+    {
+        NavigationManager.NavigateTo("/customers/addCustomer");
+    }
+    // private void OnSelectedRowStyling(CustomerViewModel customer, DataGridRowStyling styling)
+    // {
+    //     styling.Background = Blazorise.Background.Danger;
+    //     NavigationManager.NavigateTo("/customers/updateCustomer" + "/" + Convert.ToString(customer.CustomerId));
+    // }
+
+
+
+}
+
+  @*   <style type="text/css">
+    /* Style entire grid */
+    .rz-datatable {
+        font-family: 'Segoe UI', sans-serif;
+        border: 1px solid #ccc;
+    }
+
+    /* Header background */
+    .rz-datatable-header {
+        background-color: dodgerblue;
+        font-weight: bold;
+        color: white !important;
+    }
+
+    /* Cell padding and text */
+    .rz-cell-data {
+        padding: 10px;
+        color: #333;
+    }
+
+    /* Row hover effect */
+    .rz-datatable-body tr:hover {
+        background-color: #e6f7ff;
+    }
+
+    /* Paginator customization */
+    .rz-paginator {
+        background-color: #fafafa;
+        padding: 10px;
+    }
+    
+    </style> *@

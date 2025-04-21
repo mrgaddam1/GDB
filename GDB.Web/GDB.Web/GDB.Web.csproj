@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\GDB.Web.BLL\GDB.Web.BLL.csproj" />
+    <ProjectReference Include="..\GDB.Web.Client\GDB.Web.Client.csproj" />
+    <PackageReference Include="Blazored.SessionStorage" Version="2.4.0" />
+    <PackageReference Include="Blazorise" Version="1.7.5" />
+    <PackageReference Include="Blazorise.Bootstrap5" Version="1.7.5" />
+    <PackageReference Include="Blazorise.DataGrid" Version="1.7.5" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.13" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="8.0.11" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.3.1" />
+    <PackageReference Include="Microsoft.AspNetCore.SignalR" Version="1.2.0" />
+    <PackageReference Include="Twilio" Version="7.9.0" />
+  </ItemGroup>
+
+</Project>

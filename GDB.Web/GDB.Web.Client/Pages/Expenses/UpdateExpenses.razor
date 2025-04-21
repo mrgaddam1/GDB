@@ -1,0 +1,212 @@
+﻿@page "/expenses/updateExpenses/{expensesId:int}"
+
+@using GDB.Web.BLL.Interface
+@using GDB.Web.Shared
+
+@inject IStoreService StoreService
+@inject IGroceryService GroceryService
+@inject IExpensesService ExpensesService
+@inject IOrderService OrderService
+@inject HttpClient HttpClient
+@inject NavigationManager NavigationManager
+@inject ILogger<Add> Logger
+@rendermode @(new InteractiveAutoRenderMode(prerender:false))
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-8 mx-auto">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    Update Expenses
+                </div>
+                <div class="card-body">
+                    <div class="col-lg-12">
+                        <EditForm Model="@expenses" OnValidSubmit="HandleValidSubmit">
+                            @if (errorMessages != null)
+                            {
+                                @foreach (var message in errorMessages)
+                                {
+                                    if (!string.IsNullOrEmpty(message))
+                                    {
+                                        <ul class="alert alert-danger mt-3 text-left">
+                                            <li>@message</li>
+                                        </ul>
+                                    }
+                                }
+                            }
+                            <div class="row rowMargin">
+                                <div class="col-sm-3">
+                                    Store
+                                </div>
+                                <div class="col-sm-6">
+                                    <InputText @bind-Value="expenses.StoreName" readonly class="form-control" />
+                                </div>
+                            </div>
+
+                            <div class="row rowMargin">
+                                <div class="col-sm-3">
+                                    Grocery
+                                </div>
+                                <div class="col-sm-6">
+                                    <InputText @bind-Value="expenses.GroceryDescription" readonly class="form-control" />
+                                </div>
+                            </div>
+
+                            <div class="row rowMargin">
+                                <div class="col-sm-3">
+                                    Quantity Description
+                                </div>
+                                <div class="col-sm-6">
+                                    <InputText @bind-Value="expenses.QuantityDescription" class="form-control" />
+                                </div>
+                            </div>
+
+
+                            <div class="row rowMargin">
+                                <div class="col-sm-3">
+                                    Amount
+                                </div>
+                                <div class="col-sm-6">
+                                    <InputText @bind-Value="ExpensesAmountString" class="form-control" />
+                                </div>
+                            </div>
+
+                            <div class="row rowMargin">
+                                <div class="col-sm-3">
+                                    Expenses Date
+                                </div>
+                                <div class="col-sm-6">
+                                    <InputDate @bind-Value="expenses.ExpensesDate"  class="form-control" />
+                                </div>
+                            </div>
+
+                            <div class="row rowMargin">
+                                <div class="col-sm-3">
+                                    WeekId
+                                </div>
+                                <div class="col-sm-6">
+                                    <InputNumber @bind-Value="expenses.WeekNumber" style="width:250px" readonly class="form-control textRed" />
+                                </div>
+                            </div>
+
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-primary">Submit Order</button>
+                                <button type="button" class="btn btn-secondary" @onclick="GoBack">Cancel</button>
+                            </div>
+
+                            @if (!string.IsNullOrEmpty(successMessage))
+                            {
+                                <div class="alert alert-success mt-3 text-center">@successMessage</div>
+                            }
+                        </EditForm>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@code {
+    [Parameter]
+    public int expensesId { get; set; }
+    private ExpensesViewModel expenses = new();
+    private string[] errorMessages;
+    private string successMessage = string.Empty;
+
+
+    private string ExpensesAmountString
+    {
+        get => expenses.ExpensesAmount.ToString("0.##");
+        set
+        {
+            if (decimal.TryParse(value, out var result))
+            {
+                expenses.ExpensesAmount = result;
+            }
+            else
+            {
+                expenses.ExpensesAmount = 0;
+            }
+        }
+    }
+
+    public IEnumerable<GroceryViewModel> groceryViewModelData;
+    public IEnumerable<StoreViewModel> storeViewModelData;
+    protected List<ExpensesViewModel> expensesData = new List<ExpensesViewModel>();
+
+    protected override async Task OnInitializedAsync()
+    {       
+        expensesData = await ExpensesService.GetAllExpenses<List<ExpensesViewModel>>();
+        expenses = expensesData.SingleOrDefault(x => x.ExpensesId == Convert.ToInt32(expensesId));
+    }
+ 
+    private async void HandleValidSubmit()
+    {
+        errorMessages = Validations(expenses);
+        string validations = string.Join(" ", errorMessages);
+        if ((validations == null) || (validations == ""))
+        {
+            var response = await ExpensesService.Update(expenses);
+            if (response.Value)
+            {
+                Logger.LogInformation("Expenses details are Update successfully.");
+                successMessage = "Expenses details Update successfully!";
+                await OnInitializedAsync();
+                Reset();
+            }
+            else
+            {
+                Logger.LogInformation("Unable to Update new Expenses.");
+                successMessage = "Unable to update Expenses.";
+                validations = "";
+            }
+        }
+        else
+        {
+            Logger.LogInformation("Unable to create new Expenses.");
+            successMessage = "Unable to update Expenses.";
+            validations = "";
+        }
+    }
+
+    private async void Reset()
+    {
+        expenses = new ExpensesViewModel();
+        expenses.WeekNumber = await OrderService.GetMaxWeekId<int>();
+        errorMessages = [];
+        StateHasChanged();
+    }
+
+    private string[] Validations(ExpensesViewModel expensesViewModel)
+    {
+        string[] result;
+        string validationMessage = "";
+        if ((expensesViewModel.ExpensesAmount == null) || (expensesViewModel.ExpensesAmount == 0))
+        {
+            validationMessage = "Amount: Please enter Expenses Amount.";
+        }
+        if (expensesViewModel.ExpensesDate == null)
+        {
+            validationMessage = validationMessage != null ? validationMessage +
+                                ", " + Environment.NewLine + "Expenses Date: Please select Expenses Date."
+                                : "Expenses Date: Please select Expenses Date.";
+        }       
+        return result = validationMessage.Split(',').Select(s => s.Trim()).ToArray();
+    }
+
+    private void GoBack()
+    {
+        NavigationManager.NavigateTo("/expenses/list");
+    }
+}
+<style type="text/css">
+    .rowMargin {
+        margin-bottom: 10px;
+    }
+
+    .textRed {
+        color: red;
+    }
+
+</style>

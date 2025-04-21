@@ -1,0 +1,108 @@
+﻿@page "/masterMaintenance/store/addStore"
+@using GDB.Web.BLL.Interface
+@using GDB.Web.Shared
+
+@inject IStoreService StoreService
+@inject NavigationManager NavigationManager
+@inject ILogger<AddStore> Logger
+@rendermode @(new InteractiveAutoRenderMode(prerender:false))
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-8 mx-auto">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    Add Customer
+                </div>
+                <div class="card-body">
+                    <div class="col-lg-12">
+                        <EditForm Model="@store" OnValidSubmit="HandleValidSubmit">
+                            @if (errorMessages != null)
+                            {                                 
+                                if (!string.IsNullOrEmpty(errorMessages))
+                                {
+                                    <ul class="alert alert-danger mt-3 text-left">
+                                        <li>@errorMessages</li>
+                                    </ul>
+                                }
+                            }
+                            <div class="row rowMargin">
+                                <div class="col-sm-3">
+                                    First Name
+                                </div>
+                                <div class="col-sm-6">
+                                    <InputText @bind-Value="store.StoreName" class="form-control" />
+                                </div>
+                            </div>                             
+
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-primary">Save</button>
+                            </div>
+                            @if (!string.IsNullOrEmpty(successMessage))
+                            {
+                                <div class="alert alert-success mt-3 text-center">@successMessage</div>
+                            }
+                        </EditForm>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@code {
+    private StoreViewModel store = new();
+    private string errorMessages;
+    private string successMessage = string.Empty;
+
+
+    private async void HandleValidSubmit()
+    {
+        errorMessages = Validations(store);
+        
+        if ((errorMessages == null) || (errorMessages == ""))
+        {
+            var response = await StoreService.Add(store);
+            if (response.Value)
+            {
+                Logger.LogInformation("Store details are added successfully.");
+                successMessage = "Store details submitted successfully!";
+                Reset();
+            }
+            else
+            {
+                Logger.LogInformation("Unable to add Store.");
+                successMessage = "Unable to create new Store.";
+            }
+        }
+        else
+        {
+            //validations = "";
+        }
+    }
+
+    private async void Reset()
+    {
+        store = new StoreViewModel();
+        errorMessages = "";
+        StateHasChanged();
+    }
+
+    private string Validations(StoreViewModel storeViewModel)
+    {      
+        string validationMessage = "";
+        if (storeViewModel.StoreName == null)
+        {
+            validationMessage = "Store Name: Please enter Store Name";
+        }
+        return validationMessage;
+    }
+}
+<style type="text/css">
+    .rowMargin {
+        margin-bottom: 10px;
+    }
+
+</style>

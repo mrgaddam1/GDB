@@ -1,0 +1,77 @@
+﻿@page "/reports/orders/ordersByQuarterly"
+@using Blazorise.DataGrid
+@using GDB.Web.BLL.Interface
+@using GDB.Web.Shared
+@using System.Globalization
+
+@inject IOrderService OrderService
+@inject HttpClient HttpClient
+@inject NavigationManager NavigationManager
+@rendermode @(new InteractiveServerRenderMode(prerender:false))
+
+<div>
+    <table style="width:100%;">
+        <tr>
+            <td style="margin-top:20px;">
+                <table>
+                    <tr>
+                        <td>
+                            <h4>Orders By Quarterly</h4>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+
+        </tr>
+        <tr>
+            <td style="margin-top:-25px;">
+                @if (ordersViewModel != null)
+                {
+                    <DataGrid Style="background-color:mediumpurple;"
+                              TItem="OrdersReportViewModel"
+                              Data="@ordersViewModel"
+                              Responsive
+                              ShowPager="true"
+                              Sortable
+                              SortMode="DataGridSortMode.Single"
+                              PageSize="10"
+                              Editable>
+                        <DataGridColumns>
+                            <DataGridColumn Field="@nameof(OrdersReportViewModel.WeekId)" Caption="WeekId" />
+                            <DataGridColumn Field="@nameof(OrdersReportViewModel.FirstName)" Caption="First Name" />
+                            <DataGridColumn Field="@nameof(OrdersReportViewModel.LastName)" Caption="Las Name" />
+                            <DataGridColumn Field="@nameof(OrdersReportViewModel.MobileNumber)" Caption="Mobile Number" />
+                            <DataGridColumn Field="@nameof(OrdersReportViewModel.Location)" Caption="Location" />
+                            <DataGridColumn Field="@nameof(OrdersReportViewModel.OrderTypeName)" Caption="OrderType Name" />
+                            <DataGridColumn Field="@nameof(OrdersReportViewModel.OrderDate)" Caption="OrderDate" DisplayFormat="{0:dd/MM/yyyy}" />
+                            <DataGridColumn Field="@nameof(OrdersReportViewModel.Amount)" Caption="Amount"
+                                            DisplayFormat="{0:C}"
+                                            DisplayFormatProvider="@System.Globalization.CultureInfo.GetCultureInfo("en-GB")" />
+                            <DataGridColumn Field="@nameof(OrdersReportViewModel.AmountPaidDate)" DisplayFormat="{0:dd/MM/yyyy}" Caption="AmountPaid Date" />
+                        </DataGridColumns>
+                    </DataGrid>
+                }
+            </td>
+        </tr>
+    </table>
+</div>
+
+@code {
+
+
+    public List<OrdersReportViewModel> ordersViewModel { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            ordersViewModel = new List<OrdersReportViewModel>();
+            ordersViewModel = await OrderService.GetAllOrdersByQuarterly<List<OrdersReportViewModel>>();
+
+        }
+        catch (Exception ex)
+        {
+            string errorMessage = ex.Message;
+        }
+    }
+}

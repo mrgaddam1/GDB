@@ -1,0 +1,526 @@
+[
+  {
+    "ContainingType": "GDB.Web.Controller.AdvertiseSourceController",
+    "Method": "GetAllAdvertiseSources",
+    "RelativePath": "api/AdvertiseSource/GetAllAdvertiseSources",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "GDB.Web.Controller.CustomerReportsController",
+    "Method": "GetAllCustomerVisits",
+    "RelativePath": "api/CustomerReports/GetAllCustomerVisits",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "GDB.Web.Controller.CustomerReportsController",
+    "Method": "GetAllCustomerVisitsByMonthly",
+    "RelativePath": "api/CustomerReports/GetAllCustomerVisitsByMonthly",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "GDB.Web.Controller.CustomerReportsController",
+    "Method": "GetAllCustomerVisitsByWeekly",
+    "RelativePath": "api/CustomerReports/GetAllCustomerVisitsByWeekly",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "GDB.Web.Controller.CustomerReportsController",
+    "Method": "GetAllCustomerVisitsHalfYearly",
+    "RelativePath": "api/CustomerReports/GetAllCustomerVisitsHalfYearly",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "GDB.Web.Controller.CustomerReportsController",
+    "Method": "GetAllCustomerVisitsQuarterly",
+    "RelativePath": "api/CustomerReports/GetAllCustomerVisitsQuarterly",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "GDB.Web.Controller.CustomerReportsController",
+    "Method": "GetAllCustomerVisitsWeekly",
+    "RelativePath": "api/CustomerReports/GetAllCustomerVisitsWeekly",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "GDB.Web.Controller.CustomerReportsController",
+    "Method": "GetAllCustomerVisitsYearly",
+    "RelativePath": "api/CustomerReports/GetAllCustomerVisitsYearly",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "GDB.Web.Controller.CustomersController",
+    "Method": "Add",
+    "RelativePath": "api/Customers/Add",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "customerViewModel",
+        "Type": "GDB.Web.Shared.CustomerViewModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "GDB.Web.Controller.CustomersController",
+    "Method": "GetAllCustomers",
+    "RelativePath": "api/Customers/GetAllCustomers",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "GDB.Web.Controller.CustomersController",
+    "Method": "Update",
+    "RelativePath": "api/Customers/Update",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "customerViewModel",
+        "Type": "GDB.Web.Shared.CustomerViewModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "GDB.Web.Controller.ExpensesController",
+    "Method": "Add",
+    "RelativePath": "api/Expenses/Add",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "expensesViewModel",
+        "Type": "GDB.Web.Shared.ExpensesViewModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "GDB.Web.Controller.ExpensesController",
+    "Method": "GetAllExpenses",
+    "RelativePath": "api/Expenses/GetAllExpenses",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "GDB.Web.Controller.ExpensesController",
+    "Method": "GetTotalExpensesByWeekwise",
+    "RelativePath": "api/Expenses/GetTotalExpensesByWeekwise",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "GDB.Web.Controller.ExpensesController",
+    "Method": "Update",
+    "RelativePath": "api/Expenses/Update",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "expensesViewModel",
+        "Type": "GDB.Web.Shared.ExpensesViewModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "GDB.Web.Controller.GroceryController",
+    "Method": "GetAll",
+    "RelativePath": "api/Grocery/GetAll",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "GDB.Web.Controller.LocationsController",
+    "Method": "Add",
+    "RelativePath": "api/Locations/Add",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "locationViewModel",
+        "Type": "GDB.Web.Shared.LocationViewModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "GDB.Web.Controller.LocationsController",
+    "Method": "GetAllLocations",
+    "RelativePath": "api/Locations/GetAllLocations",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "GDB.Web.Controller.LocationsController",
+    "Method": "Update",
+    "RelativePath": "api/Locations/Update",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "locationViewModel",
+        "Type": "GDB.Web.Shared.LocationViewModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "GDB.Web.Controller.MLController",
+    "Method": "GetExistingExpensesData",
+    "RelativePath": "api/ML/GetExistingExpensesData",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "GDB.Web.Controller.MLController",
+    "Method": "GetExistingSalesData",
+    "RelativePath": "api/ML/GetExistingSalesData",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "GDB.Web.Controller.MLController",
+    "Method": "PredictExpenses",
+    "RelativePath": "api/ML/PredictExpenses",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "GDB.Web.Controller.MLController",
+    "Method": "PredictSales",
+    "RelativePath": "api/ML/PredictSales",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "GDB.Web.Controller.OrderReportsController",
+    "Method": "GetAllOrderByBIWeekly",
+    "RelativePath": "api/OrderReports/GetAllOrderByBIWeekly",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "GDB.Web.Controller.OrderReportsController",
+    "Method": "GetAllOrderByHalfYearly",
+    "RelativePath": "api/OrderReports/GetAllOrderByHalfYearly",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "GDB.Web.Controller.OrderReportsController",
+    "Method": "GetAllOrderByMonthly",
+    "RelativePath": "api/OrderReports/GetAllOrderByMonthly",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "GDB.Web.Controller.OrderReportsController",
+    "Method": "GetAllOrderByQuarterly",
+    "RelativePath": "api/OrderReports/GetAllOrderByQuarterly",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "GDB.Web.Controller.OrderReportsController",
+    "Method": "GetAllOrderByWeekly",
+    "RelativePath": "api/OrderReports/GetAllOrderByWeekly",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "GDB.Web.Controller.OrderReportsController",
+    "Method": "GetAllOrderByYearly",
+    "RelativePath": "api/OrderReports/GetAllOrderByYearly",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "GDB.Web.Controller.OrdersController",
+    "Method": "Add",
+    "RelativePath": "api/Orders/Add",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "ordersViewModel",
+        "Type": "GDB.Web.Shared.OrdersViewModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "GDB.Web.Controller.OrdersController",
+    "Method": "GetAllOrders",
+    "RelativePath": "api/Orders/GetAllOrders",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "GDB.Web.Controller.OrdersController",
+    "Method": "GetMaxWeekId",
+    "RelativePath": "api/Orders/GetMaxWeekId",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "GDB.Web.Controller.OrdersController",
+    "Method": "GetTotalOrdersByWeekwise",
+    "RelativePath": "api/Orders/GetTotalOrdersByWeekwise",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "GDB.Web.Controller.OrdersController",
+    "Method": "Update",
+    "RelativePath": "api/Orders/Update",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "ordersViewModel",
+        "Type": "GDB.Web.Shared.OrdersViewModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "GDB.Web.Controller.OrderTypesController",
+    "Method": "GetAllOrderTypes",
+    "RelativePath": "api/OrderTypes/GetAllOrderTypes",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "GDB.Web.Controller.OrderTypesController",
+    "Method": "GetOrderTypeItemPriceByOrderType",
+    "RelativePath": "api/OrderTypes/GetOrderTypeItemPriceByOrderType/{orderTypeId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "orderTypeId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "GDB.Web.Controller.PaymentTypeController",
+    "Method": "GetAllPaymentTypes",
+    "RelativePath": "api/PaymentType/GetAllPaymentTypes",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "GDB.Web.Controller.StatersController",
+    "Method": "GetAllStaters",
+    "RelativePath": "api/Staters/GetAllStaters",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "GDB.Web.Controller.StatersController",
+    "Method": "GetStaterPriceByStater",
+    "RelativePath": "api/Staters/GetStaterPriceByStater/{staterId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "staterId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "GDB.Web.Controller.StoreController",
+    "Method": "Add",
+    "RelativePath": "api/Store/Add",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "storeViewModel",
+        "Type": "GDB.Web.Shared.StoreViewModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "GDB.Web.Controller.StoreController",
+    "Method": "GetAll",
+    "RelativePath": "api/Store/GetAll",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "GDB.Web.Controller.StoreController",
+    "Method": "Update",
+    "RelativePath": "api/Store/Update",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "storeViewModel",
+        "Type": "GDB.Web.Shared.StoreViewModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "GDB.Web.Controller.TwilioSMSController",
+    "Method": "SendSms",
+    "RelativePath": "api/TwilioSMS/SendSms",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "messages",
+        "Type": "GDB.Web.Shared.MessagesViewModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "GDB.Web.Controller.UserController",
+    "Method": "Login",
+    "RelativePath": "api/User/Login",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "model",
+        "Type": "GDB.Web.Shared.LoginRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  }
+]

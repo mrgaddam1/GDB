@@ -1,0 +1,55 @@
+﻿@page "/masterMaintenance/grocery/list"
+@using Blazorise.DataGrid
+@using GDB.Web.BLL.Interface
+@using GDB.Web.Shared
+@using System.Globalization
+@using Radzen.Blazor
+
+@inject IGroceryService GroceryService
+@inject NavigationManager NavigationManager
+@rendermode @(new InteractiveServerRenderMode(prerender:false))
+
+<div class="col-lg-6">
+    <table>
+        <tr>
+            <td>
+                <h2>Grocery</h2>
+            </td>
+            <td style="text-align:right;">
+                <button @onclick="Add" class="btn btn-primary">
+                    <i class="fa fa-plus" aria-hidden="true"></i>
+                    &nbsp;&nbsp;Add New
+                </button>
+            </td>
+        </tr>
+        <tr style="padding-top:-5px;vertical-align:top;">
+            <td colspan="2">
+                @if (groceryData != null)
+                {
+                    <RadzenDataGrid Data="groceryData" AllowFiltering="true" AllowPaging="true" AllowSorting="true" PageSize="15">
+                        <Columns>
+                            <RadzenDataGridColumn TItem="GroceryViewModel" Property="GroceryId" Title="Id" />
+                            <RadzenDataGridColumn TItem="GroceryViewModel" Property="GroceryDescription" Title="Grocery Description" />
+                        </Columns>
+                    </RadzenDataGrid>
+                }
+            </td>
+        </tr>
+    </table>
+</div>
+
+@code {
+
+    private List<GroceryViewModel> groceryData { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        groceryData = new List<GroceryViewModel>();
+        groceryData = await GroceryService.GetAll<List<GroceryViewModel>>();
+    }
+
+    private void Add()
+    {
+        NavigationManager.NavigateTo("/masterMaintenance/locations/add");
+    }
+}

@@ -1,0 +1,185 @@
+﻿@page "/customers/updateCustomer/{customerId:int}"
+@using GDB.Web.BLL.Interface
+@using GDB.Web.Shared
+
+@inject ICustomerService CustomerService
+@inject IAdvertiseSourceService AdvertiseSourceService
+@inject ILocationService LocationService
+@inject HttpClient HttpClient
+@inject NavigationManager NavigationManager
+@inject ILogger<AddCustomer> Logger
+@rendermode @(new InteractiveAutoRenderMode(prerender:false))
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-8 mx-auto">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    Update Customer
+                </div>
+                <div class="card-body">
+                    <div class="col-lg-12">
+                        <EditForm Model="@customer" FormName="UpdateCustomerForm" >
+                            @if (errorMessages != null)
+                            {
+                                @foreach (var message in errorMessages)
+                                {
+                                    if (!string.IsNullOrEmpty(message))
+                                    {
+                                        <ul class="alert alert-danger mt-3 text-left">
+                                            <li>@message</li>
+                                        </ul>
+                                    }
+                                }
+                            }
+                            <div class="row rowMargin">
+                                <div class="col-sm-3">
+                                    First Name
+                                </div>
+                                <div class="col-sm-6">
+                                    <InputText @bind-Value="customer.FirstName"  class="form-control" />
+                                </div>
+                            </div>
+
+                            <div class="row rowMargin">
+                                <div class="col-sm-3">
+                                    Last Name
+                                </div>
+                                <div class="col-sm-6">
+                                    <InputText @bind-Value="customer.LastName" class="form-control" />
+                                </div>
+                            </div>
+
+                            <div class="row rowMargin">
+                                <div class="col-sm-3">
+                                    Mobile Number
+                                </div>
+                                <div class="col-sm-6">
+                                    <InputText @bind-Value="customer.MobileNumber" style="color:red;" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="row rowMargin">
+                                <div class="col-sm-3">
+                                    Location
+                                </div>
+                                <div class="col-sm-6">                                  
+                                    <InputText @bind-Value="customer.LocationName" readonly class="form-control" />
+                                </div>
+                            </div>
+
+                            <div class="row rowMargin">
+                                <div class="col-sm-3">
+                                    Advertisement Source
+                                </div>
+                                <div class="col-sm-6">
+                                    <InputText @bind-Value="customer.AdvertiseSource" readonly class="form-control" />
+                                </div>
+                            </div>
+                            @if (customer.AdvertiseSourceId == 4)
+                            {
+                                <div class="row rowMargin">
+                                    <div class="col-sm-3">
+                                        Friend Referral
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <InputText @bind-Value="customer.RefferedBy" readonly class="form-control" />
+                                    </div>
+                                </div>
+                            }
+
+                            <div class="text-center">
+                                <button type="submit" @onclick="HandleValidSubmit" class="btn btn-primary">Update Customer</button>
+                                &nbsp;
+                                <button type="submit" @onclick="CancelChanges" class="btn btn-primary">Cancel</button>
+                            </div>
+                            @if (!string.IsNullOrEmpty(successMessage))
+                            {
+                                <div class="alert alert-success mt-3 text-center">@successMessage</div>
+                            }
+                        </EditForm>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@code {
+    [Parameter]
+    public int customerId { get; set; }
+    private CustomerViewModel customer = new();
+    private string[] errorMessages;
+    private string successMessage = string.Empty;
+    private string SelectedOption = "visibility:hidden;";
+
+    private EditContext editContext;
+    public string LocationInitialText { get; set; } = "---Select Location---";
+    public string AdvertisementSourceInitialText { get; set; } = "---Select Source---";
+
+    public IEnumerable<LocationViewModel> locationViewModelsData;
+    public IEnumerable<AdvertiseSourceViewModel> advertiseSourceViewModelsData;
+
+    protected List<CustomerViewModel> customerData = new List<CustomerViewModel>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        customerData = await CustomerService.GetAllCustomers<List<CustomerViewModel>>();
+        customer = customerData.SingleOrDefault(x => x.CustomerId == Convert.ToInt32(customerId));
+
+    }    
+    private async void HandleValidSubmit()
+    {
+        errorMessages = Validations(customer);
+        string validations = string.Join(" ", errorMessages);
+        if ((validations == null) || (validations == ""))
+        {
+            var response = await CustomerService.Update(customer);
+            if (response.Value)
+            {
+                Logger.LogInformation("Customer details are updated successfully.");
+                successMessage = "Customer details updated successfully!";
+                Reset();
+            }
+            else
+            {
+                Logger.LogInformation("Unable to update Customer.");
+                successMessage = "Unable to update new customer.";
+            }
+        }
+        else
+        {
+            validations = "";
+        }
+    }
+    private async void CancelChanges()
+    {
+        NavigationManager.NavigateTo("/customers/list");
+    }
+
+    private async void Reset()
+    {
+        customer = new CustomerViewModel();
+        errorMessages = [];
+        StateHasChanged();
+    }
+
+    private string[] Validations(CustomerViewModel customerViewModel)
+    {
+        string[] result;
+        string validationMessage = "";        
+        if (customerViewModel.MobileNumber == null)
+        {
+            validationMessage = "Mobile Number: Please enter Mobine Number";
+
+        }       
+        return result = validationMessage.Split(',').Select(s => s.Trim()).ToArray();
+    }
+}
+<style type="text/css">
+    .rowMargin {
+        margin-bottom: 10px;
+    }
+
+</style>
+
