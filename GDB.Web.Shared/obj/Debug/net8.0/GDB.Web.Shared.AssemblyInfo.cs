@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("GDB.Web.Shared")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0253cf1bd27f99ad3947b24b32f5904cc7865bbf")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b2168b041edaefad208c20d017e96c88f26c5c8f")]
 [assembly: System.Reflection.AssemblyProductAttribute("GDB.Web.Shared")]
 [assembly: System.Reflection.AssemblyTitleAttribute("GDB.Web.Shared")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

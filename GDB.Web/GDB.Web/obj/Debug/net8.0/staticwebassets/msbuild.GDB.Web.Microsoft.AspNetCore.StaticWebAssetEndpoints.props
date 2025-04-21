@@ -52,13 +52,13 @@
       <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\GDB.Web.kkzqf8hqpa.bundle.scp.css'))</AssetFile>
       <Selectors><![CDATA[[]]]></Selectors>
       <EndpointProperties><![CDATA[[{"Name":"integrity","Value":"sha256-bKojyU7R2u7\u002B9BwW5ODQ03FXeQnV\u002B1FzNWNnxwSeNHI="}]]]></EndpointProperties>
-      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"no-cache"},{"Name":"Content-Length","Value":"5915"},{"Name":"Content-Type","Value":"text/css"},{"Name":"ETag","Value":"\u0022bKojyU7R2u7\u002B9BwW5ODQ03FXeQnV\u002B1FzNWNnxwSeNHI=\u0022"},{"Name":"Last-Modified","Value":"Mon, 21 Apr 2025 06:55:56 GMT"}]]]></ResponseHeaders>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"no-cache"},{"Name":"Content-Length","Value":"5915"},{"Name":"Content-Type","Value":"text/css"},{"Name":"ETag","Value":"\u0022bKojyU7R2u7\u002B9BwW5ODQ03FXeQnV\u002B1FzNWNnxwSeNHI=\u0022"},{"Name":"Last-Modified","Value":"Mon, 21 Apr 2025 16:22:43 GMT"}]]]></ResponseHeaders>
     </StaticWebAssetEndpoint>
     <StaticWebAssetEndpoint Include="_content/GDB.Web/GDB.Web.kkzqf8hqpa.bundle.scp.css">
       <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\GDB.Web.kkzqf8hqpa.bundle.scp.css'))</AssetFile>
       <Selectors><![CDATA[[]]]></Selectors>
       <EndpointProperties><![CDATA[[{"Name":"fingerprint","Value":"kkzqf8hqpa"},{"Name":"integrity","Value":"sha256-bKojyU7R2u7\u002B9BwW5ODQ03FXeQnV\u002B1FzNWNnxwSeNHI="},{"Name":"label","Value":"_content/GDB.Web/GDB.Web.bundle.scp.css"}]]]></EndpointProperties>
-      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=31536000, immutable"},{"Name":"Content-Length","Value":"5915"},{"Name":"Content-Type","Value":"text/css"},{"Name":"ETag","Value":"\u0022bKojyU7R2u7\u002B9BwW5ODQ03FXeQnV\u002B1FzNWNnxwSeNHI=\u0022"},{"Name":"Last-Modified","Value":"Mon, 21 Apr 2025 06:55:56 GMT"}]]]></ResponseHeaders>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=31536000, immutable"},{"Name":"Content-Length","Value":"5915"},{"Name":"Content-Type","Value":"text/css"},{"Name":"ETag","Value":"\u0022bKojyU7R2u7\u002B9BwW5ODQ03FXeQnV\u002B1FzNWNnxwSeNHI=\u0022"},{"Name":"Last-Modified","Value":"Mon, 21 Apr 2025 16:22:43 GMT"}]]]></ResponseHeaders>
     </StaticWebAssetEndpoint>
     <StaticWebAssetEndpoint Include="_content/GDB.Web/Images/GDBHomePage.b9kh7p3c1d.JPG">
       <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\Images\GDBHomePage.JPG'))</AssetFile>

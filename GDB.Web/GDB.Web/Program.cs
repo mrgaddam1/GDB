@@ -103,6 +103,7 @@ static void ServiceDependency(WebApplicationBuilder builder)
     builder.Services.AddScoped<IPaymentTypeRepository, PaymentTypeRepository>();
     builder.Services.AddScoped<IMLModelRepository, MLModelRepository>();
     builder.Services.AddScoped<IUserRepository, UserRepository>();
+    builder.Services.AddScoped<IAccountRepository, AccountRepository>();
 
 
     builder.Services.AddScoped<IOrderService, OrderService>();
@@ -118,12 +119,11 @@ static void ServiceDependency(WebApplicationBuilder builder)
     builder.Services.AddScoped<IMLModelService, MLModelService>();
     builder.Services.AddScoped<IUserService, UserService>();
     builder.Services.AddScoped<ITwilioService, TwilioService>();
+    builder.Services.AddScoped<IAccountService, AccountService>();
 }
 
 static void RegisterAuthenticationServices(WebApplicationBuilder builder)
-{
-   
-    // Register authentication services
+{   
     builder.Services.AddAuthorizationCore();
     builder.Services.AddScoped<CustomAuthStateProvider>();
     builder.Services.AddScoped<AuthenticationStateProvider>(provider => provider.GetRequiredService<CustomAuthStateProvider>());

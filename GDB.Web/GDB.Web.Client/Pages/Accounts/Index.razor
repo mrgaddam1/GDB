@@ -1,0 +1,64 @@
+﻿@page "/accounts/list"
+@using Blazorise.DataGrid
+@using GDB.Web.BLL.Interface
+@using GDB.Web.Shared
+@using System.Globalization
+@using Radzen.Blazor
+
+@inject IAccountService AccountService
+@inject NavigationManager NavigationManager
+@rendermode @(new InteractiveServerRenderMode(prerender:false))
+
+
+<div class="col-lg-6">
+    <table>
+        <tr>
+            <td>
+                <h2>Stores</h2>
+            </td>
+            <td style="text-align:right;">               
+                    &nbsp;&nbsp;               
+            </td>
+        </tr>
+        <tr style="padding-top:-5px;vertical-align:top;">
+            <td colspan="2">
+                @if (accountsData != null)
+                {
+                    <RadzenDataGrid Data="accountsData" AllowFiltering="true" AllowPaging="true" AllowSorting="true" PageSize="20">
+                        <Columns>
+                            <RadzenDataGridColumn TItem="AccountsViewModel" Property="WeekId" Title="WeekId" />
+                            <RadzenDataGridColumn TItem="AccountsViewModel" Property="TotalProfits" Title="Total Receivables"  >
+                                <Template Context="data">
+                                    @data.TotalProfits.ToString("C", CultureInfo.CreateSpecificCulture("en-GB"))
+                                </Template>
+                            </RadzenDataGridColumn>
+                            <RadzenDataGridColumn TItem="AccountsViewModel" Property="TotalExpenses" Title="Total Expenses" >
+                                <Template Context="data">
+                                    @data.TotalExpenses.ToString("C", CultureInfo.CreateSpecificCulture("en-GB"))
+                                </Template>
+                            </RadzenDataGridColumn>   
+                            <RadzenDataGridColumn TItem="AccountsViewModel" Property="NetProfit" Title="Net Profit"  >
+                                <Template Context="data">
+                                    @data.NetProfit.ToString("C", CultureInfo.CreateSpecificCulture("en-GB"))
+                                </Template>
+                            </RadzenDataGridColumn>
+                        </Columns>
+                    </RadzenDataGrid>
+                }
+            </td>
+        </tr>
+    </table>
+</div>
+
+@code {
+
+    private List<AccountsViewModel> accountsData { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        accountsData = new List<AccountsViewModel>();
+        accountsData = await AccountService.GetAllAccounts();
+    }
+   
+}
+

@@ -1,5 +1,15 @@
 [
   {
+    "ContainingType": "GDB.Web.Controller.AccountsController",
+    "Method": "GetAllAccounts",
+    "RelativePath": "api/Accounts/GetAllAccounts",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "GDB.Web.Controller.AdvertiseSourceController",
     "Method": "GetAllAdvertiseSources",
     "RelativePath": "api/AdvertiseSource/GetAllAdvertiseSources",
