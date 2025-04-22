@@ -39,8 +39,15 @@
                             </RadzenDataGridColumn>   
                             <RadzenDataGridColumn TItem="AccountsViewModel" Property="NetProfit" Title="Net Profit"  >
                                 <Template Context="data">
-                                    @data.NetProfit.ToString("C", CultureInfo.CreateSpecificCulture("en-GB"))
+                                    <span style="color:@(data.NetProfit < 0 ? "red" : "green")">
+                                        <b>@data.NetProfit.ToString("C", CultureInfo.CreateSpecificCulture("en-GB"))</b>
+                                    </span>
                                 </Template>
+                                <FooterTemplate>
+                                    <span style="color:@("blue")">
+                                    <b>Total: @accountsData.Sum(t => t.NetProfit).ToString("C", CultureInfo.CreateSpecificCulture("en-GB"))</b>
+                                    </span>
+                                </FooterTemplate>
                             </RadzenDataGridColumn>
                         </Columns>
                     </RadzenDataGrid>
@@ -49,7 +56,7 @@
         </tr>
     </table>
 </div>
-
+@* @data.NetProfit.ToString("C", CultureInfo.CreateSpecificCulture("en-GB")) *@
 @code {
 
     private List<AccountsViewModel> accountsData { get; set; }

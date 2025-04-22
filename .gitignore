@@ -53,3 +53,11 @@
 /.vs/VSWorkspaceState.json
 /GDB.Web/.vs/GDB.Web/CopilotIndices/17.12.38.29086/CodeChunks.db-wal
 /GDB.Web/.vs/GDB.Web/CopilotIndices/17.12.38.29086/CodeChunks.db
+
+# Ignore log files
+*.gz
+*.cache
+
+# Ignore a specific folder
+GDB.Web/.vs/GDB.Web/CopilotIndices/
+GDB.Web/.vs/GDB.Web/v17/

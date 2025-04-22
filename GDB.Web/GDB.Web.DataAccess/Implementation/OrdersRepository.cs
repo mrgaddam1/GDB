@@ -70,7 +70,7 @@ namespace GDB.Web.DataAccess.Implementation
                                 select new OrdersViewModel
                                 {
                                     OrderId = o.OrderId,
-                                    FirstName = c.FirstName + " " + c.LastName,
+                                    FirstName = c.FirstName + "  " + c.LastName,
                                     LastName = c.LastName,
                                     MobileNumber = c.MobileNumber,
                                     OrderTypeName = ot.OrderTypeName,
