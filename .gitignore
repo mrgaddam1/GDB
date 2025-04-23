@@ -264,3 +264,8 @@ GDB.Web/.vs/GDB.Web/v17/
 /GDB.Web/GDB.Web.Client/bin/Debug/net8.0/wwwroot/_framework/dotnet.js
 /GDB.Web/GDB.Web.Client/bin/Debug/net8.0/wwwroot/_framework/dotnet.native.js
 /GDB.Web/GDB.Web.Client/bin/Debug/net8.0/wwwroot/_framework/dotnet.runtime.js
+/GDB.Web/.vs/GDB.Web/CopilotIndices/17.12.38.29086/SemanticSymbols.db
+/GDB.Web/GDB.Web.BLL/obj/Debug/net8.0/GDB.Web.BLL.csproj.CoreCompileInputs.cache
+/GDB.Web/GDB.Web.Client/obj/Debug/net8.0/GDB.Web.Client.GeneratedMSBuildEditorConfig.editorconfig
+/GDB.Web/GDB.Web.DataAccess/obj/Debug/net8.0/GDB.Web.DataAccess.csproj.CoreCompileInputs.cache
+/GDB.Web.Shared/obj/Debug/net8.0/GDB.Web.Shared.csproj.CoreCompileInputs.cache
