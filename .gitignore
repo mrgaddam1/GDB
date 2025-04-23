@@ -258,3 +258,9 @@ GDB.Web/.vs/GDB.Web/v17/
 /GDB.Web.Shared/obj/Debug/net8.0/GDB.Web.Shared.dll
 /GDB.Web.Shared/obj/Debug/net8.0/ref/GDB.Web.Shared.dll
 /GDB.Web.Shared/obj/Debug/net8.0/refint/GDB.Web.Shared.dll
+/GDB.Web/GDB.Web/bin/Debug/net8.0/BlazorDebugProxy/BrowserDebugHost.runtimeconfig.json
+/GDB.Web/GDB.Web/obj/Debug/net8.0/staticwebassets/msbuild.GDB.Web.Microsoft.AspNetCore.StaticWebAssetEndpoints.props
+/GDB.Web/GDB.Web.Client/bin/Debug/net8.0/wwwroot/_framework/emcc-props.json
+/GDB.Web/GDB.Web.Client/bin/Debug/net8.0/wwwroot/_framework/dotnet.js
+/GDB.Web/GDB.Web.Client/bin/Debug/net8.0/wwwroot/_framework/dotnet.native.js
+/GDB.Web/GDB.Web.Client/bin/Debug/net8.0/wwwroot/_framework/dotnet.runtime.js
