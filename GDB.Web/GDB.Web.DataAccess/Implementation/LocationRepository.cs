@@ -13,10 +13,10 @@ namespace GDB.Web.DataAccess.Implementation
 {
     public class LocationRepository : ILocationRepository
     {
-        private readonly ILogger<LocationRepository> logger;
+        private readonly ILogger<CategoryRepository> logger;
         private GDBContext DbContext { get; set; }
 
-        public LocationRepository(GDBContext _DbContext, ILogger<LocationRepository> _logger)
+        public LocationRepository(GDBContext _DbContext, ILogger<CategoryRepository> _logger)
         {
             DbContext = _DbContext;
             logger = _logger;

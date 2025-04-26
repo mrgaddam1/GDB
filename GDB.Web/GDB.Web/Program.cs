@@ -104,6 +104,10 @@ static void ServiceDependency(WebApplicationBuilder builder)
     builder.Services.AddScoped<IMLModelRepository, MLModelRepository>();
     builder.Services.AddScoped<IUserRepository, UserRepository>();
     builder.Services.AddScoped<IAccountRepository, AccountRepository>();
+    builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+    builder.Services.AddScoped<ISubCategoryRepository, SubCategoryRepository>();
+    builder.Services.AddScoped<IProductRepository, ProductRepository>();
+    builder.Services.AddScoped<IInventoryRepository, InventoryRepository>();
 
 
     builder.Services.AddScoped<IOrderService, OrderService>();
@@ -120,6 +124,10 @@ static void ServiceDependency(WebApplicationBuilder builder)
     builder.Services.AddScoped<IUserService, UserService>();
     builder.Services.AddScoped<ITwilioService, TwilioService>();
     builder.Services.AddScoped<IAccountService, AccountService>();
+    builder.Services.AddScoped<ICategoryService, CategoryService>();
+    builder.Services.AddScoped<ISubCategoryService, SubCategoryService>();
+    builder.Services.AddScoped<IProductService, ProductService>();
+    builder.Services.AddScoped<IInventoryService, InventoryService>();
 }
 
 static void RegisterAuthenticationServices(WebApplicationBuilder builder)

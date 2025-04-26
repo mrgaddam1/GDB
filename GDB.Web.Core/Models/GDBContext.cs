@@ -17,6 +17,8 @@ public partial class GDBContext : DbContext
 
     public virtual DbSet<AdvertiseSource> AdvertiseSources { get; set; }
 
+    public virtual DbSet<Category> Categories { get; set; }
+
     public virtual DbSet<Customer> Customers { get; set; }
 
     public virtual DbSet<Expense> Expenses { get; set; }
@@ -24,6 +26,8 @@ public partial class GDBContext : DbContext
     public virtual DbSet<ExpensesAndSale> ExpensesAndSales { get; set; }
 
     public virtual DbSet<Grocery> Groceries { get; set; }
+
+    public virtual DbSet<Inventory> Inventories { get; set; }
 
     public virtual DbSet<Location> Locations { get; set; }
 
@@ -37,15 +41,21 @@ public partial class GDBContext : DbContext
 
     public virtual DbSet<PaymentType> PaymentTypes { get; set; }
 
+    public virtual DbSet<Product> Products { get; set; }
+
     public virtual DbSet<Stater> Staters { get; set; }
 
     public virtual DbSet<StaterPrice> StaterPrices { get; set; }
 
     public virtual DbSet<Store> Stores { get; set; }
 
+    public virtual DbSet<SubCategory> SubCategories { get; set; }
+
     public virtual DbSet<User> Users { get; set; }
 
     public virtual DbSet<UserFeedBack> UserFeedBacks { get; set; }
+
+    public virtual DbSet<Vendor> Vendors { get; set; }
 
     public virtual DbSet<WeekDatum> WeekData { get; set; }
 
@@ -64,6 +74,17 @@ public partial class GDBContext : DbContext
             entity.Property(e => e.AdvertiseDescription)
                 .HasMaxLength(250)
                 .IsUnicode(false);
+        });
+
+        modelBuilder.Entity<Category>(entity =>
+        {
+            entity.ToTable("Category");
+
+            entity.Property(e => e.CategoryName)
+                .HasMaxLength(250)
+                .IsUnicode(false);
+            entity.Property(e => e.CreatedDate).HasColumnType("datetime");
+            entity.Property(e => e.ModifiedDate).HasColumnType("datetime");
         });
 
         modelBuilder.Entity<Customer>(entity =>
@@ -114,17 +135,27 @@ public partial class GDBContext : DbContext
         {
             entity.ToTable("Grocery");
 
-            entity.Property(e => e.GroceryDescription).HasMaxLength(250);
+            entity.Property(e => e.GroceryDescription)
+                .HasMaxLength(250)
+                .IsUnicode(false);
+        });
+
+        modelBuilder.Entity<Inventory>(entity =>
+        {
+            entity.ToTable("Inventory");
+
+            entity.Property(e => e.CreatedDate).HasColumnType("datetime");
+            entity.Property(e => e.ModifiedDate).HasColumnType("datetime");
         });
 
         modelBuilder.Entity<Location>(entity =>
         {
             entity.ToTable("Location");
 
+            entity.Property(e => e.CreatedDate).HasColumnType("datetime");
             entity.Property(e => e.LocationDescription)
                 .HasMaxLength(250)
                 .IsUnicode(false);
-            entity.Property(e => e.CreatedDate).HasColumnType("datetime");
             entity.Property(e => e.ModifiedDate).HasColumnType("datetime");
         });
 
@@ -172,6 +203,19 @@ public partial class GDBContext : DbContext
                 .IsUnicode(false);
         });
 
+        modelBuilder.Entity<Product>(entity =>
+        {
+            entity.ToTable("Product");
+
+            entity.Property(e => e.CreatedDate).HasColumnType("datetime");
+            entity.Property(e => e.Modifieddate).HasColumnType("datetime");
+            entity.Property(e => e.ProductName)
+                .HasMaxLength(500)
+                .IsUnicode(false);
+            entity.Property(e => e.ProductPrice).HasColumnType("decimal(18, 2)");
+            entity.Property(e => e.PurchasedDate).HasColumnType("datetime");
+        });
+
         modelBuilder.Entity<Stater>(entity =>
         {
             entity.HasKey(e => e.StaterId).HasName("PK_Starter");
@@ -203,6 +247,17 @@ public partial class GDBContext : DbContext
             entity.Property(e => e.StoreName).HasMaxLength(250);
         });
 
+        modelBuilder.Entity<SubCategory>(entity =>
+        {
+            entity.ToTable("SubCategory");
+
+            entity.Property(e => e.CreatedDate).HasColumnType("datetime");
+            entity.Property(e => e.Modifieddate).HasColumnType("datetime");
+            entity.Property(e => e.SubCategoryName)
+                .HasMaxLength(250)
+                .IsUnicode(false);
+        });
+
         modelBuilder.Entity<User>(entity =>
         {
             entity.ToTable("User");
@@ -223,6 +278,15 @@ public partial class GDBContext : DbContext
             entity.ToTable("UserFeedBack");
 
             entity.Property(e => e.Fid).HasColumnName("FId");
+        });
+
+        modelBuilder.Entity<Vendor>(entity =>
+        {
+            entity.ToTable("Vendor");
+
+            entity.Property(e => e.VendorName)
+                .HasMaxLength(250)
+                .IsUnicode(false);
         });
 
         modelBuilder.Entity<WeekDatum>(entity =>
