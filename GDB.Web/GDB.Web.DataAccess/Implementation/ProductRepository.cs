@@ -43,6 +43,7 @@ namespace GDB.Web.DataAccess.Implementation
                                     SubCategoryName = s.SubCategoryName,
                                     VendorName = l.VendorName,
                                     Quantity = p.Quantity,
+                                    ProductPrice = p.ProductPrice,
                                 }).AsNoTracking()
                     .OrderBy(x => x.ProductName)
                     .ToListAsync();

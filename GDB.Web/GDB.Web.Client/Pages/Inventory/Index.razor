@@ -1,7 +1,26 @@
 ﻿@page "/inventory/index"
 
-<h2>Welcome to Inventory</h2>
+
+<div class="row">
+    <ul class="menu" style="width:100%;">
+        <li>
+            <NavLink href="/inventory/category/list" class="menu-item" ActiveClass="active">Category</NavLink>
+        </li>
+        <li>
+            <NavLink href="/inventory/subcategory/list" class="menu-item" ActiveClass="active">SubCategory</NavLink>
+        </li>
+        <li>
+            <NavLink href="/inventory/product/list" class="menu-item" ActiveClass="active">Products</NavLink>
+        </li>
+        <li>
+            <NavLink href="orders/ordersList" class="menu-item" ActiveClass="active">Inventory</NavLink>
+        </li>
+        
+    </ul>
+</div>
+
 
 @code {
 
+    
 }

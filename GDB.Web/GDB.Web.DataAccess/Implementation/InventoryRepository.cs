@@ -31,27 +31,12 @@ namespace GDB.Web.DataAccess.Implementation
         {
             try
             {
-                var locations = await DbContext.Locations
-                    .AsNoTracking()
-                    .OrderBy(x => x.LocationDescription)
-                    .Select(x => new LocationViewModel
-                    {
-                        LocationId = x.LocationId,
-                        LocationName = x.LocationDescription
-                    })
-                    .ToListAsync();
-
-                if (locations == null || locations.Count == 0)
-                {
-                    logger.LogInformation("No locations found in the database.");
-                    return new List<LocationViewModel>();
-                }
-                return locations;
+                throw new NotImplementedException();
             }
             catch (Exception ex)
             {
-                logger.LogError(ex, "An error occurred while fetching all locations.");
-                return new List<LocationViewModel>();
+                logger.LogError(ex, "An error occurred while fetching all Inventories.");
+                return new List<InventoryViewModel>();
             }
         }
 

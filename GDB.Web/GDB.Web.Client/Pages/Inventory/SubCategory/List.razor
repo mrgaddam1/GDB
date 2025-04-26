@@ -1,5 +1,58 @@
-﻿<h3>List</h3>
+﻿@page "/inventory/subcategory/list"
+@using Blazorise.DataGrid
+@using GDB.Web.BLL.Interface
+@using GDB.Web.Shared.Inventory
+@using System.Globalization
+@using Radzen.Blazor
+
+@inject ISubCategoryService SubCategoryService
+@inject NavigationManager NavigationManager
+@rendermode @(new InteractiveServerRenderMode(prerender:false))
+
+
+<div class="col-lg-6">
+    <table>
+        <tr>
+            <td>
+                <h2>Subcategory</h2>
+            </td>
+            <td style="text-align:right;">
+                <button @onclick="Add" class="btn btn-primary">
+                    <i class="fa fa-plus" aria-hidden="true"></i>
+                    &nbsp;&nbsp;Add New
+                </button>
+            </td>
+        </tr>
+        <tr style="padding-top:-5px;vertical-align:top;">
+            <td colspan="2">
+                @if (subCategory != null)
+                {
+                    <RadzenDataGrid Data="subCategory" AllowFiltering="true" AllowPaging="true" AllowSorting="true" PageSize="20">
+                        <Columns>
+                            <RadzenDataGridColumn TItem="SubCategoryViewModel" Property="SubCategoryId" Title="Id" />                          
+                            <RadzenDataGridColumn TItem="SubCategoryViewModel" Property="CategoryDescription" Title="Category" />
+                            <RadzenDataGridColumn TItem="SubCategoryViewModel" Property="SubCategoryDescription" Title="SubCategory Description" />
+                        </Columns>
+                    </RadzenDataGrid>
+                }
+            </td>
+        </tr>
+    </table>
+</div>
 
 @code {
 
+    private List<SubCategoryViewModel> subCategory { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        subCategory = new List<SubCategoryViewModel>();
+        subCategory = await SubCategoryService.GetAll<List<SubCategoryViewModel>>();
+    }
+
+    private void Add()
+    {
+        NavigationManager.NavigateTo("/masterMaintenance/locations/add");
+    }
 }
+

@@ -29,24 +29,28 @@ namespace GDB.Web.DataAccess.Implementation
 
         public async Task<List<SubCategoryViewModel>> GetAll()
         {
+            var subCategoryViewModel = new List<SubCategoryViewModel>();
             try
             {
-                var subCategories = await DbContext.SubCategories
-                    .AsNoTracking()
-                    .OrderBy(x => x.SubCategoryName)
-                    .Select(x => new SubCategoryViewModel
-                    {
-                        SubCategoryId = x.SubCategoryId,
-                        SubCategoryDescription = x.SubCategoryName
-                    })
-                    .ToListAsync();
+                subCategoryViewModel = await (from sc in DbContext.SubCategories.AsNoTracking()
+                                           join c in DbContext.Categories.AsNoTracking()
+                                           on sc.CategoryId equals c.CategoryId
+                                           select new SubCategoryViewModel
+                                           {
+                                               SubCategoryId = sc.SubCategoryId,
+                                               SubCategoryDescription = sc.SubCategoryName,
+                                               CategoryId = sc.CategoryId,
+                                               CategoryDescription = c.CategoryName,
+                                           }
+                                           ).OrderBy(x => x.SubCategoryDescription).ToListAsync();
+                    
 
-                if (subCategories == null || subCategories.Count == 0)
+                if (subCategoryViewModel == null || subCategoryViewModel.Count == 0)
                 {
                     logger.LogInformation("No Subcategy data found in the database.");
                     return new List<SubCategoryViewModel>();
                 }
-                return subCategories;
+                return subCategoryViewModel;
             }
             catch (Exception ex)
             {

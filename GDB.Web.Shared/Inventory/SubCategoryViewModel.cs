@@ -10,6 +10,7 @@ namespace GDB.Web.Shared.Inventory
     {
         public int SubCategoryId { get; set; }
         public int CategoryId { get; set; }
+        public string CategoryDescription { get; set; }
         public string SubCategoryDescription { get; set; }
         public int UserId { get; set; }
     }
