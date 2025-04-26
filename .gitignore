@@ -269,3 +269,6 @@ GDB.Web/.vs/GDB.Web/v17/
 /GDB.Web/GDB.Web.Client/obj/Debug/net8.0/GDB.Web.Client.GeneratedMSBuildEditorConfig.editorconfig
 /GDB.Web/GDB.Web.DataAccess/obj/Debug/net8.0/GDB.Web.DataAccess.csproj.CoreCompileInputs.cache
 /GDB.Web.Shared/obj/Debug/net8.0/GDB.Web.Shared.csproj.CoreCompileInputs.cache
+/GDB.Web/GDB.Web/obj/Debug/net8.0/ApiEndpoints.json
+/GDB.Web/GDB.Web/obj/Debug/net8.0/GDB.Web.csproj.FileListAbsolute.txt
+/GDB.Web.Core/obj/Debug/net8.0/GDB.Web.Core.csproj.CoreCompileInputs.cache
