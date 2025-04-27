@@ -1,5 +1,57 @@
-﻿<h3>List</h3>
+﻿@page "/inventory/inventory/list"
+@using Blazorise.DataGrid
+@using GDB.Web.BLL.Interface
+@using GDB.Web.Shared.Inventory
+@using System.Globalization
+@using Radzen.Blazor
+
+@inject IInventoryService InventoryService
+@inject NavigationManager NavigationManager
+@rendermode @(new InteractiveServerRenderMode(prerender:false))
+
+
+<div class="row">
+    <div class="col-lg-6" align="left">
+        <h2>Inventory List</h2>
+    </div>
+    <div class="col-lg-6" align="right">
+        <button @onclick="Add" class="btn btn-primary">
+            <i class="fa fa-plus" aria-hidden="true"></i>
+            &nbsp;&nbsp;Add New
+        </button>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        @if (inventories != null)
+        {
+            <RadzenDataGrid Data="inventories" AllowFiltering="true" AllowPaging="true" AllowSorting="true" PageSize="20">
+                <Columns>
+                    <RadzenDataGridColumn TItem="InventoryViewModel" Property="InventoryId" Title="Id" />
+                    <RadzenDataGridColumn TItem="InventoryViewModel" Property="ProductName" Title="Product" Width="200" />
+                    <RadzenDataGridColumn TItem="InventoryViewModel" Property="Quantity" Title="Quantity" Width="200" />
+                    <RadzenDataGridColumn TItem="InventoryViewModel" Property="AvailableQuantity" Title="Available Quantity" Width="200" />
+                    <RadzenDataGridColumn TItem="InventoryViewModel" Property="FoodPackingTypeDescription" Title="Food Packing Type" Width="200" />
+                </Columns>
+            </RadzenDataGrid>
+        }
+    </div>
+</div>
 
 @code {
 
+    private List<InventoryViewModel> inventories { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        inventories = new List<InventoryViewModel>();
+        inventories = await InventoryService.GetAllInventoryStock<List<InventoryViewModel>>();
+    }
+
+    private void Add()
+    {
+        NavigationManager.NavigateTo("/masterMaintenance/locations/add");
+    }
 }
+

@@ -34,5 +34,7 @@ namespace GDB.Web.Shared
         public string? CustomerName { get; set; }
         public bool? StaterSelectedOrNot { get; set; }
         public decimal? TotalStaterPrice { get; set; }
+        public int? FoodPackingTypeId { get; set; }
+        public string FoodPackingTypeDescription { get; set; }
     }
 }

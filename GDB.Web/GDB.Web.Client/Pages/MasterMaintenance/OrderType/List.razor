@@ -9,7 +9,6 @@
 @inject NavigationManager NavigationManager
 @rendermode @(new InteractiveServerRenderMode(prerender:false))
 
-
 <div class="col-lg-6">
     <table>
         <tr>
@@ -31,6 +30,7 @@
                         <Columns>
                             <RadzenDataGridColumn TItem="OrdersTypeViewModel" Property="OrderTypeId" Title="Id" />
                             <RadzenDataGridColumn TItem="OrdersTypeViewModel" Property="OrderTypeName" Title="Order Type Name" />
+                            <RadzenDataGridColumn TItem="OrdersTypeViewModel" Property="FoodPackingTypeDescription" Title="FoodPacking Type Description" />
                         </Columns>
                     </RadzenDataGrid>
                 }

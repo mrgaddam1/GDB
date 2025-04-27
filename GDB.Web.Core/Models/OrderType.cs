@@ -8,4 +8,6 @@ public partial class OrderType
     public int OrderTypeId { get; set; }
 
     public string? OrderTypeName { get; set; }
+
+    public int? FoodPackingTypeId { get; set; }
 }
