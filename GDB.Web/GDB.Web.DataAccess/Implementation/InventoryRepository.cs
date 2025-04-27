@@ -29,9 +29,22 @@ namespace GDB.Web.DataAccess.Implementation
 
         public async Task<List<InventoryViewModel>> GetAll()
         {
+            var inventoryListData = new List<InventoryViewModel>();
             try
             {
-                throw new NotImplementedException();
+                inventoryListData = await (from i in DbContext.Inventories 
+                                           join p in DbContext.Products on i.ProductId equals p.ProductId
+                                           join f in DbContext.FoodPackingTypes on p.FoodPackingTypeId equals f.FoodPackingTypeId
+                                           select new InventoryViewModel
+                                           {
+                                               InventoryId = i.InventoryId,
+                                               ProductName = p.ProductName,                                             
+                                               Quantity = i.Quantity,
+                                               AvailableQuantity = i.AvailableQuantity,
+                                               FoodPackingTypeDescription = f.FoodPackingTypeDescription
+                                               
+                                           }).OrderBy(x=>x.InventoryId).ToListAsync();
+                return inventoryListData;
             }
             catch (Exception ex)
             {

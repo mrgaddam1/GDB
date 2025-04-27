@@ -25,9 +25,13 @@ public partial class GDBContext : DbContext
 
     public virtual DbSet<ExpensesAndSale> ExpensesAndSales { get; set; }
 
+    public virtual DbSet<FoodPackingType> FoodPackingTypes { get; set; }
+
     public virtual DbSet<Grocery> Groceries { get; set; }
 
     public virtual DbSet<Inventory> Inventories { get; set; }
+
+    public virtual DbSet<InventoryHistory> InventoryHistories { get; set; }
 
     public virtual DbSet<Location> Locations { get; set; }
 
@@ -131,6 +135,14 @@ public partial class GDBContext : DbContext
             entity.Property(e => e.TotalSales).HasColumnType("decimal(18, 2)");
         });
 
+        modelBuilder.Entity<FoodPackingType>(entity =>
+        {
+            entity.Property(e => e.FoodPackingTypeId).ValueGeneratedNever();
+            entity.Property(e => e.FoodPackingTypeDescription)
+                .HasMaxLength(255)
+                .IsUnicode(false);
+        });
+
         modelBuilder.Entity<Grocery>(entity =>
         {
             entity.ToTable("Grocery");
@@ -146,6 +158,16 @@ public partial class GDBContext : DbContext
 
             entity.Property(e => e.CreatedDate).HasColumnType("datetime");
             entity.Property(e => e.ModifiedDate).HasColumnType("datetime");
+        });
+
+        modelBuilder.Entity<InventoryHistory>(entity =>
+        {
+            entity.ToTable("InventoryHistory");
+
+            entity.Property(e => e.CreatedDate).HasColumnType("datetime");
+            entity.Property(e => e.UserId)
+                .HasMaxLength(10)
+                .IsFixedLength();
         });
 
         modelBuilder.Entity<Location>(entity =>

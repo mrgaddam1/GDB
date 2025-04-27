@@ -17,6 +17,8 @@ public partial class Order
 
     public int? OrderTypeId { get; set; }
 
+    public int? FoodPackingTypeId { get; set; }
+
     public DateTime? OrderDate { get; set; }
 
     public int? Quantity { get; set; }

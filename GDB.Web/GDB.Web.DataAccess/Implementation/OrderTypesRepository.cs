@@ -21,11 +21,14 @@ namespace GDB.Web.DataAccess.Implementation
         public async Task<List<OrdersTypeViewModel>> GetAllOrderTypes()
         {
              var orderTypesData = new List<OrdersTypeViewModel>();
-            orderTypesData = await(from o in DbContext.OrderTypes
+            orderTypesData = await(from o in DbContext.OrderTypes join p in DbContext.FoodPackingTypes
+                                   on o.FoodPackingTypeId equals p.FoodPackingTypeId
                                   select new OrdersTypeViewModel
                                   {
                                       OrderTypeId = o.OrderTypeId,
-                                      OrderTypeName = o.OrderTypeName
+                                      OrderTypeName = o.OrderTypeName,
+                                      FoodPackingTypeId = o.FoodPackingTypeId,
+                                      FoodPackingTypeDescription  = p.FoodPackingTypeDescription
                                   }).OrderBy(x => x.OrderTypeName).ToListAsync();
 
             return orderTypesData;

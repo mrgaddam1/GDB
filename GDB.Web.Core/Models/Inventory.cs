@@ -15,6 +15,8 @@ public partial class Inventory
 
     public int Quantity { get; set; }
 
+    public int? AvailableQuantity { get; set; }
+
     public DateTime? CreatedDate { get; set; }
 
     public DateTime? ModifiedDate { get; set; }

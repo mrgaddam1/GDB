@@ -10,5 +10,7 @@ namespace GDB.Web.Shared
     {
         public int OrderTypeId { get; set; }
         public string OrderTypeName { get; set; }
+        public int? FoodPackingTypeId { get; set; }
+        public string FoodPackingTypeDescription { get; set; }
     }
 }

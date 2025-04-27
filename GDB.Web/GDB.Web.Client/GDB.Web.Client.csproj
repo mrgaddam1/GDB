@@ -9,6 +9,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Pages\MasterMaintenance\OrderTypes\**" />
+    <Content Remove="Pages\MasterMaintenance\OrderTypes\**" />
+    <EmbeddedResource Remove="Pages\MasterMaintenance\OrderTypes\**" />
+    <None Remove="Pages\MasterMaintenance\OrderTypes\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Blazored.SessionStorage" Version="2.4.0" />
     <PackageReference Include="Blazorise" Version="1.7.5" />
     <PackageReference Include="Blazorise.Bootstrap5" Version="1.7.5" />
@@ -26,10 +33,6 @@
   <ItemGroup>
     <ProjectReference Include="..\..\GDB.Web.Shared\GDB.Web.Shared.csproj" />
     <ProjectReference Include="..\GDB.Web.BLL\GDB.Web.BLL.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Pages\MasterMaintenance\OrderTypes\" />
   </ItemGroup>
 
 </Project>
