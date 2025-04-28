@@ -22,9 +22,28 @@ namespace GDB.Web.DataAccess.Implementation
             DbContext = _DbContext;
             logger = _logger;
         }
-        public Task<bool> Add(SubCategoryViewModel subCategoryViewModel)
+        public async Task<bool> Add(SubCategoryViewModel subCategoryViewModel)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var subCategory = new SubCategory
+                {
+                    UserId = 1,
+                    CategoryId = subCategoryViewModel.CategoryId,
+                    SubCategoryName = subCategoryViewModel.SubCategoryDescription,
+                    CreatedDate = DateTime.UtcNow,
+                    Modifieddate = null
+                };
+                DbContext.SubCategories.Add(subCategory);
+                await DbContext.SaveChangesAsync();
+                return true;
+
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex.Message, "An error occured while processing the request.");
+                return false;
+            }
         }
 
         public async Task<List<SubCategoryViewModel>> GetAll()
