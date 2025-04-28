@@ -1,7 +1,7 @@
 ﻿@page "/inventory/index"
 
 
-<div class="row">
+@* <div class="row">
     <ul class="menu" style="width:100%;">
         <li>
             <NavLink href="/inventory/category/list" class="menu-item" ActiveClass="active">Category</NavLink>
@@ -15,12 +15,29 @@
         <li>
             <NavLink href="/inventory/inventory/list" class="menu-item" ActiveClass="active">Inventory</NavLink>
         </li>
-        
+
+    </ul>
+</div> *@
+
+<div style="width:100%;">
+    <ul class="nav-menu">     
+        <li> 
+            <NavLink href="/inventory/category/list" activeClass="active">Category</NavLink> 
+            </li>
+        <li>
+            <NavLink href="/inventory/subcategory/list" activeClass="active" Match="NavLinkMatch.Prefix">SubCategory</NavLink>
+        </li>
+        <li> 
+            <NavLink href="/inventory/product/list" activeClass="active">Products</NavLink> 
+         </li>
+        <li> 
+            <NavLink href="/inventory/inventory/list" activeClass="active">Inventory</NavLink>        
+        </li>
     </ul>
 </div>
 
 
 @code {
 
-    
+
 }
