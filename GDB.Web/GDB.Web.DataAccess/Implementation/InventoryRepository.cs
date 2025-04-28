@@ -24,7 +24,28 @@ namespace GDB.Web.DataAccess.Implementation
         }
         public async Task<bool> Add(InventoryViewModel inventoryViewModel)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var inventory = new Inventory
+                {
+                    UserId = 1,
+                    ProductId = inventoryViewModel.ProductId,
+                    WeekId = inventoryViewModel.WeekId,
+                    Quantity = inventoryViewModel.Quantity,
+                    AvailableQuantity = inventoryViewModel.AvailableQuantity,
+                    CreatedDate = DateTime.UtcNow,
+                    ModifiedDate = null
+                };
+                DbContext.Inventories.Add(inventory);
+                await DbContext.SaveChangesAsync();
+                return true;
+
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex.Message, "An error occured while processing the request.");
+                return false;
+            }
         }
 
         public async Task<List<InventoryViewModel>> GetAll()

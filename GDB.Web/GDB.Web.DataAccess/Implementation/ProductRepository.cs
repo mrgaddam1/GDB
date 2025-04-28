@@ -22,9 +22,34 @@ namespace GDB.Web.DataAccess.Implementation
             DbContext = _DbContext;
             logger = _logger;
         }
-        public Task<bool> Add(ProductViewModel productViewModel)
+        public async Task<bool> Add(ProductViewModel productViewModel)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var product = new Product
+                {
+                    UserId = 1,
+                    CategoryId = productViewModel.CategoryId,
+                    SubcategoryId = productViewModel.SubCategoryId,
+                    ProductName = productViewModel.ProductName,
+                    VendorId = productViewModel.VendorId,
+                    FoodPackingTypeId = productViewModel.FoodPackingTypeId,
+                    Quantity = productViewModel.Quantity,
+                    ProductPrice = productViewModel.ProductPrice,
+                    PurchasedDate = productViewModel.PurchasedDate,
+                    CreatedDate = DateTime.UtcNow,
+                    Modifieddate = null
+                };
+                DbContext.Products.Add(product);
+                await DbContext.SaveChangesAsync();
+                return true;
+
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex.Message, "An error occured while processing the request.");
+                return false;
+            }
         }
 
         public async Task<List<ProductViewModel>> GetAll()

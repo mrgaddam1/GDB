@@ -60,7 +60,7 @@ namespace GDB.Web.DataAccess.Implementation
                                 join c in DbContext.Customers on o.CustomerId equals c.CustomerId
                                 join a in DbContext.AdvertiseSources on c.AdvertiseSourceId equals a.AdvertiseId
                                 join l in DbContext.Locations on c.LocationId equals l.LocationId
-                       
+                                
                                 join p in DbContext.PaymentTypes on o.PaymentTypeId equals p.PaymentTypeId into paymentGroup
                                 from p in paymentGroup.DefaultIfEmpty()
 
@@ -83,7 +83,8 @@ namespace GDB.Web.DataAccess.Implementation
                                     OrderDate = o.OrderDate.Value.Date,
                                     PaymentType = p.PaymentTypeDescription,
                                     WeekId = o.WeekId,
-               
+                                    FoodPackingTypeId = o.FoodPackingTypeId,
+
                                 }).OrderByDescending(x=>x.WeekId)
                                   .ThenBy(x => x.AmountPaid == false || x.AmountPaid == null)
                                   .ThenBy(x => x.AmountPaid == true)

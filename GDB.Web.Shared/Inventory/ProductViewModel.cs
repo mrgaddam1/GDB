@@ -15,11 +15,13 @@ namespace GDB.Web.Shared.Inventory
         public int VendorId { get; set; }
         public int Quantity { get; set; }
         public decimal ProductPrice{ get; set; }
-        public string ProductName { get; set; }
-        public string CategoryName { get; set; }
-        public string SubCategoryName { get; set; }
-        public string VendorName { get; set; }
+        public string? ProductName { get; set; }
+        public string? CategoryName { get; set; }
+        public string? SubCategoryName { get; set; }
+        public string? VendorName { get; set; }
         public DateTime PurchasedDate { get; set; }
+        public int FoodPackingTypeId { get; set; }
+        public string? FoodPackingTypeDescription { get; set; }
 
     }
 }

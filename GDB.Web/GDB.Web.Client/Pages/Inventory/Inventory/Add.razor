@@ -1,5 +1,171 @@
-﻿<h3>Add</h3>
+﻿@page "/inventory/inventory/add"
+@using GDB.Web.BLL.Interface
+@using GDB.Web.Shared
+@using GDB.Web.Shared.Inventory
+@inject IInventoryService InventoryService
+@inject IProductService ProductService
+@inject NavigationManager NavigationManager
+@inject ILogger<Add> Logger
+@rendermode @(new InteractiveAutoRenderMode(prerender:false))
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-8 mx-auto">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    Add Inventory
+                </div>
+                <div class="card-body">
+                    <div class="col-lg-12">
+                        <EditForm Model="@inventoryViewModel" OnValidSubmit="HandleValidSubmit">
+                            @if (errorMessages != null)
+                            {
+                                @foreach (var message in errorMessages)
+                                {
+                                    if (!string.IsNullOrEmpty(message))
+                                    {
+                                        <ul class="alert alert-danger mt-3 text-left">
+                                            <li>@message</li>
+                                        </ul>
+                                    }
+                                }
+                            }
+                            <div class="row rowMargin">
+                                <div class="col-sm-3">
+                                    Product
+                                </div>
+                                <div class="col-sm-6">
+                                    <select style="width:250px;font-size:13px;"
+                                    @onchange="OnProductSelectionIndexChanged"
+                                    id="ddlProducts"
+                                    name="ProductId"
+                                    class="form-select">
+                                        <option>@ProductInitialText</option>
+                                        @if (productViewModel != null)
+                                        {
+                                            @foreach (var item in productViewModel)
+                                            {
+                                                <option value="@item.ProductId">@item.ProductName</option>
+                                            }
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row rowMargin">
+                                <div class="col-sm-3">
+                                    Quantity
+                                </div>
+                                <div class="col-sm-6">
+                                    <InputNumber @bind-Value="inventoryViewModel.Quantity" style="color:red;" class="form-control" />
+                                </div>
+                            </div>
+
+                            <div class="row rowMargin">
+                                <div class="col-sm-3">
+                                    Quantity
+                                </div>
+                                <div class="col-sm-6">
+                                    <InputNumber @bind-Value="inventoryViewModel.AvailableQuantity" style="color:red;" class="form-control" />
+                                </div>
+                            </div>
+
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                            </div>
+                            @if (!string.IsNullOrEmpty(successMessage))
+                            {
+                                <div class="alert alert-success mt-3 text-center">@successMessage</div>
+                            }
+                        </EditForm>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 
 @code {
+    private InventoryViewModel inventoryViewModel = new InventoryViewModel();
+    private string[] errorMessages;
+    private string successMessage = string.Empty;
+    public IEnumerable<ProductViewModel> productViewModel;
+
+    public string ProductInitialText { get; set; } = "---Select Product---";
+
+    protected override async Task OnInitializedAsync()
+    {
+        productViewModel = await ProductService.GetAll<List<ProductViewModel>>();
+
+    }
+    private async Task OnProductSelectionIndexChanged(ChangeEventArgs e)
+    {
+        inventoryViewModel.ProductId= Convert.ToInt32(e.Value.ToString());
+        var selectedProduct = productViewModel.FirstOrDefault(p => p.ProductId == inventoryViewModel.ProductId);
+        if (selectedProduct != null)
+        {
+            inventoryViewModel.Quantity = selectedProduct.Quantity;
+            inventoryViewModel.AvailableQuantity = selectedProduct.Quantity; 
+        }
+        StateHasChanged();
+    }
+
+    private async void HandleValidSubmit()
+    {
+        errorMessages = Validations(inventoryViewModel);
+        string validations = string.Join(" ", errorMessages);
+        if ((validations == null) || (validations == ""))
+        {
+            inventoryViewModel.WeekId = 0;
+            var response = await InventoryService.Add(inventoryViewModel);
+            if (response.Value)
+            {
+                Logger.LogInformation("Inventory details are added successfully.");
+                successMessage = "Inventory details submitted successfully!";
+                Reset();
+            }
+            else
+            {
+                Logger.LogInformation("Unable to add Inventory.");
+                successMessage = "Unable to create new Inventory.";
+            }
+        }
+        else
+        {
+            validations = "";
+        }
+    }
+
+    private async void Reset()
+    {
+        inventoryViewModel = new InventoryViewModel();
+        errorMessages = [];
+        StateHasChanged();
+    }
+
+    private string[] Validations(InventoryViewModel inventoryViewModel)
+    {
+        string[] result;
+        string validationMessage = "";
+        if ((inventoryViewModel.ProductId == null) || (inventoryViewModel.ProductId == 0))
+        {
+            validationMessage = "Product Name: Please select Product Name";
+        }
+        if ((inventoryViewModel.Quantity == null) || (inventoryViewModel.Quantity == 0))
+        {
+            validationMessage = validationMessage != null ? validationMessage +
+                                ", " + Environment.NewLine + "Quantity: Please enter Quantity"
+                                : "Quantity: Please enter Quantity";
+        }
+        if ((inventoryViewModel.AvailableQuantity == null) || (inventoryViewModel.AvailableQuantity == 0))
+        {
+            validationMessage = validationMessage != null
+                                ? validationMessage + ", " + Environment.NewLine + "AvailableQuantity: Please enter AvailableQuantity"
+                                : "AvailableQuantity: Please enter AvailableQuantity";
+        }         
+        return result = validationMessage.Split(',').Select(s => s.Trim()).ToArray();
+    }
+
 
 }

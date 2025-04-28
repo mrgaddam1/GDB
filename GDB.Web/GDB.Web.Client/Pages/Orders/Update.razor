@@ -215,6 +215,7 @@
     {
         ordersViewModel = await OrderService.GetAllOrders<List<OrdersViewModel>>();
         order = ordersViewModel.ToList().Find(x => x.OrderId == orderId);
+        
         paymentTypeViewModel = await PaymentTypeService.GetAllPaymentTypes<List<PaymentTypeViewModel>>();
     }
 

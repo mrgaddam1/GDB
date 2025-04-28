@@ -73,10 +73,10 @@
                                 </div>
                                 <div class="col-md-4">
                                     <select style="width:250px;font-size:13px;"
-                                            @onchange="OnStaterSelectionIndexChanged"
-                                            id="ddlStarters"
-                                            name="StaterId"
-                                            class="form-select">
+                                    @onchange="OnStaterSelectionIndexChanged"
+                                    id="ddlStarters"
+                                    name="StaterId"
+                                    class="form-select">
                                         <option>@StatersInitialText</option>
                                         @if (statersViewModelData != null)
                                         {
@@ -95,8 +95,8 @@
                                 <div class="col-md-4">
                                     <InputNumber @bind-Value="order.SelectedStaterPrice" style="width:250px" readonly class="form-control textRed" />
                                 </div>
-                                                             
-                                
+
+
                             </div>
 
 
@@ -106,10 +106,10 @@
                                 </div>
                                 <div class="col-md-4">
                                     <select style="width:250px;font-size:13px;"
-                                            @onchange="OnStaterQuantitySelectionIndexChanged"
-                                            id="ddlStaterItems"
-                                            name="StaterItems"
-                                            class="form-select">
+                                    @onchange="OnStaterQuantitySelectionIndexChanged"
+                                    id="ddlStaterItems"
+                                    name="StaterItems"
+                                    class="form-select">
                                         <option value="0">@StaterQuantityInitialText</option>
                                         <option value="10">10</option>
                                         <option value="15">15</option>
@@ -128,7 +128,7 @@
                                     <InputNumber @bind-Value="order.TotalStaterPrice" style="width:250px" readonly class="form-control textRed" />
                                 </div>
 
-                               
+
                             </div>                             
 
                             <div class="row rowMargin">
@@ -138,10 +138,10 @@
                                 </div>
                                 <div class="col-md-4">
                                     <select style="width:250px;font-size:13px;"
-                                            @onchange="OnOrderTypeSelectionIndexChanged"
-                                            id="ddlOrderTypes"
-                                            name="OrderTypeId"
-                                            class="form-select">
+                                    @onchange="OnOrderTypeSelectionIndexChanged"
+                                    id="ddlOrderTypes"
+                                    name="OrderTypeId"
+                                    class="form-select">
                                         <option>@OrderTypesInitialText</option>
                                         @if (orderTypesViewModelData != null)
                                         {
@@ -159,7 +159,7 @@
                                 <div class="col-md-4">
                                     <InputDate @bind-Value="order.OrderDate" style="width:250px" class="form-control" />
                                 </div>
-                                
+
                             </div>
 
                             <div class="row rowMargin">
@@ -188,7 +188,7 @@
                                         <option value="5">5</option>                                      
                                     </select>
                                 </div>
-                               
+
                             </div>
 
 
@@ -209,7 +209,7 @@
                                         @(order.AmountPaid ?? false)
                                     </label>
                                 </div>
-                                
+
                             </div>                          
 
                             <div class="row rowMargin">
@@ -218,10 +218,10 @@
                                 </div>
                                 <div class="col-md-4">
                                     <select style="width:250px;font-size:13px;"
-                                            @onchange="OnPaymentTypeSelectionIndexChanged"
-                                            id="ddlPaymentType"
-                                            name="OrderItem"
-                                            class="form-select">
+                                    @onchange="OnPaymentTypeSelectionIndexChanged"
+                                    id="ddlPaymentType"
+                                    name="OrderItem"
+                                    class="form-select">
                                         <option>@PaymentTypeInitialText</option>
                                         @if (paymentTypeViewModel != null)
                                         {
@@ -238,7 +238,7 @@
                                 <div class="col-md-4">
                                     <InputDate @bind-Value="order.AmountPaidDate" style="width:250px" class="form-control" />
                                 </div>
-                                
+
                             </div>
 
 
@@ -295,7 +295,7 @@
     public string OrderTypesInitialText { get; set; } = "---Select Order Type---";
     public string QuantityInitialText { get; set; } = "---Select Quantity---";
     public string PaymentTypeInitialText { get; set; } = "---Select Payment Type---";
-   
+
     public IEnumerable<CustomerViewModel> customersViewModelData;
     public IEnumerable<OrderTypesViewModel> orderTypesViewModelData;
     public IEnumerable<StatersViewModel> statersViewModelData;
@@ -329,7 +329,7 @@
                 Logger.LogInformation("Order details are added successfully.");
                 successMessage = "Order details submitted successfully!";              
                 Reset();
-                
+
                 await BindData();
             }
             else
@@ -360,15 +360,22 @@
     {
         order.OrderTypeId = Convert.ToInt32(e.Value.ToString());
         order.Amount = await OrdersTypeService.GetOrderTypePriceByOrderType(Convert.ToInt32(e.Value.ToString()));
+        var orderTypesData = await OrdersTypeService.GetAllOrderTypes<List<OrderTypesViewModel>>();
+        if (orderTypesData!=null)
+        {
+            var orderType = orderTypesData.FirstOrDefault(x => x.OrderTypeId == order.OrderTypeId);
+            if (orderType != null)
+            {
+                order.FoodPackingTypeId = orderType.FoodPackingTypeId;              
+            }
+        }
         StateHasChanged();
     }
 
     private async Task OnStaterQuantitySelectionIndexChanged(ChangeEventArgs e)
     {
         order.TotalStaterPrice = Convert.ToDecimal(order.SelectedStaterPrice) *
-                                    Convert.ToDecimal(e.Value.ToString());
-        //order.OrderTypeId = Convert.ToInt32(e.Value.ToString());
-        //order.Amount = await OrdersTypeService.GetOrderTypePriceByOrderType(Convert.ToInt32(e.Value.ToString()));
+                                    Convert.ToDecimal(e.Value.ToString());        
         StateHasChanged();
     }
 
