@@ -33,77 +33,38 @@
         </div>
     </div>
 </div>
-
 <div class="row">
-    <ul class="menu" style="width:100%;">
-        <li>
-            <NavLink href="/home/dashboard" class="menu-item" ActiveClass="active">Home</NavLink>
-        </li>
-        <li>
-            <NavLink href="customers/list" class="menu-item" ActiveClass="active">Customers</NavLink>
-        </li>
-        <li>
-            <NavLink href="expenses/list" class="menu-item" ActiveClass="active">Expenses</NavLink>
-        </li>
-        <li>
-            <NavLink href="orders/ordersList" class="menu-item" ActiveClass="active">Orders</NavLink>
-        </li>
-        <li>
-            <NavLink href="accounts/list" class="menu-item" ActiveClass="active">Accounts</NavLink>
-        </li>
-        <li>
-            <NavLink href="inventory/index" class="menu-item" ActiveClass="active">Inventory</NavLink>
-        </li>
-        <li>
-            <NavLink href="masterMaintenace/index" class="menu-item" ActiveClass="active">Maintenance</NavLink>
-        </li>
-        <li>
-            <NavLink href="reports/reportsHome" class="menu-item" ActiveClass="active">Reports</NavLink>
-        </li>
-        <li>
-            <NavLink href="salesPrediction/sales" class="menu-item" ActiveClass="active">Sales Prediction</NavLink>
-        </li>
-
-        <li>
-            <NavLink href="sms/sendMessages" class="menu-item" ActiveClass="active">Send Messages</NavLink>
-        </li>
-    </ul>
+    <div class="100%;">
+        <ul class="nav-menu">
+            <li>
+                <NavLink href="/home/dashboard" activeClass="active">Home</NavLink>
+            </li>
+            <li>
+                <NavLink href="customers/list" activeClass="active">Customers</NavLink>
+            </li>
+            <li>
+                <NavLink href="expenses/list" activeClass="active">Expenses</NavLink>
+            </li>
+            <li>
+                <NavLink href="orders/ordersList" activeClass="active">Orders</NavLink>
+            </li>
+            <li>
+                <NavLink href="accounts/list" activeClass="active">Accounts</NavLink>
+            </li>
+            <li>
+                <NavLink href="/inventory/index" activeClass="active">Inventory</NavLink>
+            </li>
+            <li>
+                <NavLink href="reports/reportsHome" activeClass="active">Reports</NavLink>
+            </li>
+            <li> <NavLink href="/masterMaintenace/index" activeClass="active">Master Maintenance</NavLink></li>
+            <li>
+                <NavLink href="salesPrediction/sales" class="menu-item" ActiveClass="active">Sales Prediction</NavLink>
+            </li>
+            <li>
+                <NavLink href="sms/sendMessages" class="menu-item" ActiveClass="active">Send Messages</NavLink>
+            </li>
+        </ul>
+    </div>
 </div>
-
-<style type="text/css">
-
-    /* Spinner */
-    .spinner {
-        width: 200px;
-        height: 200px;
-        border: 3px solid rgba(255, 255, 255, 0.3);
-        border-top: 3px solid white;
-        border-radius: 50%;
-        display: inline-block;
-        animation: spin 1s linear infinite;
-        margin-right: 5px;
-    }
-
-    /* Spinner Animation */
-
-    .menu {
-        list-style-type: none;
-        padding: 0;
-        margin: 0;
-        display: flex;
-        background-color: lightgrey;
-        width: 100%;
-        color: dimgray;
-    }
-
-    .menu-item {
-        display: block;
-        padding: 10px 20px;
-        color: dimgray;
-        text-decoration: none;
-    }
-
-        .menu-item:hover {
-            background-color: whitesmoke;
-        }
-</style>
+  

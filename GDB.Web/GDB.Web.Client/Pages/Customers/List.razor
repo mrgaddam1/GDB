@@ -25,7 +25,7 @@
     <div class="col-lg-12">
         @if (customerViewModel != null)
         {
-            <RadzenDataGrid class="radzen-grid"
+            <RadzenDataGrid class="radzen-grid radgen-grid-font"
                 Data="@customerViewModel"
                 TItem="CustomerViewModel"
                 EditMode="Radzen.DataGridEditMode.Single" 
@@ -146,35 +146,4 @@
 
 }
 
-  @*   <style type="text/css">
-    /* Style entire grid */
-    .rz-datatable {
-        font-family: 'Segoe UI', sans-serif;
-        border: 1px solid #ccc;
-    }
-
-    /* Header background */
-    .rz-datatable-header {
-        background-color: dodgerblue;
-        font-weight: bold;
-        color: white !important;
-    }
-
-    /* Cell padding and text */
-    .rz-cell-data {
-        padding: 10px;
-        color: #333;
-    }
-
-    /* Row hover effect */
-    .rz-datatable-body tr:hover {
-        background-color: #e6f7ff;
-    }
-
-    /* Paginator customization */
-    .rz-paginator {
-        background-color: #fafafa;
-        padding: 10px;
-    }
-    
-    </style> *@
+ 

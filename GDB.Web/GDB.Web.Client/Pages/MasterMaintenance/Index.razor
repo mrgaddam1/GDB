@@ -1,6 +1,37 @@
 ﻿@page "/masterMaintenace/index"
 
-<div class="container">
+<div style="width:100%;">
+    <ul class="nav-menu">
+
+        <li>
+            <NavLink href="/masterMaintenance/advertiseSource/list" activeClass="active">AdvertiseSource</NavLink>
+        </li>
+        <li>
+            <NavLink href="/masterMaintenance/grocery/list" activeClass="active" Match="NavLinkMatch.Prefix">Grocery</NavLink>
+        </li>
+        <li>
+            <NavLink href="/masterMaintenance/locations/list" activeClass="active">Location</NavLink>
+        </li>
+        <li>
+            <NavLink href="/masterMaintenance/orderType/list" activeClass="active">OrderType</NavLink>
+        </li>
+
+        <li>
+            <NavLink href="/masterMaintenance/store/list" activeClass="active">Store</NavLink>
+        </li>
+        <li>
+            <NavLink href="#" activeClass="active">Staters</NavLink>
+        </li>
+        <li>
+            <NavLink href="#" activeClass="active">OrderType Prices</NavLink>
+        </li>
+         
+    </ul>
+</div>
+
+
+
+@* <div class="container">
     <div class="row rowstyle">
         <div class="col col1BackGround boxborder">
             <a href="masterMaintenance/advertiseSource/list" class="anchorTag">AdvertiseSource</a>
@@ -147,4 +178,4 @@
         outline: 0;
         box-shadow: 0 0 0 .25rem rgba(13,110,253,.25)
     }
-</style>
+</style> *@
