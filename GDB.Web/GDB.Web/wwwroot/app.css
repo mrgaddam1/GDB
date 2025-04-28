@@ -195,3 +195,6 @@ display: block; /* Keep sub-menu visible */
 .radgen-grid-font {
     font-size: 13px;
 }
+.rowMargin {
+    margin-bottom: 10px;
+}

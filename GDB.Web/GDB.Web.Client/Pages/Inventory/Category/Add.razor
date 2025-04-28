@@ -1,5 +1,106 @@
-﻿<h3>Add</h3>
+﻿@page "/inventory/category/add"
+@using GDB.Web.BLL.Interface
+@using GDB.Web.Shared.Inventory
+
+@inject ICategoryService CategoryService
+@inject NavigationManager NavigationManager
+@inject ILogger<Add> Logger
+@rendermode @(new InteractiveAutoRenderMode(prerender:false))
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-8 mx-auto">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    Add new Category
+                </div>
+                <div class="card-body">
+                    <div class="col-lg-12">
+                        <EditForm Model="@category" OnValidSubmit="HandleValidSubmit">
+                            @if (errorMessages != null)
+                            {
+                                if (!string.IsNullOrEmpty(errorMessages))
+                                {
+                                    <ul class="alert alert-danger mt-3 text-left">
+                                        <li>@errorMessages</li>
+                                    </ul>
+                                }
+                            }
+                            <div class="row rowMargin">
+                                <div class="col-sm-3">
+                                    Category Name
+                                </div>
+                                <div class="col-sm-6">
+                                    <InputText @bind-Value="category.CategoryDescription" class="form-control" />
+                                </div>
+                            </div>
+
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-primary">Save</button>
+                            </div>
+                            @if (!string.IsNullOrEmpty(successMessage))
+                            {
+                                <div class="alert alert-success mt-3 text-center">@successMessage</div>
+                            }
+                        </EditForm>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 @code {
+    private CategoryViewModel category = new();
+    private string errorMessages;
+    private string successMessage = string.Empty;
 
+    private async void HandleValidSubmit()
+    {
+        errorMessages = Validations(category);
+
+        if ((errorMessages == null) || (errorMessages == ""))
+        {
+            var response = await CategoryService.Add(category);
+            if (response.Value)
+            {
+                Logger.LogInformation("New Category added successfully.");
+                successMessage = "New Category added  successfully!";
+                Reset();
+            }
+            else
+            {
+                Logger.LogInformation("Unable to add new Category.");
+                successMessage = "Unable to add new Category.";
+            }
+        }
+        else
+        {
+            //validations = "";
+        }
+    }
+
+    private async void Reset()
+    {
+        category = new CategoryViewModel();
+        errorMessages = "";
+        StateHasChanged();
+    }
+
+    private string Validations(CategoryViewModel categoryViewModel)
+    {
+        string validationMessage = "";
+        if (categoryViewModel.CategoryDescription == null)
+        {
+            validationMessage = "Category Name: Please enter Category Name";
+        }
+        return validationMessage;
+    }
 }
+<style type="text/css">
+    .rowMargin {
+        margin-bottom: 10px;
+    }
+</style>
+
