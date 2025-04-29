@@ -3,6 +3,7 @@ using GDB.Web.Common.Helpers;
 using GDB.Web.Core.Models;
 using GDB.Web.DataAccess.Interface;
 using GDB.Web.Shared;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
@@ -36,20 +37,18 @@ namespace GDB.Web.DataAccess.Implementation
 
             if (numberOfDays > 0)
             {               
-                maxWeekId = weekData.WeekNumber.Value;
+                maxWeekId = weekData.WeekNumber.Value + 1;
 
                 weekData.WeekNumber = weekData.WeekNumber.Value + 1;
                 weekData.WeekDate = System.DateTime.Now;
                 
                 DbContext.WeekData.Update(weekData);
-                DbContext.SaveChanges();
-                maxWeekId++;
+                DbContext.SaveChanges();                
             }
             else
             {
                 maxWeekId = weekData.WeekNumber.Value;
             }
-
             
             return maxWeekId;
         }
@@ -94,50 +93,55 @@ namespace GDB.Web.DataAccess.Implementation
         }
         public async Task<bool> Add(OrdersViewModel ordersViewModel)
         {
+            string message = string.Empty;
+            bool orderStatus = false;
+
             try
             {
-                var order = new Order
+              
+                var sqlParameters = new List<SqlParameter>
                 {
-                    UserId = 1,
-                    CustomerId = ordersViewModel.CustomerId,
-                    StaterId = ordersViewModel.StaterId,
-                    OrderTypeId = ordersViewModel.OrderTypeId,
-                    Quantity = ordersViewModel.Quantity,
-                    Amount = ordersViewModel.Amount,
-                    AmountPaid = ordersViewModel.AmountPaid,
-                    AmountPaidDate = ordersViewModel.AmountPaidDate,
-                    CreatedDate = System.DateTime.Now,
-                    WeekId = ordersViewModel.WeekId,
-                    OrderDate = ordersViewModel.OrderDate
+                    new SqlParameter("@UserId", 1),
+                    new SqlParameter("@WeekId", ordersViewModel.WeekId),
+                    new SqlParameter("@CustomerId", ordersViewModel.CustomerId),
+                    new SqlParameter("@StaterId", ordersViewModel.StaterId),
+                    new SqlParameter("@StaterQuantity", ordersViewModel.StaterQuantity),
+                    new SqlParameter("@TotalStaterPrice", ordersViewModel.SelectedStaterPrice),
+                    new SqlParameter("@OrderTypeId", ordersViewModel.OrderTypeId),
+                    new SqlParameter("@OrderDate", System.DateTime.Now),
+                    new SqlParameter("@Quantity", ordersViewModel.Quantity),
+                    new SqlParameter("@Amount", ordersViewModel.Amount),
+                   
                 };
-                DbContext.Orders.Add(order);
-                
-                if(ordersViewModel.StaterId != null || ordersViewModel.StaterId !=null)
+
+                var data = DataHelper.GetData(DbContext.Database.GetDbConnection(), "Udp_Orders_Save_Orders", sqlParameters.ToArray());
+
+                if (data.Rows.Count > 0)
                 {
-                    var orderStater = new OrderStater
+                    message = data.Rows[0]["Transaction_Message"].ToString();
+                    if (message == "Data inserted successfully.")
                     {
-                        CustomerId = ordersViewModel.CustomerId,
-                        UserId = 1,
-                        StaterId = ordersViewModel.StaterId ?? 0,
-                        Quantity = ordersViewModel.Quantity ?? 0,
-                        TotalAmount = ordersViewModel.TotalStaterPrice ?? 0,
-                        CreatedDate = System.DateTime.Now,
-                        WeekId = ordersViewModel.WeekId ?? 0
-                    };
-                    DbContext.OrderStaters.Add(orderStater);
+                        logger.LogInformation(message);
+                        orderStatus = true;
+                    }
+                    else if (message == "Product Available quantity is 0 - Data inserted successfully.")
+                    {
+                        logger.LogInformation(message);
+                        orderStatus = true;
+                    }
+                    else if (message == "Unable to process transaction.")
+                    {
+                        logger.LogInformation(message);
+                        orderStatus = false;
+                    }
                 }
-                
-
-                
-                await DbContext.SaveChangesAsync();
-
-                return true;
+                return orderStatus;
 
             }
             catch (Exception ex) 
             {
                 logger.LogError(ex.Message,"An error occured while processing the request.");
-                return false;
+                return orderStatus;
             }            
         }
 
