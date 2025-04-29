@@ -111,13 +111,13 @@
                                     name="StaterItems"
                                     class="form-select">
                                         <option value="0">@StaterQuantityInitialText</option>
-                                        <option value="10">10</option>
-                                        <option value="15">15</option>
-                                        <option value="20">20</option>
-                                        <option value="25">25</option>
-                                        <option value="30">30</option>
-                                        <option value="35">35</option>
-                                        <option value="40">40</option>
+                                        @if (staterQuantitylist != null)
+                                        {
+                                            @foreach (var item in staterQuantitylist)
+                                            {
+                                                <option value="@item.StaterQuantity">@item.StaterQuantity</option>
+                                            }
+                                        }
                                     </select>
                                 </div>
 
@@ -300,6 +300,7 @@
     public IEnumerable<OrderTypesViewModel> orderTypesViewModelData;
     public IEnumerable<StatersViewModel> statersViewModelData;
     public IEnumerable<PaymentTypeViewModel> paymentTypeViewModel;
+    public List<StaterQuantityViewModel> staterQuantitylist = new List<StaterQuantityViewModel>();
 
     protected override async Task OnInitializedAsync()
     {
@@ -312,6 +313,7 @@
         statersViewModelData = await StaterService.GetAllStaters<List<StatersViewModel>>();
         paymentTypeViewModel = await PaymentTypeService.GetAllPaymentTypes<List<PaymentTypeViewModel>>();
         order.WeekId = await orderService.GetMaxWeekId<int>();
+        GetStaterQuantityDetails();
     }
 
     private async void HandleValidSubmit()
@@ -322,7 +324,7 @@
         errorMessages = Validations(order);
         string validations = string.Join(" ", errorMessages);
         if ((validations == null) || (validations == ""))
-        {
+        {          
             var response = await orderService.Add(order);
             if (response.Value)
             {
@@ -375,7 +377,8 @@
     private async Task OnStaterQuantitySelectionIndexChanged(ChangeEventArgs e)
     {
         order.TotalStaterPrice = Convert.ToDecimal(order.SelectedStaterPrice) *
-                                    Convert.ToDecimal(e.Value.ToString());        
+                                    Convert.ToDecimal(e.Value.ToString());     
+        order.StaterQuantity = Convert.ToInt32(e.Value.ToString());
         StateHasChanged();
     }
 
@@ -429,7 +432,79 @@
         }
         return result = validationMessage.Split(',').Select(s => s.Trim()).ToArray();
     }
-   
+
+    protected void GetStaterQuantityDetails()
+    {
+
+        var staterQuantity = new StaterQuantityViewModel
+            {
+                StaterQuantityId = 1,
+                StaterQuantity = 1
+            };
+        staterQuantitylist.Add(staterQuantity);
+        var staterQuantity1 = new StaterQuantityViewModel
+            {
+                StaterQuantityId = 2,
+                StaterQuantity = 2
+            };
+
+        staterQuantitylist.Add(staterQuantity1);
+        var staterQuantity2 = new StaterQuantityViewModel
+            {
+                StaterQuantityId = 3,
+                StaterQuantity = 3
+            };
+        staterQuantitylist.Add(staterQuantity2);
+        var staterQuantity3 = new StaterQuantityViewModel
+            {
+                StaterQuantityId = 4,
+                StaterQuantity = 4
+            };
+        staterQuantitylist.Add(staterQuantity3);
+        var staterQuantity4 = new StaterQuantityViewModel
+            {
+                StaterQuantityId = 5,
+                StaterQuantity = 5
+            };
+        staterQuantitylist.Add(staterQuantity4);
+        var staterQuantity5 = new StaterQuantityViewModel
+            {
+                StaterQuantityId = 6,
+                StaterQuantity = 10
+            };
+        staterQuantitylist.Add(staterQuantity5);
+        var staterQuantity6 = new StaterQuantityViewModel
+            {
+                StaterQuantityId = 7,
+                StaterQuantity = 15
+            };
+        staterQuantitylist.Add(staterQuantity6);    
+        var staterQuantity7 = new StaterQuantityViewModel
+            {
+                StaterQuantityId = 8,
+                StaterQuantity = 20
+            };
+        staterQuantitylist.Add(staterQuantity7);
+        var staterQuantity8 = new StaterQuantityViewModel
+            {
+                StaterQuantityId = 9,
+                StaterQuantity = 25
+            };
+        staterQuantitylist.Add(staterQuantity8);
+        var staterQuantity9 = new StaterQuantityViewModel
+            {
+                StaterQuantityId = 10,
+                StaterQuantity = 30
+            };
+        staterQuantitylist.Add(staterQuantity9);
+    }
+
+    public class StaterQuantityViewModel
+    {
+        public int StaterQuantityId { get; set; }
+        public int StaterQuantity { get; set; }
+    }
+
 }
 <style type="text/css">
     .rowMargin {
@@ -441,3 +516,4 @@
     }
 
 </style>
+
