@@ -1,17 +1,17 @@
 ﻿@page "/masterMaintenace/index"
 
 <div style="width:100%;">
-    <ul class="nav-menu">
-
+    <ul class="nav-menu" style="margin-top:-7px;margin-left:-7px;">
+        <li>
+            <NavLink href="/masterMaintenance/locations/list" activeClass="active">Location</NavLink>
+        </li>
         <li>
             <NavLink href="/masterMaintenance/advertiseSource/list" activeClass="active">AdvertiseSource</NavLink>
         </li>
         <li>
             <NavLink href="/masterMaintenance/grocery/list" activeClass="active" Match="NavLinkMatch.Prefix">Grocery</NavLink>
         </li>
-        <li>
-            <NavLink href="/masterMaintenance/locations/list" activeClass="active">Location</NavLink>
-        </li>
+       
         <li>
             <NavLink href="/masterMaintenance/orderType/list" activeClass="active">OrderType</NavLink>
         </li>
@@ -25,11 +25,36 @@
         <li>
             <NavLink href="#" activeClass="active">OrderType Prices</NavLink>
         </li>
-         
-    </ul>
+
+    </ul>  
 </div>
 
+@* <div class="row">
+    <div class="col-md-2">
+        <a href="/masterMaintenance/advertiseSource/list" class="primary">AdvertiseSource</a>
+    </div>
+</div>
+<div class="row">
 
+    <div class="col-md-2">
+        <a href="/masterMaintenance/grocery/list" class="primary">Grocery</a>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-2">
+        <a href="/masterMaintenance/locations/list" class="primary">Location</a>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-2">
+        <a href="/masterMaintenance/orderType/list" class="primary">OrderType</a>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-2">
+        <a href="/masterMaintenance/grocery/list" class="primary">Store</a>
+    </div>
+</div> *@
 
 @* <div class="container">
     <div class="row rowstyle">
@@ -137,7 +162,7 @@
         text-align: center;
         vertical-align: middle;
         margin-left: 10px;
-      
+
     }
 
     .col6BackGround {
