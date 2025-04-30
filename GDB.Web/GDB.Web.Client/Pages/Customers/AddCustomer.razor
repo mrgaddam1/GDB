@@ -116,7 +116,8 @@
 
 
                             <div class="text-center">
-                                <button type="submit" class="btn btn-primary">Add Customer</button>
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                                <button type="button" class="btn btn-secondary" @onclick="GoBack">Cancel</button>
                             </div>
                             @if (!string.IsNullOrEmpty(successMessage))
                             {
@@ -143,6 +144,11 @@
 
     public IEnumerable<LocationViewModel> locationViewModelsData;
     public IEnumerable<AdvertiseSourceViewModel> advertiseSourceViewModelsData;
+
+    private void GoBack()
+    {
+        NavigationManager.NavigateTo("/customers/list");
+    }
 
     protected override async Task OnInitializedAsync()
     {

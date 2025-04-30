@@ -62,7 +62,7 @@
 
                             <div class="row rowMargin">
                                 <div class="col-sm-3">
-                                    Quantity
+                                    Available Quantity
                                 </div>
                                 <div class="col-sm-6">
                                     <InputNumber @bind-Value="inventoryViewModel.AvailableQuantity" style="color:red;" class="form-control" />
@@ -71,6 +71,7 @@
 
                             <div class="text-center">
                                 <button type="submit" class="btn btn-primary">Submit</button>
+                                <button type="button" class="btn btn-secondary" @onclick="GoBack">Cancel</button>
                             </div>
                             @if (!string.IsNullOrEmpty(successMessage))
                             {
@@ -166,6 +167,9 @@
         }         
         return result = validationMessage.Split(',').Select(s => s.Trim()).ToArray();
     }
-
+    private void GoBack()
+    {
+        NavigationManager.NavigateTo("/inventory/inventory/list");
+    }
 
 }

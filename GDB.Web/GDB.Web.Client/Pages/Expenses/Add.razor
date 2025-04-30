@@ -116,7 +116,8 @@
                             </div>  
 
                             <div class="text-center">
-                                <button type="submit" class="btn btn-primary">Submit Order</button>
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                                <button type="button" class="btn btn-secondary" @onclick="GoBack">Cancel</button>
                             </div>
 
                             @if (!string.IsNullOrEmpty(successMessage))
@@ -229,6 +230,11 @@
                                 : "Grocery: Please select Grocery.";
         }
         return result = validationMessage.Split(',').Select(s => s.Trim()).ToArray();
+    }
+
+    private void GoBack()
+    {
+        NavigationManager.NavigateTo("/expenses/list");
     }
 }
 <style type="text/css">

@@ -28,11 +28,11 @@
         {
             <RadzenDataGrid Data="products" AllowFiltering="true" AllowPaging="true" AllowSorting="true" PageSize="20">
                 <Columns>
-                    <RadzenDataGridColumn TItem="ProductViewModel" Property="ProductId" Title="Id" />
-                    <RadzenDataGridColumn TItem="ProductViewModel" Property="ProductName" Title="Product" Width="200" />
-                    <RadzenDataGridColumn TItem="ProductViewModel" Property="CategoryName" Title="Category" Width="200" />
-                    <RadzenDataGridColumn TItem="ProductViewModel" Property="SubCategoryName" Title="SubCategory" Width="200" />
-                    <RadzenDataGridColumn TItem="ProductViewModel" Property="VendorName" Title="Vendor" Width="200" />
+                    <RadzenDataGridColumn TItem="ProductViewModel" Property="ProductId" Title="Id" Visible="false" />
+                    <RadzenDataGridColumn TItem="ProductViewModel" Property="ProductName" Title="Product"/>
+                    <RadzenDataGridColumn TItem="ProductViewModel" Property="CategoryName" Title="Category"/>
+                    <RadzenDataGridColumn TItem="ProductViewModel" Property="SubCategoryName" Title="SubCategory"  />
+                    <RadzenDataGridColumn TItem="ProductViewModel" Property="VendorName" Title="Vendor" />
                     <RadzenDataGridColumn TItem="ProductViewModel" Property="Quantity" Title="Quantity" />
                     <RadzenDataGridColumn TItem="ProductViewModel" Property="ProductPrice" Title="Price" />
                 </Columns>

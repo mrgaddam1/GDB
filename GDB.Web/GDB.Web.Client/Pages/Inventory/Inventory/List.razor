@@ -26,13 +26,13 @@
     <div class="col-lg-12">
         @if (inventories != null)
         {
-            <RadzenDataGrid Data="inventories" AllowFiltering="true" AllowPaging="true" AllowSorting="true" PageSize="20">
+            <RadzenDataGrid Data="inventories" AllowFiltering="true"  AllowPaging="true" AllowSorting="true" PageSize="20">
                 <Columns>
-                    <RadzenDataGridColumn TItem="InventoryViewModel" Property="InventoryId" Title="Id" />
-                    <RadzenDataGridColumn TItem="InventoryViewModel" Property="ProductName" Title="Product" Width="200" />
-                    <RadzenDataGridColumn TItem="InventoryViewModel" Property="Quantity" Title="Quantity" Width="200" />
-                    <RadzenDataGridColumn TItem="InventoryViewModel" Property="AvailableQuantity" Title="Available Quantity" Width="200" />
-                    <RadzenDataGridColumn TItem="InventoryViewModel" Property="FoodPackingTypeDescription" Title="Food Packing Type" Width="200" />
+                    <RadzenDataGridColumn TItem="InventoryViewModel" Property="InventoryId" Visible="false" Title="Id" />
+                    <RadzenDataGridColumn TItem="InventoryViewModel" Property="ProductName" Title="Product" Width="400px"/>
+                    <RadzenDataGridColumn TItem="InventoryViewModel" Property="Quantity" Title="Quantity" Width="150px" />
+                    <RadzenDataGridColumn TItem="InventoryViewModel" Property="AvailableQuantity" Title="Available Quantity" Width="150px" />
+                    <RadzenDataGridColumn TItem="InventoryViewModel" Property="FoodPackingTypeDescription" Title="Food Packing Type" Width="150px" />
                 </Columns>
             </RadzenDataGrid>
         }

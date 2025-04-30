@@ -54,14 +54,15 @@
                             </div>
                             <div class="row rowMargin">
                                 <div class="col-sm-3">
-                                    Last Name
+                                    SubCategory Description
                                 </div>
                                 <div class="col-sm-6">
                                     <InputText @bind-Value="subCategory.SubCategoryDescription" class="form-control" />
                                 </div>
                             </div>
                             <div class="text-center">
-                                <button type="submit" class="btn btn-primary">Add SubCategory</button>
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                                <button type="button" class="btn btn-secondary" @onclick="GoBack">Cancel</button>
                             </div>
                             @if (!string.IsNullOrEmpty(successMessage))
                             {
@@ -140,6 +141,10 @@
         }
         return result = validationMessage.Split(',').Select(s => s.Trim()).ToArray();
 
+    }
+    private void GoBack()
+    {
+        NavigationManager.NavigateTo("/inventory/subcategory/list");
     }
 }
  
