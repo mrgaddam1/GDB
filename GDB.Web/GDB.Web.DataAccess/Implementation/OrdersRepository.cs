@@ -134,6 +134,11 @@ namespace GDB.Web.DataAccess.Implementation
                         logger.LogInformation(message);
                         orderStatus = false;
                     }
+                    else
+                    {
+                        logger.LogInformation(message);
+                        orderStatus = false;
+                    }
                 }
                 return orderStatus;
 

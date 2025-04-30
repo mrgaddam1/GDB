@@ -191,6 +191,16 @@ display: block; /* Keep sub-menu visible */
     font-weight: bold;
     color: blue;
 }
+/* Show submenu when hovering over parent */
+nav-menu li:hover > ul,
+nav-menu li:focus-within > ul {
+    display: block;
+}
+
+/* Ensure submenu stays when clicked */
+nav-menu li ul li {
+    display: block;
+}
 
 .radgen-grid-font {
     font-size: 13px;
