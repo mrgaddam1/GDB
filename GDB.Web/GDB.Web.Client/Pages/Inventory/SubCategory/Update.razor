@@ -1,5 +1,142 @@
-﻿<h3>Update</h3>
+﻿@page "/inventory/subcategory/update/{subcategoryId:int}"
+@using GDB.Web.BLL.Interface
+@using GDB.Web.Shared.Inventory
+
+@inject ICategoryService CategoryService
+@inject ISubCategoryService SubCategoryService
+@inject HttpClient HttpClient
+@inject NavigationManager NavigationManager
+@inject ILogger<Add> Logger
+@rendermode @(new InteractiveAutoRenderMode(prerender:false))
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-8 mx-auto">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    Update SubCategory
+                </div>
+                <div class="card-body">
+                    <div class="col-lg-12">
+                        <EditForm Model="@subCategory" OnValidSubmit="HandleValidSubmit">
+                            @if (errorMessages != null)
+                            {
+                                @foreach (var message in errorMessages)
+                                {
+                                    if (!string.IsNullOrEmpty(message))
+                                    {
+                                        <ul class="alert alert-danger mt-3 text-left">
+                                            <li>@message</li>
+                                        </ul>
+                                    }
+                                }
+                            }
+                            <div class="row rowMargin">
+                                <div class="col-sm-3">
+                                    Category
+                                </div>
+                                <div class="col-sm-6">
+                                    <InputText @bind-Value="subCategory.CategoryDescription" readonly class="form-control" />
+                                </div>
+                            </div>
+                            <div class="row rowMargin">
+                                <div class="col-sm-3">
+                                    SubCategory
+                                </div>
+                                <div class="col-sm-6">
+                                    <InputText @bind-Value="subCategory.SubCategoryDescription" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                                <button type="button" class="btn btn-secondary" @onclick="GoBack">Cancel</button>
+                            </div>
+                            @if (!string.IsNullOrEmpty(successMessage))
+                            {
+                                <div class="alert alert-success mt-3 text-center">@successMessage</div>
+                            }
+                        </EditForm>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 @code {
+    [Parameter]
+    public int subcategoryId { get; set; }
+    private SubCategoryViewModel subCategory = new();
+    private string[] errorMessages;
+    private string successMessage = string.Empty;
+    public string CategoryInitialText { get; set; } = "---Select Category---";
+    public IEnumerable<CategoryViewModel> categoryViewModelData;
+    private List<SubCategoryViewModel> subCategoryList { get; set; }
+    protected override async Task OnInitializedAsync()
+    {
+        categoryViewModelData = await CategoryService.GetAll<List<CategoryViewModel>>();
 
+        subCategoryList = new List<SubCategoryViewModel>();
+        subCategoryList = await SubCategoryService.GetAll<List<SubCategoryViewModel>>();
+        subCategory = subCategoryList.SingleOrDefault(x => x.SubCategoryId == Convert.ToInt32(subcategoryId));
+    }
+
+    private async Task OnCategorySelectionIndexChanged(ChangeEventArgs e)
+    {
+        subCategory.CategoryId = Convert.ToInt32(e.Value.ToString());
+        StateHasChanged();
+    }
+    private async void HandleValidSubmit()
+    {
+        errorMessages = Validations(subCategory);
+        string validations = string.Join(" ", errorMessages);
+        if ((validations == null) || (validations == ""))
+        {
+            var response = await SubCategoryService.Update(subCategory);
+            if (response.Value)
+            {
+                Logger.LogInformation("Subcategory details are updated successfully.");
+                successMessage = "Subcategory details updated successfully!";
+                Reset();
+            }
+            else
+            {
+                Logger.LogInformation("Unable to updated Subcategory.");
+                successMessage = "Unable to updated Subcategory.";
+            }
+        }
+        else
+        {
+            validations = "";
+        }
+    }
+
+    private async void Reset()
+    {
+        subCategory = new SubCategoryViewModel();
+        errorMessages = [];
+        StateHasChanged();
+    }
+    private string[] Validations(SubCategoryViewModel subCategoryViewModel)
+    {
+        string[] result;
+        string validationMessage = "";
+
+        if (subCategoryViewModel.SubCategoryDescription == null)
+        {
+            validationMessage = "Subcategory Name: Please enter SubCategory Name";
+        }
+        if ((subCategoryViewModel.CategoryId == null) || (subCategoryViewModel.CategoryId == 0))
+        {
+            validationMessage = validationMessage != null
+                                ? validationMessage + ", " + Environment.NewLine + "Category: Please select Category."
+                                : "Category: Please select Category Name";
+        }
+        return result = validationMessage.Split(',').Select(s => s.Trim()).ToArray();
+
+    }
+    private void GoBack()
+    {
+        NavigationManager.NavigateTo("/inventory/subcategory/list");
+    }
 }
