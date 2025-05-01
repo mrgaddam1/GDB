@@ -41,11 +41,15 @@ public partial class GDBContext : DbContext
 
     public virtual DbSet<OrderType> OrderTypes { get; set; }
 
+    public virtual DbSet<OrderTypeItem> OrderTypeItems { get; set; }
+
     public virtual DbSet<OrderTypePrice> OrderTypePrices { get; set; }
 
     public virtual DbSet<PaymentType> PaymentTypes { get; set; }
 
     public virtual DbSet<Product> Products { get; set; }
+
+    public virtual DbSet<ProductHistory> ProductHistories { get; set; }
 
     public virtual DbSet<Stater> Staters { get; set; }
 
@@ -207,6 +211,20 @@ public partial class GDBContext : DbContext
             entity.Property(e => e.OrderTypeName).HasMaxLength(300);
         });
 
+        modelBuilder.Entity<OrderTypeItem>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToTable("OrderTypeItem");
+
+            entity.Property(e => e.CreatedDate).HasColumnType("datetime");
+            entity.Property(e => e.ItemDescription)
+                .HasMaxLength(500)
+                .IsUnicode(false);
+            entity.Property(e => e.ModifiedDate).HasColumnType("datetime");
+            entity.Property(e => e.OrderItemId).ValueGeneratedOnAdd();
+        });
+
         modelBuilder.Entity<OrderTypePrice>(entity =>
         {
             entity.ToTable("OrderTypePrice");
@@ -235,6 +253,18 @@ public partial class GDBContext : DbContext
                 .HasMaxLength(500)
                 .IsUnicode(false);
             entity.Property(e => e.ProductPrice).HasColumnType("decimal(18, 2)");
+            entity.Property(e => e.PurchasedDate).HasColumnType("datetime");
+        });
+
+        modelBuilder.Entity<ProductHistory>(entity =>
+        {
+            entity.ToTable("ProductHistory");
+
+            entity.Property(e => e.CreatedDate).HasColumnType("datetime");
+            entity.Property(e => e.ModifiedDate).HasColumnType("datetime");
+            entity.Property(e => e.ProductName)
+                .HasMaxLength(500)
+                .IsUnicode(false);
             entity.Property(e => e.PurchasedDate).HasColumnType("datetime");
         });
 

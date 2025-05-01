@@ -69,7 +69,10 @@ namespace GDB.Web.DataAccess.Implementation
                                     VendorName = l.VendorName,
                                     Quantity = p.Quantity,
                                     ProductPrice = p.ProductPrice,
-                                }).AsNoTracking()
+                                    FoodPackingTypeId = p.FoodPackingTypeId,
+                                    PurchasedDate = p.PurchasedDate,
+
+                                })
                     .OrderBy(x => x.ProductName)
                     .ToListAsync();
 
@@ -88,9 +91,45 @@ namespace GDB.Web.DataAccess.Implementation
             }
         }
 
-        public Task<bool> Update(ProductViewModel productViewModel)
+        public async Task<bool> Update(ProductViewModel productViewModel)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var existingProductData = (DbContext.Products.SingleOrDefault(x => x.ProductId == productViewModel.ProductId));
+
+                if (existingProductData != null)
+                {                   
+                    existingProductData.CategoryId = existingProductData.CategoryId;
+                    existingProductData.SubcategoryId = existingProductData.SubcategoryId;
+                    existingProductData.UserId = 1;
+                    existingProductData.VendorId = existingProductData.VendorId;
+                    existingProductData.ProductName = productViewModel.ProductName;
+                    existingProductData.FoodPackingTypeId = existingProductData.FoodPackingTypeId;
+
+                    if (productViewModel.PurchasedDate == existingProductData.PurchasedDate)
+                    {
+                        existingProductData.Quantity = productViewModel.Quantity;
+                        existingProductData.ProductPrice = productViewModel.ProductPrice;
+                    }
+                    else
+                    {
+                        existingProductData.Quantity = existingProductData.Quantity + productViewModel.Quantity;
+                        existingProductData.ProductPrice = existingProductData.ProductPrice + productViewModel.ProductPrice;
+                    }
+                   
+                    existingProductData.PurchasedDate = productViewModel.PurchasedDate;
+                    existingProductData.CreatedDate = existingProductData.CreatedDate;
+                    existingProductData.Modifieddate = DateTime.Now;   
+                }
+                DbContext.Products.Update(existingProductData);
+                await DbContext.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex.Message, "An error occured while processing the request.");
+                return false;
+            }
         }
     }
 }

@@ -1,5 +1,273 @@
-﻿<h3>Update</h3>
+﻿@page "/inventory/product/update/{productId:int}"
+@using GDB.Web.BLL.Interface
+@using GDB.Web.Shared
+@using GDB.Web.Shared.Inventory
+
+@inject ICategoryService CategoryService
+@inject ISubCategoryService SubCategoryService
+@inject IVendorService VendorService
+@inject IProductService ProductService
+@inject HttpClient HttpClient
+@inject NavigationManager NavigationManager
+@inject ILogger<Add> Logger
+@rendermode @(new InteractiveAutoRenderMode(prerender:false))
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-8 mx-auto">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    Add Product
+                </div>
+                <div class="card-body">
+                    <div class="col-lg-12">
+                        <EditForm Model="@product" OnValidSubmit="HandleValidSubmit">
+                            @if (errorMessages != null)
+                            {
+                                @foreach (var message in errorMessages)
+                                {
+                                    if (!string.IsNullOrEmpty(message))
+                                    {
+                                        <ul class="alert alert-danger mt-3 text-left">
+                                            <li>@message</li>
+                                        </ul>
+                                    }
+                                }
+                            }
+                            <div class="row rowMargin">
+                                <div class="col-sm-3">
+                                    Category
+                                </div>
+                                <div class="col-sm-6">                                  
+                                    <InputText @bind-Value="product.CategoryName" readonly class="form-control" />
+                                </div>
+                            </div>
+
+                            <div class="row rowMargin">
+                                <div class="col-sm-3">
+                                    Subcategory
+                                </div>
+                                <div class="col-sm-6">                                 
+                                    <InputText @bind-Value="product.SubCategoryName" readonly class="form-control" />
+                                </div>
+                            </div>
+
+                            <div class="row rowMargin">
+                                <div class="col-sm-3">
+                                    Vendor
+                                </div>
+                                <div class="col-sm-6">
+                                    <InputText @bind-Value="product.VendorName" readonly class="form-control" />
+                                </div>
+                            </div>
+                            <div class="row rowMargin">
+                                <div class="col-sm-3">
+                                    Food Packing Type
+                                </div>
+                                <div class="col-sm-6">
+                                    <InputText @bind-Value="product.FoodPackingTypeDescription" readonly class="form-control" />
+                                </div>
+                            </div>
+                            <div class="row rowMargin">
+                                <div class="col-sm-3">
+                                    Product Description
+                                </div>
+                                <div class="col-sm-6">
+                                    <InputText @bind-Value="product.ProductName" class="form-control" />
+                                </div>
+                            </div>
+
+                            <div class="row rowMargin">
+                                <div class="col-sm-3">
+                                    Quantity
+                                </div>
+                                <div class="col-sm-6">
+                                    <InputNumber @bind-Value="product.Quantity" style="color:red;" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="row rowMargin">
+                                <div class="col-sm-3">
+                                    Price
+                                </div>
+                                <div class="col-sm-6">
+                                    <InputNumber @bind-Value="product.ProductPrice" style="color:red;" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="row rowMargin">
+                                <div class="col-sm-3">
+                                    Purchased Date
+                                </div>
+                                <div class="col-sm-6">
+                                    <InputDate @bind-Value="product.PurchasedDate" style="width:250px" class="form-control" />
+                                </div>
+                            </div>
+
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                                <button type="button" class="btn btn-secondary" @onclick="GoBack">Cancel</button>
+                            </div>
+                            @if (!string.IsNullOrEmpty(successMessage))
+                            {
+                                <div class="alert alert-success mt-3 text-center">@successMessage</div>
+                            }
+                        </EditForm>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 @code {
+    [Parameter]
+    public int productId { get; set; }
+
+    private ProductViewModel product = new();
+    private string[] errorMessages;
+    private string successMessage = string.Empty;
+    private string SelectedOption = "visibility:hidden;";
+
+    public IEnumerable<CategoryViewModel> categoryViewModelData;
+    public IEnumerable<SubCategoryViewModel> subCategoryViewModelData;
+    public IEnumerable<VendorViewModel> VendorViewModelData;
+    public List<FoodPackingTypesViewModel> foodPackingTypesViewModelData = new List<FoodPackingTypesViewModel>();
+    private List<ProductViewModel>productList { get; set; }
+
+    public string CategoryInitialText { get; set; } = "---Select Category---";
+    public string SubCategoryInitialText { get; set; } = "---Select SubCategory---";
+    public string VendorInitialText { get; set; } = "---Select Vendor---";
+    public string FoodPackingInitialText { get; set; } = "---Select Food Packing Type---";
+
+    protected override async Task OnInitializedAsync()
+    {
+        productList = new List<ProductViewModel>();
+        categoryViewModelData = await CategoryService.GetAll<List<CategoryViewModel>>();
+        subCategoryViewModelData = await SubCategoryService.GetAll<List<SubCategoryViewModel>>();
+        VendorViewModelData = await VendorService.GetAll<List<VendorViewModel>>();
+
+        productList = await ProductService.GetAll<List<ProductViewModel>>();
+        product = productList.SingleOrDefault(x => x.ProductId == Convert.ToInt32(productId));
+       
+        GetFoodPackingTypes();
+
+        var foodPackingData = foodPackingTypesViewModelData.SingleOrDefault(x => x.FoodPackingTypeId == product.FoodPackingTypeId);
+        product.FoodPackingTypeDescription = foodPackingData.FoodPackingTypeDescription;
+        
+    }
+    private async Task OnCategorySelectionIndexChanged(ChangeEventArgs e)
+    {
+        product.CategoryId = Convert.ToInt32(e.Value.ToString());
+        StateHasChanged();
+    }
+    private async Task OnSubCategorySelectionIndexChanged(ChangeEventArgs e)
+    {
+        product.SubCategoryId = Convert.ToInt32(e.Value.ToString());
+        StateHasChanged();
+    }
+    private async Task OnVendorSelectionIndexChanged(ChangeEventArgs e)
+    {
+        product.VendorId = Convert.ToInt32(e.Value.ToString());
+        StateHasChanged();
+    }
+    private async Task OnFoodPackingTypesSelectionIndexChanged(ChangeEventArgs e)
+    {
+        product.FoodPackingTypeId = Convert.ToInt32(e.Value.ToString());
+        StateHasChanged();
+    }
+
+    private async void HandleValidSubmit()
+    {
+        errorMessages = Validations(product);
+        string validations = string.Join(" ", errorMessages);
+        if ((validations == null) || (validations == ""))
+        {
+            var response = await ProductService.Update(product);
+            if (response.Value)
+            {
+                Logger.LogInformation("Product details are added successfully.");
+                successMessage = "Product details submitted successfully!";
+                Reset();
+            }
+            else
+            {
+                Logger.LogInformation("Unable to add Customer.");
+                successMessage = "Unable to create new customer.";
+            }
+        }
+        else
+        {
+            validations = "";
+        }
+    }
+
+    private async void Reset()
+    {
+        product = new ProductViewModel();
+        errorMessages = [];
+        StateHasChanged();
+    }
+
+    private string[] Validations(ProductViewModel productViewModel)
+    {
+        string[] result;
+        string validationMessage = "";
+        if (productViewModel.ProductName == null)
+        {
+            validationMessage = "Product Name: Please enter Product Name";
+        }
+       
+        if ((productViewModel.Quantity == null) || (productViewModel.Quantity == 0))
+        {
+            validationMessage = validationMessage != null
+                                ? validationMessage + ", " + Environment.NewLine + "Quantity: Please enter Quantity."
+                                : "Quantity: Please enter Quantity.";
+        }
+        if ((productViewModel.ProductPrice == null) || (productViewModel.ProductPrice == 0))
+        {
+            validationMessage = validationMessage != null
+                                ? validationMessage + ", " + Environment.NewLine + "Product Price: Please enter Product Price."
+                                : "Product Price: Please enter Product Price.";
+        }
+        if ((productViewModel.PurchasedDate == null))
+        {
+            validationMessage = validationMessage != null
+                                ? validationMessage + ", " + Environment.NewLine + "Purchased Date: Please select Purchased Date."
+                                : "Purchased Date: Please select Purchased Date.";
+        }
+        return result = validationMessage.Split(',').Select(s => s.Trim()).ToArray();
+    }
+
+    public void GetFoodPackingTypes()
+    {
+        var packingTypes = new List<FoodPackingTypesViewModel>();
+        var foodPackingTypesViewModel1 = new FoodPackingTypesViewModel()
+            {
+                FoodPackingTypeId = 1,
+                FoodPackingTypeDescription = "Family Pack",
+            };
+        var foodPackingTypesViewModel2 = new FoodPackingTypesViewModel()
+            {
+                FoodPackingTypeId = 2,
+                FoodPackingTypeDescription = "Single Pack",
+            };
+        var foodPackingTypesViewModel3 = new FoodPackingTypesViewModel()
+            {
+                FoodPackingTypeId = 3,
+                FoodPackingTypeDescription = "Staters Pack",
+            };
+
+        foodPackingTypesViewModelData.Add(foodPackingTypesViewModel1);
+        foodPackingTypesViewModelData.Add(foodPackingTypesViewModel2);
+        foodPackingTypesViewModelData.Add(foodPackingTypesViewModel3);
+
+    }
+    private void GoBack()
+    {
+        NavigationManager.NavigateTo("/inventory/product/list");
+    }
+
 
 }
+

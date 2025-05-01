@@ -14,7 +14,7 @@
     <table>
         <tr>
             <td>
-                <h2>Stores</h2>
+                <h2>Accounts</h2>
             </td>
             <td style="text-align:right;">               
                     &nbsp;&nbsp;               
@@ -29,22 +29,26 @@
                             <RadzenDataGridColumn TItem="AccountsViewModel" Property="WeekId" Title="WeekId" />
                             <RadzenDataGridColumn TItem="AccountsViewModel" Property="TotalProfits" Title="Total Receivables"  >
                                 <Template Context="data">
-                                    @data.TotalProfits.ToString("C", CultureInfo.CreateSpecificCulture("en-GB"))
+                                    <span style="color:blue;font-weight:600;">
+                                          @data.TotalProfits.ToString("C", CultureInfo.CreateSpecificCulture("en-GB"))
+                                    </span>
                                 </Template>
                             </RadzenDataGridColumn>
                             <RadzenDataGridColumn TItem="AccountsViewModel" Property="TotalExpenses" Title="Total Expenses" >
                                 <Template Context="data">
+                                    <span style="color:red;font-weight:600;">
                                     @data.TotalExpenses.ToString("C", CultureInfo.CreateSpecificCulture("en-GB"))
+                                    </span>
                                 </Template>
                             </RadzenDataGridColumn>   
                             <RadzenDataGridColumn TItem="AccountsViewModel" Property="NetProfit" Title="Net Profit"  >
                                 <Template Context="data">
-                                    <span style="color:@(data.NetProfit < 0 ? "red" : "green")">
+                                    <span style="font-weight:bold;color:@(data.NetProfit < 0 ? "red" : "green")">
                                         <b>@data.NetProfit.ToString("C", CultureInfo.CreateSpecificCulture("en-GB"))</b>
                                     </span>
                                 </Template>
                                 <FooterTemplate>
-                                    <span style="color:@("blue")">
+                                    <span style="color:blue;font-weight:600;">
                                     <b>Total: @accountsData.Sum(t => t.NetProfit).ToString("C", CultureInfo.CreateSpecificCulture("en-GB"))</b>
                                     </span>
                                 </FooterTemplate>
