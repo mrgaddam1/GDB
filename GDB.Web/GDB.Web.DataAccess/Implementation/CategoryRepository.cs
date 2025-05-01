@@ -73,9 +73,29 @@ namespace GDB.Web.DataAccess.Implementation
             }
         }
 
-        public Task<bool> Update(CategoryViewModel categoryViewModel)
+        public async Task<bool> Update(CategoryViewModel categoryViewModel)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var existingCategoryData = (DbContext.Categories.SingleOrDefault(x => x.CategoryId == categoryViewModel.CategoryId));
+
+                if (existingCategoryData != null)
+                {
+                    existingCategoryData.UserId = 1;
+                    existingCategoryData.CategoryName = categoryViewModel.CategoryDescription;
+                    existingCategoryData.CreatedDate = existingCategoryData.CreatedDate;
+                    existingCategoryData.ModifiedDate = DateTime.Now;
+                }
+
+                DbContext.Categories.Update(existingCategoryData);
+                await DbContext.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex.Message, "An error occured while processing the request.");
+                return false;
+            }
         }
     }
 }

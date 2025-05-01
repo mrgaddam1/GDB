@@ -32,6 +32,16 @@
                             <RadzenDataGridColumn TItem="SubCategoryViewModel" Property="SubCategoryId" Title="Id" Visible="false" />
                             <RadzenDataGridColumn TItem="SubCategoryViewModel" Property="CategoryDescription" Title="Category" />
                             <RadzenDataGridColumn TItem="SubCategoryViewModel" Property="SubCategoryDescription" Title="SubCategory Description" />
+
+                            <RadzenDataGridColumn TItem="SubCategoryViewModel">
+                                <Template Context="data">
+                                    <RadzenButton ButtonType="Radzen.ButtonType.Button"
+                                                  Icon="edit" Size="Radzen.ButtonSize.Medium"
+                                                  Style="margin-right:5px;"
+                                                  Click="@(() => EditRow(data))" />
+                                </Template>
+                            </RadzenDataGridColumn>
+                        
                         </Columns>
                     </RadzenDataGrid>
                 }
@@ -53,6 +63,10 @@
     private void Add()
     {
         NavigationManager.NavigateTo("/inventory/subcategory/add");
+    }
+    protected void EditRow(SubCategoryViewModel subCategoryViewModel)
+    {   
+        NavigationManager.NavigateTo("/inventory/subcategory/update" + "/" + Convert.ToString(subCategoryViewModel.SubCategoryId));
     }
 }
 

@@ -31,6 +31,16 @@
                         <Columns>
                             <RadzenDataGridColumn TItem="CategoryViewModel" Property="CategoryId" Title="Id" />
                             <RadzenDataGridColumn TItem="CategoryViewModel" Property="CategoryDescription" Title="Category Description" />
+
+                            <RadzenDataGridColumn TItem="CategoryViewModel">
+                                <Template Context="data">
+                                    <RadzenButton ButtonType="Radzen.ButtonType.Button"
+                                                  Icon="edit" Size="Radzen.ButtonSize.Medium"
+                                                  Style="margin-right:5px;"
+                                                  Click="@(() => EditRow(data))" />
+                                </Template>
+                            </RadzenDataGridColumn>
+                        
                         </Columns>
                     </RadzenDataGrid>
                 }
@@ -45,13 +55,17 @@
 
     protected override async Task OnInitializedAsync()
     {
-         category = new List<CategoryViewModel>();
+        category = new List<CategoryViewModel>();
         category = await CategoryService.GetAll<List<CategoryViewModel>>();
     }
 
     private void Add()
     {
         NavigationManager.NavigateTo("/inventory/category/add");
+    }
+    protected void EditRow(CategoryViewModel categoryViewModel)
+    {
+        NavigationManager.NavigateTo("/inventory/category/update" + "/" + Convert.ToString(categoryViewModel.CategoryId));
     }
 }
 

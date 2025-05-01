@@ -81,15 +81,8 @@
 
     protected override async Task OnInitializedAsync()
     {
-        try
-        {
-            customerViewModel = await CustomerService.GetAllCustomers<List<CustomerViewModel>>();
-
-        }
-        catch (Exception ex)
-        {
-            string errorMessage = ex.Message;
-        }
+      customerViewModel = await CustomerService.GetAllCustomers<List<CustomerViewModel>>();
+       
     }
     void EditRow(CustomerViewModel customerViewModel)
     {
