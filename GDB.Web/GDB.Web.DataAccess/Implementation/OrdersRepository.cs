@@ -80,9 +80,11 @@ namespace GDB.Web.DataAccess.Implementation
                                     AmountPaid = o.AmountPaid,
                                     AmountPaidDate = o.AmountPaidDate.Value.Date,
                                     OrderDate = o.OrderDate.Value.Date,
+                                    PaymentTypeId = o.PaymentTypeId,
                                     PaymentType = p.PaymentTypeDescription,
                                     WeekId = o.WeekId,
                                     FoodPackingTypeId = o.FoodPackingTypeId,
+
 
                                 }).OrderByDescending(x=>x.WeekId)
                                   .ThenBy(x => x.AmountPaid == false || x.AmountPaid == null)

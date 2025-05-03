@@ -139,6 +139,7 @@
                                 <div class="col-md-4">
                                     <select style="width:250px;font-size:13px;"
                                             @onchange="OnPaymentTypeSelectionIndexChanged"
+                                            disabled="@(!checkAmountPaidOrNot)"
                                             id="ddlPaymentType"
                                             name="OrderItem"
                                             class="form-select">
@@ -160,7 +161,9 @@
                                     Amount Paid Date
                                 </div>
                                 <div class="col-md-4">
-                                    <InputDate @bind-Value="order.AmountPaidDate" class="form-control" />
+                                    <InputDate @bind-Value="order.AmountPaidDate" 
+                                    disabled="@(!checkAmountPaidOrNot)" 
+                                    class="form-control" />
                                 </div>
                                 <div class="col-md-2">
                                     &nbsp;
