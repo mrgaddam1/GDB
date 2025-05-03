@@ -29,9 +29,21 @@
             <RadzenDataGrid Data="inventories" AllowFiltering="true"  AllowPaging="true" AllowSorting="true" PageSize="20">
                 <Columns>
                     <RadzenDataGridColumn TItem="InventoryViewModel" Property="InventoryId" Visible="false" Title="Id" />
-                    <RadzenDataGridColumn TItem="InventoryViewModel" Property="ProductName" Title="Product" Width="400px"/>
-                    <RadzenDataGridColumn TItem="InventoryViewModel" Property="Quantity" Title="Quantity" Width="150px" />
-                    <RadzenDataGridColumn TItem="InventoryViewModel" Property="AvailableQuantity" Title="Available Quantity" Width="150px" />
+                    <RadzenDataGridColumn TItem="InventoryViewModel" Property="ProductName" Title="Product" Width="450px"/>
+                    <RadzenDataGridColumn TItem="InventoryViewModel" Property="Quantity" Title="Quantity" Width="150px" >
+                        <Template Context="data">
+                            <span style="color:@(data.Quantity < 0 ? "red" : "green")" >
+                                <b>@data.Quantity</b>
+                            </span>
+                        </Template>
+                    </RadzenDataGridColumn>
+                    <RadzenDataGridColumn TItem="InventoryViewModel" Property="AvailableQuantity" Title="Available Quantity" Width="150px" >
+                        <Template Context="data">
+                            <span style="color:@(data.AvailableQuantity < 0 ? "red" : "green")">
+                                <b>@data.AvailableQuantity</b>
+                            </span>
+                        </Template>
+                    </RadzenDataGridColumn>
                     <RadzenDataGridColumn TItem="InventoryViewModel" Property="FoodPackingTypeDescription" Title="Food Packing Type" Width="150px" />
 
                     <RadzenDataGridColumn TItem="InventoryViewModel">

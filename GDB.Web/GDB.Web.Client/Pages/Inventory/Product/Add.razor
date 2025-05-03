@@ -1,4 +1,7 @@
 ﻿@page "/inventory/product/add"
+
+@using System.ComponentModel.DataAnnotations
+
 @using GDB.Web.BLL.Interface
 @using GDB.Web.Shared
 @using GDB.Web.Shared.Inventory
@@ -150,8 +153,8 @@
                                 <div class="col-sm-3">
                                     Purchased Date
                                 </div>
-                                <div class="col-sm-6">
-                                    <InputDate @bind-Value="product.PurchasedDate" style="width:250px" class="form-control" />
+                                <div class="col-sm-6">                                
+                                    <InputDate @bind-Value="product.PurchasedDate" class="form-control" />
                                 </div>
                             </div>
 
@@ -194,6 +197,7 @@
         categoryViewModelData = await CategoryService.GetAll<List<CategoryViewModel>>();
         subCategoryViewModelData = await SubCategoryService.GetAll<List<SubCategoryViewModel>>();
         VendorViewModelData = await VendorService.GetAll<List<VendorViewModel>>();
+        product.PurchasedDate = DateTime.Now;
         GetFoodPackingTypes();
     }
     private async Task OnCategorySelectionIndexChanged(ChangeEventArgs e)
