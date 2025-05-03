@@ -33,13 +33,25 @@
                                           @data.TotalProfits.ToString("C", CultureInfo.CreateSpecificCulture("en-GB"))
                                     </span>
                                 </Template>
+                                <FooterTemplate>
+                                    <span style="color:blue;font-weight:600;">
+                                        <b>Total: @accountsData.Sum(t => t.TotalProfits).ToString("C", CultureInfo.CreateSpecificCulture("en-GB"))</b>
+                                    </span>
+                                </FooterTemplate>
                             </RadzenDataGridColumn>
+
                             <RadzenDataGridColumn TItem="AccountsViewModel" Property="TotalExpenses" Title="Total Expenses" >
                                 <Template Context="data">
                                     <span style="color:red;font-weight:600;">
                                     @data.TotalExpenses.ToString("C", CultureInfo.CreateSpecificCulture("en-GB"))
                                     </span>
                                 </Template>
+                                <FooterTemplate>
+                                    <span style="color:red;font-weight:600;">
+                                        <b>Total: @accountsData.Sum(t => t.TotalExpenses).ToString("C", CultureInfo.CreateSpecificCulture("en-GB"))</b>
+                                    </span>
+                                </FooterTemplate>
+
                             </RadzenDataGridColumn>   
                             <RadzenDataGridColumn TItem="AccountsViewModel" Property="NetProfit" Title="Net Profit"  >
                                 <Template Context="data">
