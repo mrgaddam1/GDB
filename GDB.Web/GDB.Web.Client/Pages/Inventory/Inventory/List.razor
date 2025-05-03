@@ -33,6 +33,16 @@
                     <RadzenDataGridColumn TItem="InventoryViewModel" Property="Quantity" Title="Quantity" Width="150px" />
                     <RadzenDataGridColumn TItem="InventoryViewModel" Property="AvailableQuantity" Title="Available Quantity" Width="150px" />
                     <RadzenDataGridColumn TItem="InventoryViewModel" Property="FoodPackingTypeDescription" Title="Food Packing Type" Width="150px" />
+
+                    <RadzenDataGridColumn TItem="InventoryViewModel">
+                        <Template Context="data">
+                            <RadzenButton ButtonType="Radzen.ButtonType.Button"
+                                          Icon="edit" Size="Radzen.ButtonSize.Small"
+                                          Style="margin-right:5px;"
+                                          Click="@(() => EditRow(data))" />
+                        </Template>
+                    </RadzenDataGridColumn>
+                
                 </Columns>
             </RadzenDataGrid>
         }
@@ -52,6 +62,10 @@
     private void Add()
     {
         NavigationManager.NavigateTo("/inventory/inventory/add");
+    }
+    protected void EditRow(InventoryViewModel inventoryViewModel)
+    {
+        NavigationManager.NavigateTo("/inventory/inventory/update" + "/" + Convert.ToString(inventoryViewModel.InventoryId));
     }
 }
 

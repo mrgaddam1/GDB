@@ -76,12 +76,37 @@ namespace GDB.Web.DataAccess.Implementation
 
         public async Task<bool> Update(InventoryViewModel inventoryViewModel)
         {
-            throw new NotImplementedException();
-        }
+            var isUpdated = false;
+            try
+            {
+                var inventory = await DbContext.Inventories.FindAsync(inventoryViewModel.InventoryId);
+                if (inventory != null)
+                {
 
-        public async Task<bool> Update(int inventoryId)
-        {
-            throw new NotImplementedException();
+                    inventory.Quantity = inventory.Quantity;
+                    if (inventoryViewModel.AvailableQuantity == inventory.AvailableQuantity)
+                    {
+                        inventory.AvailableQuantity = inventoryViewModel.AvailableQuantity;
+                    }
+                    else
+                    {
+                        inventory.AvailableQuantity = (inventoryViewModel.AvailableQuantity + inventory.AvailableQuantity);
+                  
+                    }
+                    inventory.ModifiedDate = DateTime.UtcNow;
+                    inventory.UserId = 1;
+                    DbContext.Inventories.Update(inventory);
+                    await DbContext.SaveChangesAsync();
+                    isUpdated =  true;
+                }
+                return isUpdated;
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "An error occurred while updating the Inventory.");
+                return isUpdated;
+            }
         }
+        
     }
 }
