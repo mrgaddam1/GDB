@@ -1,9 +1,10 @@
 ﻿@page "/expenses/list"
-@using Blazorise.DataGrid
+
 @using GDB.Web.BLL.Implementation
 @using GDB.Web.BLL.Interface
 @using GDB.Web.Shared
 @using System.Globalization
+@using Radzen.Blazor
 
 @inject IExpensesService ExpensesService
 @inject IOrderService OrderService
@@ -25,36 +26,55 @@
     </div>
 </div>
 <div class="row">
-    @if (expensesViewModel != null)
-    {
-        <DataGrid Class="table table-bordered"
-                  TItem="ExpensesViewModel"
-                  Data="@expensesViewModel"
-                  Responsive
-                  ShowPager="true"
-                  Sortable
-                  SortMode="DataGridSortMode.Single"
-                  PageSize="15"
-                  RowStyling="@OnRowStyling"
-                  Editable
-                  SelectedRowStyling="@OnSelectedRowStyling">
-            <DataGridColumns>
-                <DataGridColumn Field="@nameof(ExpensesViewModel.ExpensesId)" Caption="Expenses Id" />
-                <DataGridColumn Field="@nameof(ExpensesViewModel.WeekNumber)" Caption="Week" />
-                <DataGridColumn Field="@nameof(ExpensesViewModel.GroceryDescription)" Caption="Grocery Description" />
-                <DataGridColumn Field="@nameof(ExpensesViewModel.QuantityDescription)" Caption="Quantity Description" />
-                <DataGridColumn Field="@nameof(ExpensesViewModel.StoreName)" Caption="Store Name" />
-                <DataGridColumn Field="@nameof(ExpensesViewModel.ExpensesAmount)" Caption="Expenses Amount" DisplayFormat="{0:C}" DisplayFormatProvider="@System.Globalization.CultureInfo.GetCultureInfo("en-GB")" />
-                <DataGridColumn Field="@nameof(ExpensesViewModel.ExpensesDate)" Caption="OrderType Name" DisplayFormat="{0:dd/MM/yyyy}" />
-            </DataGridColumns>
-        </DataGrid>
-
-    }
+    <div class="col-lg-12">
+        @if (expensesViewModel.Count > 0)
+        {
+            <RadzenDataGrid class="radzen-grid radgen-grid-font"
+                            Data="@expensesViewModel"
+                            TItem="ExpensesViewModel"
+                            EditMode="Radzen.DataGridEditMode.Single"
+                            AllowFiltering="true"
+                            AllowPaging="true"
+                            AllowSorting="true"
+                            PageSize="15"
+                            GridLines="@GridLines">
+                <Columns>
+                    <RadzenDataGridColumn Property="ExpensesId" Title="Id" Width="100" Visible="false" />
+                    <RadzenDataGridColumn Property="WeekNumber" Title="Week" Width="100px"  />
+                    <RadzenDataGridColumn Property="GroceryDescription" Title="Grocery Description" Width="300px" />
+                    <RadzenDataGridColumn Property="QuantityDescription" Title="Quantity Description" Width="300px" />
+                    <RadzenDataGridColumn Property="StoreName" Title="Store Name" Width="250px" />
+                    <RadzenDataGridColumn Property="ExpensesAmount" Title="Amount" Width="120px">
+                        <Template Context="data">
+                            <span style="color:green;font-weight:600;">
+                                @data.ExpensesAmount.ToString("C", CultureInfo.CreateSpecificCulture("en-GB"))
+                            </span>
+                        </Template>
+                    </RadzenDataGridColumn>
+                    <RadzenDataGridColumn Property="ExpensesDate" Title="Expenses Date" Width="120px">
+                        <Template Context="data">
+                            @data.ExpensesDate.Value.ToString("dd/MM/yyyy")
+                        </Template>
+                    </RadzenDataGridColumn>
+                    <RadzenDataGridColumn TItem="ExpensesViewModel" Width="120px">
+                        <Template Context="data">
+                            <RadzenButton ButtonType="Radzen.ButtonType.Button"
+                                          Icon="edit" Size="Radzen.ButtonSize.Small"
+                                          Style="margin-right:5px;"
+                                          Click="@(() => EditRow(data))" />
+                        </Template>
+                    </RadzenDataGridColumn>
+                </Columns>
+            </RadzenDataGrid>
+        }
+    </div>
+     
 </div>
- 
+
 @code {
     public List<ExpensesViewModel> expensesViewModel { get; set; }
     public int CurrentWeekId { get; set; }
+    Radzen.DataGridGridLines GridLines = Radzen.DataGridGridLines.Both;
     protected override async Task OnInitializedAsync()
     {
         try
@@ -72,49 +92,53 @@
     {
         NavigationManager.NavigateTo("/expenses/add");
     }
-    private void OnRowStyling(ExpensesViewModel expensesViewModel, DataGridRowStyling styling)
+    void EditRow(ExpensesViewModel expensesViewModel)
     {
-        if (expensesViewModel.WeekNumber == CurrentWeekId)
-        {
-            styling.Style = "color:#0f5132;background-color:#d1e7dd !important;"; 
-        }   
-        else if (expensesViewModel.WeekNumber == 17)
-        {
-            styling.Style = "color:#ffffff;background-color:#5F9EA0 !important;";
-        }
-        else if (expensesViewModel.WeekNumber == 16)
-        {
-            styling.Style = "color:#ffffff;background-color:#483D8B !important;";
-        }
-        else if (expensesViewModel.WeekNumber == 15)
-        {
-            styling.Style = "color:#ffffff;background-color:#F08080 !important;";
-        }
-        else if ((expensesViewModel.WeekNumber == 14))
-        {
-            styling.Style = "color:#ffffff;background-color:#8FBC8F !important;";
-        }
-        else if ((expensesViewModel.WeekNumber == 13))
-        {
-            styling.Style = "color:#ffffff;background-color:#20B2AA !important;";
-        }
-        else if ((expensesViewModel.WeekNumber == 12))
-        {
-            styling.Style = "color:#ffffff;background-color:#7B68EE !important;";
-        }
-        else
-        {
-            styling.Style = "color:#ffffff;background-color:#DB7093 !important;";
-        }
-     }
-    private void OnSelectedRowStyling(ExpensesViewModel expensesViewModel, DataGridRowStyling styling)
-    {
-        styling.Background = Blazorise.Background.Primary;
         NavigationManager.NavigateTo("/expenses/updateExpenses" + "/" + Convert.ToString(expensesViewModel.ExpensesId));
     }
 
+    // private void OnRowStyling(ExpensesViewModel expensesViewModel, DataGridRowStyling styling)
+    // {
+    //     if (expensesViewModel.WeekNumber == CurrentWeekId)
+    //     {
+    //         styling.Style = "color:#0f5132;background-color:#d1e7dd !important;";
+    //     }
+    //     else if (expensesViewModel.WeekNumber == 17)
+    //     {
+    //         styling.Style = "color:#ffffff;background-color:#5F9EA0 !important;";
+    //     }
+    //     else if (expensesViewModel.WeekNumber == 16)
+    //     {
+    //         styling.Style = "color:#ffffff;background-color:#483D8B !important;";
+    //     }
+    //     else if (expensesViewModel.WeekNumber == 15)
+    //     {
+    //         styling.Style = "color:#ffffff;background-color:#F08080 !important;";
+    //     }
+    //     else if ((expensesViewModel.WeekNumber == 14))
+    //     {
+    //         styling.Style = "color:#ffffff;background-color:#8FBC8F !important;";
+    //     }
+    //     else if ((expensesViewModel.WeekNumber == 13))
+    //     {
+    //         styling.Style = "color:#ffffff;background-color:#20B2AA !important;";
+    //     }
+    //     else if ((expensesViewModel.WeekNumber == 12))
+    //     {
+    //         styling.Style = "color:#ffffff;background-color:#7B68EE !important;";
+    //     }
+    //     else
+    //     {
+    //         styling.Style = "color:#ffffff;background-color:#DB7093 !important;";
+    //     }
+    //  }
+    // private void OnSelectedRowStyling(ExpensesViewModel expensesViewModel, DataGridRowStyling styling)
+    // {
+    //     styling.Background = Blazorise.Background.Primary;
+    //     NavigationManager.NavigateTo("/expenses/updateExpenses" + "/" + Convert.ToString(expensesViewModel.ExpensesId));
+    // }
 
-  
+
+
 
 }
- 
