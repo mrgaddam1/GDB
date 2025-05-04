@@ -121,5 +121,105 @@ namespace GDB.Web.DataAccess.Implementation
             }
             return TotalExpensesByWeekViewModel;
         }
+
+
+        //Expesnes Reports....
+        public async Task<List<ExpensesReportViewModel>> GetExpesesReportBy_Weekwise()
+        {
+            var expensesByWeekData = new List<ExpensesReportViewModel>();
+
+            try
+            {
+                var data = DataHelper.GetData(DbContext.Database.GetDbConnection(), "Udp_Expesnes_GetAllExpensesBy_Weekly", null);
+                expensesByWeekData = ConvertDataTableToGenericList.ConvertDataTable<ExpensesReportViewModel>(data).
+                                   OrderByDescending(x => x.WeekId).ToList();
+            }
+            catch (Exception ex)
+            {
+                string message = ex.Message;
+            }
+            return expensesByWeekData;
+        }
+
+        public async Task<List<ExpensesReportViewModel>> GetExpesesReportBy_BIWeekly()
+        {
+            var expensesByBIWeekData = new List<ExpensesReportViewModel>();
+
+            try
+            {
+                var data = DataHelper.GetData(DbContext.Database.GetDbConnection(), "Udp_Expesnes_GetAllExpensesBy_BiWeekly", null);
+                expensesByBIWeekData = ConvertDataTableToGenericList.ConvertDataTable<ExpensesReportViewModel>(data).
+                                   OrderByDescending(x => x.WeekId).ToList();
+            }
+            catch (Exception ex)
+            {
+                string message = ex.Message;
+            }
+            return expensesByBIWeekData;
+        }
+        public async Task<List<ExpensesReportViewModel>> GetExpesesReportBy_Monthly()
+        {
+            var expensesByMonthData = new List<ExpensesReportViewModel>();
+
+            try
+            {
+                var data = DataHelper.GetData(DbContext.Database.GetDbConnection(), "Udp_Expesnes_GetAllExpensesBy_Monthly", null);
+                expensesByMonthData = ConvertDataTableToGenericList.ConvertDataTable<ExpensesReportViewModel>(data).
+                                   OrderByDescending(x => x.WeekId).ToList();
+            }
+            catch (Exception ex)
+            {
+                string message = ex.Message;
+            }
+            return expensesByMonthData;
+        }
+        public async Task<List<ExpensesReportViewModel>> GetExpesesReportBy_Quarterly()
+        {
+            var expensesByQuarterlyData = new List<ExpensesReportViewModel>();
+
+            try
+            {
+                var data = DataHelper.GetData(DbContext.Database.GetDbConnection(), "Udp_Expesnes_GetAllExpensesBy_Quarterly", null);
+                expensesByQuarterlyData = ConvertDataTableToGenericList.ConvertDataTable<ExpensesReportViewModel>(data).
+                                   OrderByDescending(x => x.WeekId).ToList();
+            }
+            catch (Exception ex)
+            {
+                string message = ex.Message;
+            }
+            return expensesByQuarterlyData;
+        }
+        public async Task<List<ExpensesReportViewModel>> GetExpesesReportBy_HalfYearly()
+        {
+            var expensesByHalfYearlyData = new List<ExpensesReportViewModel>();
+
+            try
+            {
+                var data = DataHelper.GetData(DbContext.Database.GetDbConnection(), "Udp_Expesnes_GetAllExpensesBy_Halfyearly", null);
+                expensesByHalfYearlyData = ConvertDataTableToGenericList.ConvertDataTable<ExpensesReportViewModel>(data).
+                                   OrderByDescending(x => x.WeekId).ToList();
+            }
+            catch (Exception ex)
+            {
+                string message = ex.Message;
+            }
+            return expensesByHalfYearlyData;
+        }
+        public async Task<List<ExpensesReportViewModel>> GetExpesesReportBy_Yearly()
+        {
+            var expensesByYearlyData = new List<ExpensesReportViewModel>();
+
+            try
+            {
+                var data = DataHelper.GetData(DbContext.Database.GetDbConnection(), "Udp_Expesnes_GetAllExpensesBy_Yearly", null);
+                expensesByYearlyData = ConvertDataTableToGenericList.ConvertDataTable<ExpensesReportViewModel>(data).
+                                   OrderByDescending(x => x.WeekId).ToList();
+            }
+            catch (Exception ex)
+            {
+                string message = ex.Message;
+            }
+            return expensesByYearlyData;
+        }
     }
 }

@@ -133,6 +133,149 @@ namespace GDB.Web.Controller
             }
         }
 
+        [HttpGet]
+        [Route("GetAllExpensesByWeekWise")]
+        public async Task<IActionResult> GetAllExpensesByWeekWise()
+        {
+            try
+            {
+                var expensesByWeekly = await expensesRepository.GetExpesesReportBy_Weekwise();
+                if (expensesByWeekly.Count == 0)
+                {
+                    return NoContent();
+                }
+                return Ok(expensesByWeekly);
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex.Message, "An error occured while processing your request.");
+                return StatusCode(StatusCodes.Status500InternalServerError, new
+                {
+                    Message = ex.Message,
+                    Details = ex.StackTrace
+                });
+            }
+        }
+
+        [HttpGet]
+        [Route("GetAllExpensesByBIWeeklyWise")]
+        public async Task<IActionResult> GetAllExpensesByBIWeeklyWise()
+        {
+            try
+            {
+                var expensesByBIWeekly = await expensesRepository.GetExpesesReportBy_BIWeekly();
+                if (expensesByBIWeekly.Count == 0)
+                {
+                    return NoContent();
+                }
+                return Ok(expensesByBIWeekly);
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex.Message, "An error occured while processing your request.");
+                return StatusCode(StatusCodes.Status500InternalServerError, new
+                {
+                    Message = ex.Message,
+                    Details = ex.StackTrace
+                });
+            }
+        }
+
+        [HttpGet]
+        [Route("GetAllExpensesByMonthWise")]
+        public async Task<IActionResult> GetAllExpensesByMonthWise()
+        {
+            try
+            {
+                var expensesByMonthly = await expensesRepository.GetExpesesReportBy_Monthly();
+                if (expensesByMonthly.Count == 0)
+                {
+                    return NoContent();
+                }
+                return Ok(expensesByMonthly);
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex.Message, "An error occured while processing your request.");
+                return StatusCode(StatusCodes.Status500InternalServerError, new
+                {
+                    Message = ex.Message,
+                    Details = ex.StackTrace
+                });
+            }
+        }
+
+        [HttpGet]
+        [Route("GetAllExpensesByQuarterlyWise")]
+        public async Task<IActionResult> GetAllExpensesByQuarterlyWise()
+        {
+            try
+            {
+                var expensesByQuarterly = await expensesRepository.GetExpesesReportBy_Quarterly();
+                if (expensesByQuarterly.Count == 0)
+                {
+                    return NoContent();
+                }
+                return Ok(expensesByQuarterly);
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex.Message, "An error occured while processing your request.");
+                return StatusCode(StatusCodes.Status500InternalServerError, new
+                {
+                    Message = ex.Message,
+                    Details = ex.StackTrace
+                });
+            }
+        }
+
+        [HttpGet]
+        [Route("GetAllExpensesByHalyYearlyWise")]
+        public async Task<IActionResult> GetAllExpensesByHalyYearlyWise()
+        {
+            try
+            {
+                var expensesByHalyYearly = await expensesRepository.GetExpesesReportBy_HalfYearly();
+                if (expensesByHalyYearly.Count == 0)
+                {
+                    return NoContent();
+                }
+                return Ok(expensesByHalyYearly);
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex.Message, "An error occured while processing your request.");
+                return StatusCode(StatusCodes.Status500InternalServerError, new
+                {
+                    Message = ex.Message,
+                    Details = ex.StackTrace
+                });
+            }
+        }
+
+        [HttpGet]
+        [Route("GetAllExpensesByYearlyWise")]
+        public async Task<IActionResult> GetAllExpensesByYearlyWise()
+        {
+            try
+            {
+                var expensesByYearly = await expensesRepository.GetExpesesReportBy_Yearly();
+                if (expensesByYearly.Count == 0)
+                {
+                    return NoContent();
+                }
+                return Ok(expensesByYearly);
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex.Message, "An error occured while processing your request.");
+                return StatusCode(StatusCodes.Status500InternalServerError, new
+                {
+                    Message = ex.Message,
+                    Details = ex.StackTrace
+                });
+            }
+        }
 
 
     }

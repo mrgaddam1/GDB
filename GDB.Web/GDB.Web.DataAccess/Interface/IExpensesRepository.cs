@@ -13,5 +13,11 @@ namespace GDB.Web.DataAccess.Interface
         Task<bool> Add(ExpensesViewModel expensesViewModel);
         Task<bool> Update(ExpensesViewModel expensesViewModel);
         Task<List<TotalExpensesByWeekViewModel>> GetTotalExpensesByWeekwise();
+        Task<List<ExpensesReportViewModel>> GetExpesesReportBy_Weekwise();
+        Task<List<ExpensesReportViewModel>> GetExpesesReportBy_BIWeekly();
+        Task<List<ExpensesReportViewModel>> GetExpesesReportBy_Monthly();
+        Task<List<ExpensesReportViewModel>> GetExpesesReportBy_Quarterly();
+        Task<List<ExpensesReportViewModel>> GetExpesesReportBy_HalfYearly();
+        Task<List<ExpensesReportViewModel>> GetExpesesReportBy_Yearly();
     }
 }

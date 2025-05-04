@@ -13,5 +13,11 @@ namespace GDB.Web.BLL.Interface
         Task<bool?> Add(ExpensesViewModel expensesViewModel);
         Task<bool?> Update(ExpensesViewModel expensesViewModel);
         Task<T?> GetTotalExpensesByWeekwise<T>();
+        Task<T> GetExpesesReportBy_Weekwise<T>();
+        Task<T> GetExpesesReportBy_BIWeekly<T>();
+        Task<T> GetExpesesReportBy_Monthly<T>();
+        Task<T> GetExpesesReportBy_Quarterly<T>();
+        Task<T> GetExpesesReportBy_HalfYearly<T>();
+        Task<T> GetExpesesReportBy_Yearly<T>();
     }
 }

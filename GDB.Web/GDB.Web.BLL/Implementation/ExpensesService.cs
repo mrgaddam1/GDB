@@ -87,5 +87,41 @@ namespace GDB.Web.BLL.Implementation
             var response = await httpClient.GetAsync("api/Expenses/GetTotalExpensesByWeekwise");
             return await ApiStatusCodeHandler.HandleResponse<T>(response);
         }
+
+        public async Task<T> GetExpesesReportBy_Weekwise<T>()
+        {
+            var response = await httpClient.GetAsync("api/Expenses/GetAllExpensesByWeekWise");
+            return await ApiStatusCodeHandler.HandleResponse<T>(response);
+        }
+
+        public async Task<T> GetExpesesReportBy_BIWeekly<T>()
+        {
+            var response = await httpClient.GetAsync("api/Expenses/GetAllExpensesByBIWeeklyWise");
+            return await ApiStatusCodeHandler.HandleResponse<T>(response);
+        }
+
+        public async Task<T> GetExpesesReportBy_Monthly<T>()
+        {
+            var response = await httpClient.GetAsync("api/Expenses/GetAllExpensesByMonthWise");
+            return await ApiStatusCodeHandler.HandleResponse<T>(response);
+        }
+
+        public async Task<T> GetExpesesReportBy_Quarterly<T>()
+        {
+            var response = await httpClient.GetAsync("api/Expenses/GetAllExpensesByQuarterlyWise");
+            return await ApiStatusCodeHandler.HandleResponse<T>(response);
+        }
+
+        public async Task<T> GetExpesesReportBy_HalfYearly<T>()
+        {
+            var response = await httpClient.GetAsync("api/Expenses/GetAllExpensesByHalyYearlyWise");
+            return await ApiStatusCodeHandler.HandleResponse<T>(response);
+        }
+
+        public async Task<T> GetExpesesReportBy_Yearly<T>()
+        {
+            var response = await httpClient.GetAsync("api/Expenses/GetAllExpensesByYearlyWise");
+            return await ApiStatusCodeHandler.HandleResponse<T>(response);
+        }
     }
 }
