@@ -86,7 +86,6 @@
     }
     void EditRow(CustomerViewModel customerViewModel)
     {
-        //customerGrid.EditRow(customerViewModel);
         NavigationManager.NavigateTo("/customers/updateCustomer" + "/" + Convert.ToString(customerViewModel.CustomerId));
     }
 
