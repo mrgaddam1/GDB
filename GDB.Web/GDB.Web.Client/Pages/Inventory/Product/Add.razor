@@ -133,14 +133,14 @@
                                 </div>
                             </div>
 
-                            <div class="row rowMargin">
+                           @*  <div class="row rowMargin">
                                 <div class="col-sm-3">
                                     Quantity
                                 </div>
                                 <div class="col-sm-6">
                                     <InputNumber @bind-Value="product.Quantity" style="color:red;" class="form-control" />
                                 </div>
-                            </div>
+                            </div> *@
                             <div class="row rowMargin">
                                 <div class="col-sm-3">
                                     Price
@@ -279,12 +279,12 @@
                                 ? validationMessage + ", " + Environment.NewLine + "Vendor: Please select Vendor."
                                 : "Vendor: Please select Vendor.";
         }
-        if ((productViewModel.Quantity == null) || (productViewModel.Quantity == 0))
-        {
-            validationMessage = validationMessage != null
-                                ? validationMessage + ", " + Environment.NewLine + "Quantity: Please enter Quantity."
-                                : "Quantity: Please enter Quantity.";
-        }
+        // if ((productViewModel.Quantity == null) || (productViewModel.Quantity == 0))
+        // {
+        //     validationMessage = validationMessage != null
+        //                         ? validationMessage + ", " + Environment.NewLine + "Quantity: Please enter Quantity."
+        //                         : "Quantity: Please enter Quantity.";
+        // }
         if ((productViewModel.ProductPrice == null) || (productViewModel.ProductPrice == 0))
         {
             validationMessage = validationMessage != null

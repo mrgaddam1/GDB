@@ -2,6 +2,7 @@
 @using GDB.Web.BLL.Interface
 @using GDB.Web.Shared
 @using System.Globalization
+@using Radzen
 @using Radzen.Blazor
 
 @inject IOrderService OrderService
@@ -32,11 +33,12 @@
                         AllowPaging="true"
                         AllowSorting="true"
                         PageSize="15"
-                        GridLines="@GridLines">
+                        GridLines="@GridLines"
+                        RowRender="@OnRowRender">
             <Columns>
                 <RadzenDataGridColumn Property="OrderId" Title="Id" Width="100" Visible="false" />
                 <RadzenDataGridColumn Property="WeekId" Title="Week" Width="80px" />
-                <RadzenDataGridColumn Property="MobileNumber" Title="Mobile Number" Width="110px" />
+                <RadzenDataGridColumn Property="CustomerName" Title="Customer Name" Width="150px" />                
                 <RadzenDataGridColumn Property="Location" Title="Location" Width="120px" />
                 <RadzenDataGridColumn Property="AdvertisementDescription" Title="How did hear?" Width="170px" />
                 <RadzenDataGridColumn Property="OrderTypeName" Title="OrderType Name" Width="140px" />
@@ -102,7 +104,23 @@
     private void AddNewOrder()
     {
         NavigationManager.NavigateTo("/orders/add");
-    }   
+    } 
+    
+    void OnRowRender(RowRenderEventArgs<OrdersViewModel> args)
+    {
+        if ((args.Data.AmountPaid == null) || (args.Data.AmountPaid == false)){
+            args.Attributes.Add("style", "background-color: lightgreen;");
+        }
+           
+    }
+    void CellRender(DataGridCellRenderEventArgs<OrdersViewModel> args)
+    {
+        if ((args.Data.AmountPaid == null) || (args.Data.AmountPaid == false))
+        {
+            args.Attributes.Add("style", "background-color:#7B68EE !important;");
+        }
+    }
+
     // private void UpdateOrder()
     // {
     //     NavigationManager.NavigateTo("/orders/update" + "/" + Convert.ToString(ordersViewModel.FirstOrDefault().OrderId));

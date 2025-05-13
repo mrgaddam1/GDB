@@ -19,7 +19,7 @@ public partial class Product
 
     public int? FoodPackingTypeId { get; set; }
 
-    public int Quantity { get; set; }
+   // public int Quantity { get; set; }
 
     public decimal ProductPrice { get; set; }
 

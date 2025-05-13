@@ -106,8 +106,8 @@
         var selectedProduct = productViewModel.FirstOrDefault(p => p.ProductId == inventoryViewModel.ProductId);
         if (selectedProduct != null)
         {
-            inventoryViewModel.Quantity = selectedProduct.Quantity;
-            inventoryViewModel.AvailableQuantity = selectedProduct.Quantity; 
+            inventoryViewModel.Quantity = inventoryViewModel.Quantity;
+            inventoryViewModel.AvailableQuantity = inventoryViewModel.AvailableQuantity;
         }
         StateHasChanged();
     }

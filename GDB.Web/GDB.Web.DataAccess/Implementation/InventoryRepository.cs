@@ -83,13 +83,14 @@ namespace GDB.Web.DataAccess.Implementation
                 if (inventory != null)
                 {
 
-                    inventory.Quantity = inventory.Quantity;
+                    inventory.Quantity = inventoryViewModel.Quantity;
                     if (inventoryViewModel.AvailableQuantity == inventory.AvailableQuantity)
                     {
                         inventory.AvailableQuantity = inventoryViewModel.AvailableQuantity;
                     }
                     else
                     {
+                       
                         inventory.AvailableQuantity = (inventoryViewModel.AvailableQuantity + inventory.AvailableQuantity);
                   
                     }

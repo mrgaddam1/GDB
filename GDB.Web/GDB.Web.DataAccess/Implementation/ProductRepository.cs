@@ -34,7 +34,7 @@ namespace GDB.Web.DataAccess.Implementation
                     ProductName = productViewModel.ProductName,
                     VendorId = productViewModel.VendorId,
                     FoodPackingTypeId = productViewModel.FoodPackingTypeId,
-                    Quantity = productViewModel.Quantity,
+                    //Quantity = productViewModel.Quantity,
                     ProductPrice = productViewModel.ProductPrice,
                     PurchasedDate = productViewModel.PurchasedDate,
                     CreatedDate = DateTime.UtcNow,
@@ -67,7 +67,7 @@ namespace GDB.Web.DataAccess.Implementation
                                     CategoryName = c.CategoryName,
                                     SubCategoryName = s.SubCategoryName,
                                     VendorName = l.VendorName,
-                                    Quantity = p.Quantity,
+                                    //Quantity = p.Quantity,
                                     ProductPrice = p.ProductPrice,
                                     FoodPackingTypeId = p.FoodPackingTypeId,
                                     PurchasedDate = p.PurchasedDate,
@@ -108,12 +108,12 @@ namespace GDB.Web.DataAccess.Implementation
 
                     if (productViewModel.PurchasedDate == existingProductData.PurchasedDate)
                     {
-                        existingProductData.Quantity = productViewModel.Quantity;
+                        //existingProductData.Quantity = productViewModel.Quantity;
                         existingProductData.ProductPrice = productViewModel.ProductPrice;
                     }
                     else
                     {
-                        existingProductData.Quantity = existingProductData.Quantity + productViewModel.Quantity;
+                        //existingProductData.Quantity = existingProductData.Quantity + productViewModel.Quantity;
                         existingProductData.ProductPrice = existingProductData.ProductPrice + productViewModel.ProductPrice;
                     }
                    

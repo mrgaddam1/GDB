@@ -33,13 +33,13 @@
                     <RadzenDataGridColumn TItem="ProductViewModel" Property="CategoryName" Title="Category" Width="200px" />
                     <RadzenDataGridColumn TItem="ProductViewModel" Property="SubCategoryName" Title="SubCategory" Width="250px" />
                     <RadzenDataGridColumn TItem="ProductViewModel" Property="VendorName" Title="Vendor" Width="125px" />
-                    <RadzenDataGridColumn TItem="ProductViewModel" Property="Quantity" Title="Quantity" Width="125px" >
+                    @* <RadzenDataGridColumn TItem="ProductViewModel" Property="Quantity" Title="Quantity" Width="125px" >
                         <Template Context="data">
                             <span style="color:blue; font-weight:600;">
                                 @data.Quantity
                             </span>
                         </Template>
-                    </RadzenDataGridColumn>
+                    </RadzenDataGridColumn> *@
                     <RadzenDataGridColumn TItem="ProductViewModel" Property="ProductPrice" Title="Price" Width="125px" >
                         <Template Context="data">
                              <span style="color:red; font-weight:600;">

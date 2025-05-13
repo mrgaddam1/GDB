@@ -13,7 +13,7 @@ namespace GDB.Web.Shared.Inventory
         public int CategoryId { get; set; }
         public int SubCategoryId { get; set; }
         public int VendorId { get; set; }
-        public int Quantity { get; set; }
+        //public int Quantity { get; set; }
         public decimal ProductPrice{ get; set; }
         public string? ProductName { get; set; }
         public string? CategoryName { get; set; }

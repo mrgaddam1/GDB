@@ -69,7 +69,7 @@ namespace GDB.Web.DataAccess.Implementation
                                 select new OrdersViewModel
                                 {
                                     OrderId = o.OrderId,
-                                    FirstName = c.FirstName + "  " + c.LastName,
+                                    CustomerName = c.FirstName + "  " + c.LastName,
                                     LastName = c.LastName,
                                     MobileNumber = c.MobileNumber,
                                     OrderTypeName = ot.OrderTypeName,
@@ -110,7 +110,7 @@ namespace GDB.Web.DataAccess.Implementation
                     new SqlParameter("@StaterQuantity", ordersViewModel.StaterQuantity),
                     new SqlParameter("@TotalStaterPrice", ordersViewModel.SelectedStaterPrice),
                     new SqlParameter("@OrderTypeId", ordersViewModel.OrderTypeId),
-                    new SqlParameter("@OrderDate", System.DateTime.Now),
+                    new SqlParameter("@OrderDate", ordersViewModel.OrderDate),
                     new SqlParameter("@Quantity", ordersViewModel.Quantity),
                     new SqlParameter("@Amount", ordersViewModel.Amount),
                    
