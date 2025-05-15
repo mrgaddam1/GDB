@@ -43,7 +43,7 @@
                                     Quantity
                                 </div>
                                 <div class="col-sm-6">
-                                    <InputNumber @bind-Value="inventoryViewModel.Quantity" style="color:red;" class="form-control" />
+                                    <InputNumber @bind-Value="inventoryViewModel.Quantity" readonly style="color:red;" class="form-control" />
                                 </div>
                             </div>
 
@@ -52,7 +52,15 @@
                                     Available Quantity
                                 </div>
                                 <div class="col-sm-6">
-                                    <InputNumber @bind-Value="inventoryViewModel.AvailableQuantity" style="color:red;" class="form-control" />
+                                    <InputNumber @bind-Value="inventoryViewModel.AvailableQuantity" readonly style="color:red;" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="row rowMargin">
+                                <div class="col-sm-3">
+                                    New Stock Quantity
+                                </div>
+                                <div class="col-sm-6">
+                                    <InputNumber @bind-Value="inventoryViewModel.NewStockQuantity" style="color:red;" class="form-control" />
                                 </div>
                             </div>
 

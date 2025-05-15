@@ -82,18 +82,17 @@ namespace GDB.Web.DataAccess.Implementation
                 var inventory = await DbContext.Inventories.FindAsync(inventoryViewModel.InventoryId);
                 if (inventory != null)
                 {
-
-                    inventory.Quantity = inventoryViewModel.Quantity;
-                    if (inventoryViewModel.AvailableQuantity == inventory.AvailableQuantity)
+                    if(inventoryViewModel.NewStockQuantity == 0 || inventoryViewModel.NewStockQuantity == null)
                     {
+                        inventory.Quantity = inventoryViewModel.Quantity;
                         inventory.AvailableQuantity = inventoryViewModel.AvailableQuantity;
                     }
                     else
                     {
-                       
-                        inventory.AvailableQuantity = (inventoryViewModel.AvailableQuantity + inventory.AvailableQuantity);
-                  
+                        inventory.Quantity = (inventoryViewModel.NewStockQuantity + inventory.Quantity);
+                        inventory.AvailableQuantity = (inventoryViewModel.NewStockQuantity + inventory.AvailableQuantity);
                     }
+                    
                     inventory.ModifiedDate = DateTime.UtcNow;
                     inventory.UserId = 1;
                     DbContext.Inventories.Update(inventory);

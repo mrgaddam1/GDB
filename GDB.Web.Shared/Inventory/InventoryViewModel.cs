@@ -12,8 +12,9 @@ namespace GDB.Web.Shared.Inventory
         public int WeekId { get; set; }
         public int ProductId { get; set; }
         public int UserId { get; set; }
-        public int Quantity { get; set; }
+        public int Quantity { get; set; }      
         public int? AvailableQuantity { get; set; }
+        public int NewStockQuantity { get; set; }
         public string? ProductName { get; set; }
         public string? FoodPackingTypeDescription { get; set; }
         public int FoodPackingTypeId { get; set; }
