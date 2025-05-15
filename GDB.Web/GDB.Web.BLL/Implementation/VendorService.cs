@@ -4,6 +4,7 @@ using GDB.Web.Shared;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http.Json;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -29,6 +30,55 @@ namespace GDB.Web.BLL.Implementation
             {
                 string message = ex.Message;
                 return null;
+            }
+        }
+
+        public async Task<bool?> Add(VendorViewModel vendorViewModel)
+        {
+            bool isSuccess = false;
+            try
+            {
+                var response = await httpClient.PostAsJsonAsync("api/Vendor/Add", vendorViewModel);
+                if (!response.IsSuccessStatusCode)
+                {
+                    var errorContent = await response.Content.ReadAsStringAsync();
+                    Console.WriteLine($"Error: {response.StatusCode} - {errorContent}");
+                    isSuccess = false;
+                }
+                else
+                {
+                    isSuccess = true;
+                }
+                return isSuccess;
+            }
+            catch (Exception ex)
+            {
+                var error = ex.Message;
+                return isSuccess;
+            }
+        }
+
+        public async Task<bool?> Update(VendorViewModel vendorViewModel)
+        {
+            bool isSuccess = false;
+            try
+            {
+                var response = await httpClient.PostAsJsonAsync("api/Vendor/Update", vendorViewModel);
+                if (!response.IsSuccessStatusCode)
+                {
+                    var errorContent = await response.Content.ReadAsStringAsync();
+                    Console.WriteLine($"Error: {response.StatusCode} - {errorContent}");
+                }
+                else
+                {
+                    isSuccess = true;
+                }
+                return isSuccess;
+            }
+            catch (Exception ex)
+            {
+                var error = ex.Message;
+                return isSuccess;
             }
         }
     }    

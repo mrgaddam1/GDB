@@ -1,0 +1,175 @@
+﻿@page "/masterMaintenance/vendors/update/{vendorId:int}"
+
+@using GDB.Web.BLL.Interface
+@using GDB.Web.Shared
+
+@inject IVendorService VendorService
+@inject NavigationManager NavigationManager
+@inject ILogger<Add> Logger
+@rendermode @(new InteractiveAutoRenderMode(prerender:false))
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-8 mx-auto">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    Add Vendor
+                </div>
+                <div class="card-body">
+                    <div class="col-lg-12">
+                        <EditForm Model="@vendor" OnValidSubmit="HandleValidSubmit">
+                            @if (errorMessages != null)
+                            {
+                                if (!string.IsNullOrEmpty(errorMessages))
+                                {
+                                    <ul class="alert alert-danger mt-3 text-left">
+                                        <li>@errorMessages</li>
+                                    </ul>
+                                }
+                            }
+                            <div class="row rowMargin">
+                                <div class="col-sm-3">
+                                    Vendor Name
+                                </div>
+                                <div class="col-sm-6">
+                                    <InputText @bind-Value="vendor.VendorName" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="row rowMargin">
+                                <div class="col-sm-3">
+                                    First Name
+                                </div>
+                                <div class="col-sm-6">
+                                    <InputText @bind-Value="vendor.FirstName" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="row rowMargin">
+                                <div class="col-sm-3">
+                                    Last Name
+                                </div>
+                                <div class="col-sm-6">
+                                    <InputText @bind-Value="vendor.LastName" class="form-control" />
+                                </div>
+                            </div>
+
+                            <div class="row rowMargin">
+                                <div class="col-sm-3">
+                                    Contact Number
+                                </div>
+                                <div class="col-sm-6">
+                                    <InputText @bind-Value="vendor.ContactNumber" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="row rowMargin">
+                                <div class="col-sm-3">
+                                    Address Line1
+                                </div>
+                                <div class="col-sm-6">
+                                    <InputText @bind-Value="vendor.AddressLine1" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="row rowMargin">
+                                <div class="col-sm-3">
+                                    Address Line2
+                                </div>
+                                <div class="col-sm-6">
+                                    <InputText @bind-Value="vendor.AddressLine2" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="row rowMargin">
+                                <div class="col-sm-3">
+                                    Postcode
+                                </div>
+                                <div class="col-sm-6">
+                                    <InputText @bind-Value="vendor.Postcode" class="form-control" />
+                                </div>
+                            </div>
+
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-primary">Update</button> &nbsp;
+                                <button type="button" class="btn btn-secondary" @onclick="GoBack">Cancel</button>
+                            </div>
+                            @if (!string.IsNullOrEmpty(successMessage))
+                            {
+                                <div class="alert alert-success mt-3 text-center">@successMessage</div>
+                            }
+                        </EditForm>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@code {
+    [Parameter]
+    public int vendorId { get; set; }
+
+    private VendorViewModel vendor = new();
+    private string errorMessages;
+    private string successMessage = string.Empty;
+    private List<VendorViewModel> vendorData { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        vendorData = new List<VendorViewModel>();
+        vendorData = await VendorService.GetAll<List<VendorViewModel>>();
+        vendor = vendorData.SingleOrDefault(x => x.VendorId == Convert.ToInt32(vendorId));
+    }
+
+
+
+    private async void HandleValidSubmit()
+    {
+        errorMessages = Validations(vendor);
+
+        if ((errorMessages == null) || (errorMessages == ""))
+        {
+            var response = await VendorService.Update(vendor);
+            if (response.Value)
+            {
+                Logger.LogInformation("Vendor Updated successfully.");
+                successMessage = "Vendor Updated  successfully!";
+                Reset();
+            }
+            else
+            {
+                Logger.LogInformation("Unable to add Updated Vendor.");
+                successMessage = "Unable to add Updated Vendor.";
+            }
+        }
+        else
+        {
+            //validations = "";
+        }
+    }
+
+    private async void Reset()
+    {
+        vendor = new VendorViewModel();
+        errorMessages = "";
+        StateHasChanged();
+    }
+
+    private void GoBack()
+    {
+        NavigationManager.NavigateTo("/masterMaintenance/vendors/list");
+    }
+
+    private string Validations(VendorViewModel vendorViewModel)
+    {
+        string validationMessage = "";
+        if (vendorViewModel.VendorName == null)
+        {
+            validationMessage = "Vendor Name: Please enter Vendor Name";
+        }
+        return validationMessage;
+    }
+}
+<style type="text/css">
+    .rowMargin {
+        margin-bottom: 10px;
+    }
+</style>
+

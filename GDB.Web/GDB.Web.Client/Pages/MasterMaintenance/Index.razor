@@ -1,6 +1,85 @@
 ﻿@page "/masterMaintenace/index"
 
-<div style="width:100%;">
+
+
+<div class="row" align="center" style="padding-top:20px;margin-left:150px;">
+    <div class="col-md-3">
+        <div class="card" style="width: 18rem;">
+            <div class="card-header" align="left">
+                <h4 class="card-title">Maintenance</h4>
+            </div>
+            <ul class="list-group list-group-flush" align="left">
+                <li class="list-group-item text-primary">
+                    <a href="/masterMaintenance/advertiseSource/list" class="text-success">Advertise Source</a>
+                </li>
+                <li class="list-group-item text-primary">
+                    <a href="/masterMaintenance/expensesandsales/list" class="text-success">Expenses And Sales</a>
+                </li>
+                <li class="list-group-item text-primary">
+                    <a href="/masterMaintenance/grocery/list" class="text-success">Grocery</a>
+                </li>
+                
+                <li class="list-group-item text-primary">
+                    <a href="/inventory/inventoryhistory/list" class="text-success">Inventory History</a>
+                </li>
+                
+                <li class="list-group-item text-primary">
+                    <a href="/masterMaintenance/locations/list" class="text-success">Locations</a>
+                </li>
+                <li class="list-group-item text-primary">
+                    <a href="/masterMaintenance/orderType/list" class="text-success">Order Types</a>
+                </li>
+               
+                <li class="list-group-item text-primary">
+                    <a href="/ordertypeprice/list" class="text-success">OrderType Prices</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card" style="width: 18rem;">
+            <div class="card-header" align="left">
+                <h4 class="card-title">Maintenance</h4>
+            </div>
+           
+
+            <ul class="list-group list-group-flush" align="left">
+                <li class="list-group-item text-primary">
+                    <a href="#" class="text-success">Order Staters By Customers</a>
+                </li>
+
+                <li class="list-group-item text-primary">
+                    <a href="/masterMaintenance/store/list" class="text-success">Store</a>
+                </li>
+                <li class="list-group-item text-primary">
+                    <a href="#" class="text-success">Product History</a>
+                </li>
+
+                <li class="list-group-item text-primary">
+                    <a href="#" class="text-success">Staters</a>
+                </li>
+                <li class="list-group-item text-primary">
+                    <a href="#" class="text-success">Stater Price</a>
+                </li>
+              
+                <li class="list-group-item text-primary">
+                    <a href="/masterMaintenance/vendors/list" class="text-success">Vendors</a>
+                </li>
+                <li class="list-group-item text-primary">
+                    <a href="" class="text-success">Settings</a>
+                </li>
+              
+            </ul>
+        </div>
+    </div>
+
+    
+
+</div>
+
+
+@* <div style="width:100%;">
     <ul class="nav-menu" style="margin-top:-7px;margin-left:-7px;">
         <li>
             <NavLink href="/masterMaintenance/locations/list" activeClass="active">Location</NavLink>
@@ -28,179 +107,5 @@
 
     </ul>  
 </div>
-
-@* <div class="row">
-    <div class="col-md-2">
-        <a href="/masterMaintenance/advertiseSource/list" class="primary">AdvertiseSource</a>
-    </div>
-</div>
-<div class="row">
-
-    <div class="col-md-2">
-        <a href="/masterMaintenance/grocery/list" class="primary">Grocery</a>
-    </div>
-</div>
-<div class="row">
-    <div class="col-md-2">
-        <a href="/masterMaintenance/locations/list" class="primary">Location</a>
-    </div>
-</div>
-<div class="row">
-    <div class="col-md-2">
-        <a href="/masterMaintenance/orderType/list" class="primary">OrderType</a>
-    </div>
-</div>
-<div class="row">
-    <div class="col-md-2">
-        <a href="/masterMaintenance/grocery/list" class="primary">Store</a>
-    </div>
-</div> *@
-
-@* <div class="container">
-    <div class="row rowstyle">
-        <div class="col col1BackGround boxborder">
-            <a href="masterMaintenance/advertiseSource/list" class="anchorTag">AdvertiseSource</a>
-        </div>
-        <div class="col col2BackGround boxborder">
-            <a href="masterMaintenance/grocery/list" class="anchorTag">Grocery</a>
-        </div>
-        <div class="col col3BackGround boxborder">
-            <a href="masterMaintenance/locations/list" class="anchorTag">Location</a>
-        </div>
-        <div class="col col4BackGround boxborder">
-            <a href="masterMaintenance/orderType/list" class="anchorTag">OrderType</a>
-        </div>
-    </div> 
-    <div class="row rowstyle">
-        <div class="col col5BackGround boxborder">
-            <a href="#" class="anchorTag">OrderTypePrice</a>
-        </div>
-        <div class="col col6BackGround boxborder">
-            <a href="#" class="anchorTag">Payment Types</a>
-        </div>
-        <div class="col col7BackGround boxborder">
-            <a href="masterMaintenance/store/list" class="anchorTag">Store</a>
-        </div>
-        <div class="col col8BackGround boxborder">
-            <a href="#" class="anchorTag">Staters</a>
-        </div>
-    </div>
-
-</div>
-
-
-@code {
-
-}
-
-<style type="text/css">
-    .rowstyle{
-        margin-top:10px;
-    }
-    .anchorTag {
-        color: white;
-        font-size: 23px;
-        text-decoration:none;
-    }
-
-    .anchorTag:hover {
-        color: black;
-        font-size: 23px;
-        text-decoration: none;
-    }
-
-    .col1BackGround {
-        background-color: #d7d1fa;
-        color: white;
-        font-size: 17px;
-        height: 150px;
-        width: 250px;
-        text-align:center;
-        vertical-align: middle;
-        margin-left:10px;
-    }
-
-    .col2BackGround {
-        background-color: #ffdacc;
-        color: white;
-        font-size: 17px;
-        height: 150px;
-        width: 250px;
-        text-align: center;
-        vertical-align: middle;
-        margin-left: 10px;
-    }
-
-    .col3BackGround {
-        background-color: #d3d9de;
-        color: white;
-        font-size: 17px;
-        height: 150px;
-        width: 250px;
-        text-align: center;
-        vertical-align: middle;
-        margin-left: 10px;
-    }
-
-    .col4BackGround {
-        background-color: #5F9EA0;
-        color: white;
-        font-size: 17px;
-        height: 150px;
-        width: 250px;
-        text-align: center;
-        vertical-align: middle;
-        margin-left: 10px;
-    }
-
-    .col5BackGround {
-        background-color: #8FBC8F;
-        color: white;
-        font-size: 17px;
-        height: 150px;
-        width: 250px;
-        text-align: center;
-        vertical-align: middle;
-        margin-left: 10px;
-
-    }
-
-    .col6BackGround {
-        background-color: #00008b;
-        color: white;
-        font-size: 17px;
-        height: 150px;
-        width: 250px;
-        text-align: center;
-        vertical-align: middle;
-        margin-left: 10px;
-    }
-
-    .col7BackGround {
-        background-color: #006400;
-        color: white;
-        font-size: 17px;
-        height: 150px;
-        width: 250px;
-        text-align: center;
-        vertical-align: middle;
-        margin-left:10px;
-    }
-
-    .col8BackGround {
-        background-color: #cd5c5c;
-        color: white;
-        font-size: 17px;
-        height: 150px;
-        width: 250px;
-        text-align: center;
-        vertical-align: middle;
-        margin-left: 10px;
-    }
-    .boxborder
-    {
-        border-color: #86b7fe;
-        outline: 0;
-        box-shadow: 0 0 0 .25rem rgba(13,110,253,.25)
-    }
-</style> *@
+ *@
+ 

@@ -10,5 +10,7 @@ namespace GDB.Web.BLL.Interface
     public interface IVendorService
     {
         Task<List<VendorViewModel>> GetAll<T>();
+        Task<bool?> Add(VendorViewModel vendorViewModel);
+        Task<bool?> Update(VendorViewModel vendorViewModel);
     }
 }

@@ -1,0 +1,77 @@
+﻿@page "/masterMaintenance/vendors/list"
+@using GDB.Web.BLL.Interface
+@using GDB.Web.Shared
+@using Radzen.Blazor
+
+@inject IVendorService VendorService
+@inject NavigationManager NavigationManager
+@rendermode @(new InteractiveServerRenderMode(prerender:false))
+
+
+<div class="row">
+    <div class="col-lg-6" align="left">
+        <h2>Vendors</h2>
+    </div>
+    <div class="col-lg-6" align="right">
+        <button @onclick="Add" class="btn btn-primary">
+            <i class="fa fa-plus" aria-hidden="true"></i>
+            &nbsp;&nbsp;Add New
+        </button>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        @if (vendorData != null)
+        {
+            <RadzenDataGrid Data="vendorData" AllowFiltering="true" AllowPaging="true" AllowSorting="true" PageSize="20">
+                <Columns>
+                    <RadzenDataGridColumn TItem="VendorViewModel" Property="VendorId" Title="Id" />
+                    <RadzenDataGridColumn TItem="VendorViewModel" Property="VendorName" Title="Vendor Name" />
+                    <RadzenDataGridColumn TItem="VendorViewModel" Property="FirstName" Title="First Name" />
+                    <RadzenDataGridColumn TItem="VendorViewModel" Property="LastName" Title="Last Name" />
+                    <RadzenDataGridColumn TItem="VendorViewModel" Property="ContactNumber" Title="Contact Number" />
+                    <RadzenDataGridColumn TItem="VendorViewModel" Property="AddressLine1" Title="Address Line1" />
+                    <RadzenDataGridColumn TItem="VendorViewModel" Property="AddressLine2" Title="Address Line2" />
+                    <RadzenDataGridColumn TItem="VendorViewModel" Property="Postcode" Title="Postcode" />
+                    <RadzenDataGridColumn TItem="VendorViewModel" Property="VendorAddressId" Title="VendorAddressId" Visible="false" />
+                    <RadzenDataGridColumn TItem="VendorViewModel" Property="VendorContactId" Title="VendorContactId" Visible="false" />
+
+
+                    <RadzenDataGridColumn TItem="VendorViewModel">
+                        <Template Context="data">
+                            <RadzenButton ButtonType="Radzen.ButtonType.Button"
+                                          Icon="edit" Size="Radzen.ButtonSize.Small"
+                                          Style="margin-right:5px;"
+                                          Click="@(() => EditRow(data))" />
+                        </Template>
+                    </RadzenDataGridColumn>
+                
+                
+                </Columns>
+            </RadzenDataGrid>
+        }
+    </div>
+</div>
+
+@code {
+
+    private List<VendorViewModel> vendorData { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        vendorData = new List<VendorViewModel>();
+        vendorData = await VendorService.GetAll<List<VendorViewModel>>();
+    }
+    void OnRowSelect(StoreViewModel store)
+    {
+        // Optional: Do something on row select
+    }
+    private void Add()
+    {
+        NavigationManager.NavigateTo("/masterMaintenance/vendors/add");
+    }
+    void EditRow(VendorViewModel vendorViewModel)
+    {
+        NavigationManager.NavigateTo("/masterMaintenance/vendors/update" + "/" + Convert.ToString(vendorViewModel.VendorId));
+    }
+}

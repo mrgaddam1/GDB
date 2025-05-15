@@ -65,6 +65,10 @@ public partial class GDBContext : DbContext
 
     public virtual DbSet<Vendor> Vendors { get; set; }
 
+    public virtual DbSet<VendorAddress> VendorAddresses { get; set; }
+
+    public virtual DbSet<VendorContact> VendorContacts { get; set; }
+
     public virtual DbSet<WeekDatum> WeekData { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -336,9 +340,47 @@ public partial class GDBContext : DbContext
         {
             entity.ToTable("Vendor");
 
+            entity.Property(e => e.CreatedDate).HasColumnType("datetime");
+            entity.Property(e => e.ModifiedDate).HasColumnType("datetime");
             entity.Property(e => e.VendorName)
                 .HasMaxLength(250)
                 .IsUnicode(false);
+        });
+
+        modelBuilder.Entity<VendorAddress>(entity =>
+        {
+            entity.ToTable("VendorAddress");
+
+            entity.Property(e => e.AddressLine1)
+                .HasMaxLength(250)
+                .IsUnicode(false);
+            entity.Property(e => e.AddressLine2)
+                .HasMaxLength(250)
+                .IsUnicode(false);
+            entity.Property(e => e.CreatedDate).HasColumnType("datetime");
+            entity.Property(e => e.DeletedDate).HasColumnType("datetime");
+            entity.Property(e => e.ModifiedDate).HasColumnType("datetime");
+            entity.Property(e => e.Postcode)
+                .HasMaxLength(10)
+                .IsUnicode(false);
+        });
+
+        modelBuilder.Entity<VendorContact>(entity =>
+        {
+            entity.ToTable("VendorContact");
+
+            entity.Property(e => e.ContactNumber)
+                .HasMaxLength(25)
+                .IsUnicode(false);
+            entity.Property(e => e.CreatedDate).HasColumnType("datetime");
+            entity.Property(e => e.DeletedDate).HasColumnType("datetime");
+            entity.Property(e => e.FirstName)
+                .HasMaxLength(250)
+                .IsUnicode(false);
+            entity.Property(e => e.LastName)
+                .HasMaxLength(250)
+                .IsUnicode(false);
+            entity.Property(e => e.ModifiedDate).HasColumnType("datetime");
         });
 
         modelBuilder.Entity<WeekDatum>(entity =>
