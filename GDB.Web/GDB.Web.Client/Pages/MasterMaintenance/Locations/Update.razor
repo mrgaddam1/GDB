@@ -1,10 +1,11 @@
-﻿@page "/inventory/category/update/{categoryId:int}"
+﻿@page "/masterMaintenance/locations/update/{locationId:int}"
 @using GDB.Web.BLL.Interface
+@using GDB.Web.Shared
 @using GDB.Web.Shared.Inventory
 
-@inject ICategoryService CategoryService
+@inject ILocationService LocationService
 @inject NavigationManager NavigationManager
-@inject ILogger<Add> Logger
+@inject ILogger<Update> Logger
 @rendermode @(new InteractiveAutoRenderMode(prerender:false))
 
 <div class="container">
@@ -12,11 +13,11 @@
         <div class="col-md-8 mx-auto">
             <div class="card">
                 <div class="card-header bg-primary text-white">
-                   Update Category
+                   Update Locations
                 </div>
                 <div class="card-body">
                     <div class="col-lg-12">
-                        <EditForm Model="@category" OnValidSubmit="HandleValidSubmit">
+                        <EditForm Model="@location" OnValidSubmit="HandleValidSubmit">
                             @if (errorMessages != null)
                             {
                                 if (!string.IsNullOrEmpty(errorMessages))
@@ -31,7 +32,7 @@
                                     Category Name
                                 </div>
                                 <div class="col-sm-6">
-                                    <InputText @bind-Value="category.CategoryDescription" class="form-control" />
+                                    <InputText @bind-Value="location.LocationName" class="form-control" />
                                 </div>
                             </div>
 
@@ -54,36 +55,36 @@
 
 @code {
     [Parameter]
-    public int categoryId { get; set; }
-    private CategoryViewModel category = new();
+    public int locationId { get; set; }
+    private LocationViewModel location = new();
     private string errorMessages;
     private string successMessage = string.Empty;
 
-    private List<CategoryViewModel> categoryList { get; set; }
+    private List<LocationViewModel> locationList { get; set; }
     protected override async Task OnInitializedAsync()
     {
-        categoryList = new List<CategoryViewModel>();
-        categoryList = await CategoryService.GetAll<List<CategoryViewModel>>();
-        category = categoryList.SingleOrDefault(x => x.CategoryId == Convert.ToInt32(categoryId));
+        locationList = new List<LocationViewModel>();
+        locationList = await LocationService.GetAllLocations<List<LocationViewModel>>();
+        location = locationList.SingleOrDefault(x => x.LocationId == Convert.ToInt32(locationId));
     }
 
     private async void HandleValidSubmit()
     {
-        errorMessages = Validations(category);
+        errorMessages = Validations(location);
 
         if ((errorMessages == null) || (errorMessages == ""))
         {
-            var response = await CategoryService.Update(category);
+            var response = await LocationService.Update(location);
             if (response.Value)
             {
-                Logger.LogInformation("Category Updated successfully.");
-                successMessage = "Category Updated  successfully!";
+                Logger.LogInformation("Location Updated successfully.");
+                successMessage = "Location Updated  successfully!";
                 Reset();
             }
             else
             {
-                Logger.LogInformation("Unable to update Category.");
-                successMessage = "Unable to update Category.";
+                Logger.LogInformation("Unable to update Location.");
+                successMessage = "Unable to update Location.";
             }
         }
         else
@@ -94,23 +95,23 @@
 
     private async void Reset()
     {
-        category = new CategoryViewModel();
+        location = new LocationViewModel();
         errorMessages = "";
         StateHasChanged();
     }
 
-    private string Validations(CategoryViewModel categoryViewModel)
+    private string Validations(LocationViewModel locationViewModel)
     {
         string validationMessage = "";
-        if (categoryViewModel.CategoryDescription == null)
+        if (locationViewModel.LocationName == null)
         {
-            validationMessage = "Category Name: Please enter Category Name";
+            validationMessage = "Location Name: Please enter Location Name";
         }
         return validationMessage;
     }
     private void GoBack()
     {
-        NavigationManager.NavigateTo("/inventory/category/list");
+        NavigationManager.NavigateTo("/masterMaintenance/locations/list");
     }
 
 }

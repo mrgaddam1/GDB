@@ -10,11 +10,11 @@
 @rendermode @(new InteractiveServerRenderMode(prerender:false))
 
 
-<div class="col-lg-6">
+<div class="col-lg-5">
     <table>
         <tr>
             <td>
-                <h2>Stores</h2>
+                <h2>Locations</h2>
             </td>
             <td style="text-align:right;">
                 <button @onclick="Add" class="btn btn-primary">
@@ -31,6 +31,15 @@
                         <Columns>
                             <RadzenDataGridColumn TItem="LocationViewModel" Property="LocationId" Title="Id" />
                             <RadzenDataGridColumn TItem="LocationViewModel" Property="LocationName" Title="Location Name" />
+
+                            <RadzenDataGridColumn TItem="LocationViewModel">
+                                <Template Context="data">
+                                    <RadzenButton ButtonType="Radzen.ButtonType.Button"
+                                                  Icon="edit" Size="Radzen.ButtonSize.Medium"
+                                                  Style="margin-right:5px;"
+                                                  Click="@(() => EditRow(data))" />
+                                </Template>
+                            </RadzenDataGridColumn>
                         </Columns>
                     </RadzenDataGrid>
                 }
@@ -52,6 +61,10 @@
     private void Add()
     {
         NavigationManager.NavigateTo("/masterMaintenance/locations/add");
+    }
+    protected void EditRow(LocationViewModel locationViewModel)
+    {
+        NavigationManager.NavigateTo("/masterMaintenance/locations/update" + "/" + Convert.ToString(locationViewModel.LocationId));
     }
 }
 

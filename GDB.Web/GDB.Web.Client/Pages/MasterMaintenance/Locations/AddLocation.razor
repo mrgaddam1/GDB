@@ -37,6 +37,7 @@
 
                             <div class="text-center">
                                 <button type="submit" class="btn btn-primary">Save</button>
+                                <button type="button" class="btn btn-secondary" @onclick="GoBack">Cancel</button>
                             </div>
                             @if (!string.IsNullOrEmpty(successMessage))
                             {
@@ -96,6 +97,10 @@
             validationMessage = "Location Name: Please enter Location Name";
         }
         return validationMessage;
+    }
+    private void GoBack()
+    {
+        NavigationManager.NavigateTo("/masterMaintenance/locations/list");
     }
 }
 <style type="text/css">
