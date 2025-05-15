@@ -80,8 +80,6 @@
                 </DataGrid>
 
             }
-
-
         </div>
     </div>
    
@@ -132,7 +130,7 @@
         {
             var sales = new OrderSalesData()
                 {
-                    Week = "Week " + item.WeekId,
+                    Week = "W-" + item.WeekId,
                     OrderSales = Convert.ToInt32(Math.Round(item.Sales)),
                 };
             ordersSalesDatas.Add(sales);
@@ -142,7 +140,7 @@
         {
             var expenses = new ExpensesByWeekData()
             {
-                Week = "Week " + item.WeekId,
+                Week = "W-" + item.WeekId,
                 ExpensesAmount = Convert.ToInt32(Math.Round(item.Expenses)),
             };                
             expensesByWeekDatas.Add(expenses);
