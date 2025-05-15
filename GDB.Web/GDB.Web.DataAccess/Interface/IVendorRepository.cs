@@ -10,5 +10,8 @@ namespace GDB.Web.DataAccess.Interface
     public interface IVendorRepository
     {
         Task<List<VendorViewModel>> GetAll();
+        Task<bool> Add(VendorViewModel vendorViewModel);
+        Task<bool> Update(VendorViewModel vendorViewModel);
+        Task<bool> Delete(int vendorId);
     }
 }
