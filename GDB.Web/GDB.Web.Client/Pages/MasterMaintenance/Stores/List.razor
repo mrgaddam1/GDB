@@ -27,10 +27,19 @@
             <td colspan="2">
                 @if (storesData != null)
                 {
-                    <RadzenDataGrid Data="storesData" AllowFiltering="true" AllowPaging="true" AllowSorting="true" PageSize="20">
+                    <RadzenDataGrid Data="storesData" AllowFiltering="true" AllowPaging="true" AllowSorting="true" PageSize="10">
                         <Columns>
                             <RadzenDataGridColumn TItem="StoreViewModel" Property="StoreId" Title="Id" />
                             <RadzenDataGridColumn TItem="StoreViewModel" Property="StoreName" Title="Store Name" />
+
+                            <RadzenDataGridColumn TItem="StoreViewModel">
+                                <Template Context="data">
+                                    <RadzenButton ButtonType="Radzen.ButtonType.Button"
+                                                  Icon="edit" Size="Radzen.ButtonSize.Small"
+                                                  Style="margin-right:5px;"
+                                                  Click="@(() => EditRow(data))" />
+                                </Template>
+                            </RadzenDataGridColumn>
                         </Columns>
                     </RadzenDataGrid>
                 }
@@ -55,5 +64,9 @@
     private void Add()
     {
         NavigationManager.NavigateTo("/masterMaintenance/store/addStore");
+    }
+    protected void EditRow(StoreViewModel storeViewModel)
+    {
+        NavigationManager.NavigateTo("/masterMaintenance/store/update" + "/" + Convert.ToString(storeViewModel.StoreId));
     }
 }
