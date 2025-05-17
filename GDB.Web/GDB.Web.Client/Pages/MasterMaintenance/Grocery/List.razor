@@ -30,6 +30,15 @@
                         <Columns>
                             <RadzenDataGridColumn TItem="GroceryViewModel" Property="GroceryId" Title="Id" />
                             <RadzenDataGridColumn TItem="GroceryViewModel" Property="GroceryDescription" Title="Grocery Description" />
+                            <RadzenDataGridColumn TItem="GroceryViewModel">
+                                <Template Context="data">
+                                    <RadzenButton ButtonType="Radzen.ButtonType.Button"
+                                                  Icon="edit" Size="Radzen.ButtonSize.Small"
+                                                  Style="margin-right:5px;"
+                                                  Click="@(() => EditRow(data))" />
+                                </Template>
+                            </RadzenDataGridColumn>
+                        
                         </Columns>
                     </RadzenDataGrid>
                 }
@@ -50,6 +59,10 @@
 
     private void Add()
     {
-        NavigationManager.NavigateTo("/masterMaintenance/locations/add");
+        NavigationManager.NavigateTo("/masterMaintenance/grocery/add");
+    }
+    protected void EditRow(GroceryViewModel groceryViewModel)
+    {
+        NavigationManager.NavigateTo("/masterMaintenance/grocery/update" + "/" + Convert.ToString(groceryViewModel.GroceryId));
     }
 }

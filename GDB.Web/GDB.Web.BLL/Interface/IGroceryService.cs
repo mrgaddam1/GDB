@@ -10,5 +10,7 @@ namespace GDB.Web.BLL.Interface
     public interface IGroceryService
     {
         Task<List<GroceryViewModel>> GetAll<T>();
+        Task<bool?> Add(GroceryViewModel groceryViewModel);
+        Task<bool?> Update(GroceryViewModel groceryViewModel);
     }
 }

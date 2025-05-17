@@ -37,6 +37,8 @@ public partial class GDBContext : DbContext
 
     public virtual DbSet<Order> Orders { get; set; }
 
+    public virtual DbSet<OrderGroup> OrderGroups { get; set; }
+
     public virtual DbSet<OrderStater> OrderStaters { get; set; }
 
     public virtual DbSet<OrderType> OrderTypes { get; set; }
@@ -155,9 +157,12 @@ public partial class GDBContext : DbContext
         {
             entity.ToTable("Grocery");
 
+            entity.Property(e => e.CreatedDate).HasColumnType("datetime");
+            entity.Property(e => e.DeletedDate).HasColumnType("datetime");
             entity.Property(e => e.GroceryDescription)
                 .HasMaxLength(250)
                 .IsUnicode(false);
+            entity.Property(e => e.ModifiedDate).HasColumnType("datetime");
         });
 
         modelBuilder.Entity<Inventory>(entity =>
@@ -200,6 +205,15 @@ public partial class GDBContext : DbContext
             entity.Property(e => e.OrderDate).HasColumnType("datetime");
         });
 
+        modelBuilder.Entity<OrderGroup>(entity =>
+        {
+            entity.Property(e => e.Amount).HasColumnType("decimal(18, 2)");
+            entity.Property(e => e.AmountPaidDate).HasColumnType("datetime");
+            entity.Property(e => e.CreatedDate).HasColumnType("datetime");
+            entity.Property(e => e.ModifiedDate).HasColumnType("datetime");
+            entity.Property(e => e.OrderDate).HasColumnType("datetime");
+        });
+
         modelBuilder.Entity<OrderStater>(entity =>
         {
             entity.ToTable("OrderStater");
@@ -212,6 +226,9 @@ public partial class GDBContext : DbContext
         {
             entity.ToTable("OrderType");
 
+            entity.Property(e => e.CreatedDate).HasColumnType("datetime");
+            entity.Property(e => e.DeletedDate).HasColumnType("datetime");
+            entity.Property(e => e.ModifiedDate).HasColumnType("datetime");
             entity.Property(e => e.OrderTypeName).HasMaxLength(300);
         });
 
