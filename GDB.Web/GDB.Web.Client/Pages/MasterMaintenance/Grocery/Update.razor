@@ -1,4 +1,5 @@
-﻿@page "/masterMaintenance/grocery/add"
+﻿@page "/masterMaintenance/grocery/update/{groceryId:int}"
+
 @using GDB.Web.BLL.Interface
 @using GDB.Web.Shared
 
@@ -53,9 +54,22 @@
 
 
 @code {
+
+    [Parameter]
+    public int groceryId { get; set; }
+
     private GroceryViewModel grocery = new();
     private string errorMessages;
     private string successMessage = string.Empty;
+
+    private List<GroceryViewModel> groceryData { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        groceryData = new List<GroceryViewModel>();
+        groceryData = await GroceryService.GetAll<List<GroceryViewModel>>();
+        grocery = groceryData.SingleOrDefault(x => x.GroceryId == Convert.ToInt32(groceryId));
+    }
 
     private async void HandleValidSubmit()
     {
@@ -63,17 +77,17 @@
 
         if ((errorMessages == null) || (errorMessages == ""))
         {
-            var response = await GroceryService.Add(grocery);
+            var response = await GroceryService.Update(grocery);
             if (response.Value)
             {
-                Logger.LogInformation("New Grocery added successfully.");
-                successMessage = "New Grocery added  successfully!";
+                Logger.LogInformation("Grocery updated successfully.");
+                successMessage = "Grocery updated  successfully!";
                 Reset();
             }
             else
             {
-                Logger.LogInformation("Unable to add new Grocery.");
-                successMessage = "Unable to add new Grocery.";
+                Logger.LogInformation("Unable to updated Grocery.");
+                successMessage = "Unable to updated Grocery.";
             }
         }
         else
@@ -92,7 +106,7 @@
     private string Validations(GroceryViewModel groceryViewModel)
     {
         string validationMessage = "";
-        if (groceryViewModel.GroceryDescription == null)
+        if ((groceryViewModel.GroceryDescription == null) || (groceryViewModel.GroceryDescription == ""))
         {
             validationMessage = "Grocery Description: Please enter Grocery Description";
         }
@@ -102,10 +116,4 @@
     {
         NavigationManager.NavigateTo("/masterMaintenance/grocery/list");
     }
-}
-<style type="text/css">
-    .rowMargin {
-        margin-bottom: 10px;
-    }
-</style>
-
+} 

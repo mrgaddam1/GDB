@@ -10,5 +10,7 @@ namespace GDB.Web.DataAccess.Interface
     public interface IGroceryRepository
     {
         Task<List<GroceryViewModel>> GetAll();
+        Task<bool> Add(GroceryViewModel groceryViewModel);
+        Task<bool> Update(GroceryViewModel groceryViewModel);
     }
 }
