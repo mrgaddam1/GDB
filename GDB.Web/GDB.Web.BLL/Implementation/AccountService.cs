@@ -23,5 +23,6 @@ namespace GDB.Web.BLL.Implementation
             var result = await ApiStatusCodeHandler.HandleResponse<List<AccountsViewModel>>(response);          
             return result ?? new List<AccountsViewModel>();
         }
+ 
     }
 }

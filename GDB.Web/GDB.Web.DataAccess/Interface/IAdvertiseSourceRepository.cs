@@ -10,5 +10,7 @@ namespace GDB.Web.DataAccess.Interface
     public interface IAdvertiseSourceRepository
     {
         Task<List<AdvertiseSourceViewModel>> GetAllAdvertiseSources();
+        Task<bool> Add(AdvertiseSourceViewModel advertiseSourceViewModel);
+        Task<bool> Update(AdvertiseSourceViewModel advertiseSourceViewModel);
     }
 }

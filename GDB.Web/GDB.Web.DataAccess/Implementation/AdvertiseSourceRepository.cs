@@ -32,5 +32,45 @@ namespace GDB.Web.DataAccess.Implementation
                                          }).OrderByDescending(x => x.AdvertiseDescription).ToListAsync();
             return advertiseSourceData;
         }
+        public async Task<bool>Add(AdvertiseSourceViewModel advertiseSourceViewModel)
+        {
+            try
+            {
+                var advertiseSource = new AdvertiseSource
+                {
+                    //AdvertiseId = advertiseSourceViewModel.AdvertiseId,
+                    AdvertiseDescription = advertiseSourceViewModel.AdvertiseDescription
+                };
+                await DbContext.AdvertiseSources.AddAsync(advertiseSource);
+                await DbContext.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "Error adding Advertise Source");
+                return false;
+            }
+        }
+        public async Task<bool> Update(AdvertiseSourceViewModel advertiseSourceViewModel)
+        {
+            try
+            {
+                var advertiseSource = await DbContext.AdvertiseSources.FindAsync(advertiseSourceViewModel.AdvertiseId);
+                if (advertiseSource == null)
+                {
+                    return false;
+                }
+                advertiseSource.AdvertiseDescription = advertiseSourceViewModel.AdvertiseDescription;
+                DbContext.AdvertiseSources.Update(advertiseSource);
+                await DbContext.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "Error updating Advertise Source");
+                return false;
+            }
+        }
     }
 }
+ 
