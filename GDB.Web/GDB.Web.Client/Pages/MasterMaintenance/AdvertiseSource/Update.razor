@@ -1,0 +1,121 @@
+﻿@page "/masterMaintenance/advertiseSource/update/{advertiseId:int}"
+
+@using GDB.Web.BLL.Interface
+@using GDB.Web.Shared
+@using GDB.Web.Shared.Inventory
+
+@inject IAdvertiseSourceService AdvertiseSourceService
+@inject NavigationManager NavigationManager
+@inject ILogger<Update> Logger
+@rendermode @(new InteractiveAutoRenderMode(prerender:false))
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-8 mx-auto">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    Update Advertise Source
+                </div>
+                <div class="card-body">
+                    <div class="col-lg-12">
+                        <EditForm Model="@advertiseSource" OnValidSubmit="HandleValidSubmit">
+                            @if (errorMessages != null)
+                            {
+                                if (!string.IsNullOrEmpty(errorMessages))
+                                {
+                                    <ul class="alert alert-danger mt-3 text-left">
+                                        <li>@errorMessages</li>
+                                    </ul>
+                                }
+                            }
+                            <div class="row rowMargin">
+                                <div class="col-sm-3">
+                                    Category Name
+                                </div>
+                                <div class="col-sm-6">
+                                    <InputText @bind-Value="advertiseSource.AdvertiseDescription" class="form-control" />
+                                </div>
+                            </div>
+
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                                <button type="button" class="btn btn-secondary" @onclick="GoBack">Cancel</button>
+                            </div>
+                            @if (!string.IsNullOrEmpty(successMessage))
+                            {
+                                <div class="alert alert-success mt-3 text-center">@successMessage</div>
+                            }
+                        </EditForm>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@code {
+    [Parameter]
+    public int advertiseId { get; set; }
+
+    private AdvertiseSourceViewModel advertiseSource = new();
+    private string errorMessages;
+    private string successMessage = string.Empty;
+
+    private List<AdvertiseSourceViewModel> advertiseSourceViewModelList { get; set; }
+    protected override async Task OnInitializedAsync()
+    {
+        advertiseSourceViewModelList = new List<AdvertiseSourceViewModel>();
+        advertiseSourceViewModelList = await AdvertiseSourceService.GetAllAdvertiseSourceDetails<List<AdvertiseSourceViewModel>>();
+        advertiseSource = advertiseSourceViewModelList.SingleOrDefault(x => x.AdvertiseId == Convert.ToInt32(advertiseId));
+    }
+
+    private async void HandleValidSubmit()
+    {
+        errorMessages = Validations(advertiseSource);
+
+        if ((errorMessages == null) || (errorMessages == ""))
+        {
+            var response = await AdvertiseSourceService.Update(advertiseSource);
+            if (response.Value)
+            {
+                Logger.LogInformation("Advertise Description Updated successfully.");
+                successMessage = "Advertise Description Updated  successfully!";
+                Reset();
+            }
+            else
+            {
+                Logger.LogInformation("Unable to update Advertise Description.");
+                successMessage = "Unable to update Advertise Description.";
+            }
+        }
+        else
+        {
+            //validations = "";
+        }
+    }
+
+    private async void Reset()
+    {
+        advertiseSource = new AdvertiseSourceViewModel();
+        errorMessages = "";
+        StateHasChanged();
+    }
+
+    private string Validations(AdvertiseSourceViewModel advertiseSourceViewModel)
+    {
+        string validationMessage = "";
+        if (advertiseSourceViewModel.AdvertiseDescription == null)
+        {
+            validationMessage = "Advertise Description : Please enter Advertise Description ";
+        }
+        return validationMessage;
+    }
+    private void GoBack()
+    {
+        NavigationManager.NavigateTo("/masterMaintenance/locations/list");
+    }
+
+}
+
+

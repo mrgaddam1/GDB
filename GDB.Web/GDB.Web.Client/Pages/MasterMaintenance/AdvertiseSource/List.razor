@@ -30,6 +30,16 @@
                         <Columns>
                             <RadzenDataGridColumn TItem="AdvertiseSourceViewModel" Property="AdvertiseId" Title="Id" />
                             <RadzenDataGridColumn TItem="AdvertiseSourceViewModel" Property="AdvertiseDescription" Title="Advertise Description" />
+
+                            <RadzenDataGridColumn TItem="AdvertiseSourceViewModel">
+                                <Template Context="data">
+                                    <RadzenButton ButtonType="Radzen.ButtonType.Button"
+                                                  Icon="edit" Size="Radzen.ButtonSize.Small"
+                                                  Style="margin-right:5px;"
+                                                  Click="@(() => EditRow(data))" />
+                                </Template>
+                            </RadzenDataGridColumn>
+                        
                         </Columns>
                     </RadzenDataGrid>
                 }
@@ -50,7 +60,11 @@
 
     private void Add()
     {
-        NavigationManager.NavigateTo("/masterMaintenance/grocery/add");
+        NavigationManager.NavigateTo("/masterMaintenance/advertiseSource/add");
+    }
+    protected void EditRow(AdvertiseSourceViewModel advertiseSourceData)
+    {
+        NavigationManager.NavigateTo("/masterMaintenance/advertiseSource/update" + "/" + Convert.ToString(advertiseSourceData.AdvertiseId));
     }
 }
 

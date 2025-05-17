@@ -9,6 +9,6 @@ namespace GDB.Web.BLL.Interface
 {
     public interface IAccountService
     {
-        Task<List<AccountsViewModel>> GetAllAccounts();
+        Task<List<AccountsViewModel>> GetAllAccounts();    
     }
 }
