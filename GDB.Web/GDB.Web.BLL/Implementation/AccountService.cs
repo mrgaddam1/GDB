@@ -23,6 +23,42 @@ namespace GDB.Web.BLL.Implementation
             var result = await ApiStatusCodeHandler.HandleResponse<List<AccountsViewModel>>(response);          
             return result ?? new List<AccountsViewModel>();
         }
- 
+        public async Task<List<AccountsViewModel>> GetAllAccountsBy_Yearly()
+        {
+            var response = await httpClient.GetAsync("api/Accounts/GetAllAccountsBy_Yearly");
+            var result = await ApiStatusCodeHandler.HandleResponse<List<AccountsViewModel>>(response);
+            return result ?? new List<AccountsViewModel>();
+        }
+        public async Task<List<AccountsViewModel>> GetAllAccountsBy_HalfYearly()
+        {
+            var response = await httpClient.GetAsync("api/Accounts/GetAllAccountsBy_HalfYearly");
+            var result = await ApiStatusCodeHandler.HandleResponse<List<AccountsViewModel>>(response);
+            return result ?? new List<AccountsViewModel>();
+        }
+        public async Task<List<AccountsViewModel>> GetAllAccountsBy_Quarterly()
+        {
+            var response = await httpClient.GetAsync("api/Accounts/GetAllAccountsBy_Quarterly");
+            var result = await ApiStatusCodeHandler.HandleResponse<List<AccountsViewModel>>(response);
+            return result ?? new List<AccountsViewModel>();
+        }
+        public async Task<List<AccountsViewModel>> GetAllAccountsBy_LastMonth()
+        {
+            var response = await httpClient.GetAsync("api/Accounts/GetAllAccountsBy_LastMonth");
+            var result = await ApiStatusCodeHandler.HandleResponse<List<AccountsViewModel>>(response);
+            return result ?? new List<AccountsViewModel>();
+        }
+        public async Task<List<AccountsViewModel>> GetAllAccountsBy_BIWeekly()
+        {
+            var response = await httpClient.GetAsync("api/Accounts/GetAllAccountsBy_BIWeekly");
+            var result = await ApiStatusCodeHandler.HandleResponse<List<AccountsViewModel>>(response);
+            return result ?? new List<AccountsViewModel>();
+        }
+        public async Task<List<AccountsViewModel>> GetAllAccountsBy_Weekly()
+        {
+            var response = await httpClient.GetAsync("api/Accounts/GetAllAccountsBy_Weekly");
+            var result = await ApiStatusCodeHandler.HandleResponse<List<AccountsViewModel>>(response);
+            return result ?? new List<AccountsViewModel>();
+        }
+
     }
 }

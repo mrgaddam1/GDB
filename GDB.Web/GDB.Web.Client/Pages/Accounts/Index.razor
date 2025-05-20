@@ -10,79 +10,622 @@
 @rendermode @(new InteractiveServerRenderMode(prerender:false))
 
 
-<div class="col-lg-6">
-    <table>
-        <tr>
-            <td>
-                <h2>Accounts</h2>
-            </td>
-            <td style="text-align:right;">               
-                    &nbsp;&nbsp;               
-            </td>
-        </tr>
-        <tr style="padding-top:-5px;vertical-align:top;">
-            <td colspan="2">
-                @if (accountsData != null)
-                {
-                    <RadzenDataGrid Data="accountsData" AllowFiltering="true" AllowPaging="true" AllowSorting="true" PageSize="15">
-                        <Columns>
-                            <RadzenDataGridColumn TItem="AccountsViewModel" Property="WeekId" Title="WeekId" />
-                            <RadzenDataGridColumn TItem="AccountsViewModel" Property="TotalProfits" Title="Total Receivables"  >
-                                <Template Context="data">
-                                    <span style="color:blue;font-weight:600;">
-                                          @data.TotalProfits.ToString("C", CultureInfo.CreateSpecificCulture("en-GB"))
-                                    </span>
-                                </Template>
-                                <FooterTemplate>
-                                    <span style="color:blue;font-weight:600;">
-                                        <b>Total: @accountsData.Sum(t => t.TotalProfits).ToString("C", CultureInfo.CreateSpecificCulture("en-GB"))</b>
-                                    </span>
-                                </FooterTemplate>
-                            </RadzenDataGridColumn>
+<div class="row">
+    <div class="col-lg-12">
+        <a class="custom-link" @onclick="ShowAllAccounts">All Accounts</a>  
 
-                            <RadzenDataGridColumn TItem="AccountsViewModel" Property="TotalExpenses" Title="Total Expenses" >
-                                <Template Context="data">
-                                    <span style="color:red;font-weight:600;">
-                                    @data.TotalExpenses.ToString("C", CultureInfo.CreateSpecificCulture("en-GB"))
-                                    </span>
-                                </Template>
-                                <FooterTemplate>
-                                    <span style="color:red;font-weight:600;">
-                                        <b>Total: @accountsData.Sum(t => t.TotalExpenses).ToString("C", CultureInfo.CreateSpecificCulture("en-GB"))</b>
-                                    </span>
-                                </FooterTemplate>
+        <a class="custom-link" @onclick="ShowAllAccounts_By_Yearly">Accounts By Yearly</a>
 
-                            </RadzenDataGridColumn>   
-                            <RadzenDataGridColumn TItem="AccountsViewModel" Property="NetProfit" Title="Net Profit"  >
-                                <Template Context="data">
-                                    <span style="font-weight:bold;color:@(data.NetProfit < 0 ? "red" : "green")">
-                                        <b>@data.NetProfit.ToString("C", CultureInfo.CreateSpecificCulture("en-GB"))</b>
-                                    </span>
-                                </Template>
-                                <FooterTemplate>
-                                    <span style="color:blue;font-weight:600;">
-                                    <b>Total: @accountsData.Sum(t => t.NetProfit).ToString("C", CultureInfo.CreateSpecificCulture("en-GB"))</b>
-                                    </span>
-                                </FooterTemplate>
-                            </RadzenDataGridColumn>
-                            <RadzenDataGridColumn TItem="AccountsViewModel" Property="NumberOfOrders" Title="Number Of Orders" />
-                        </Columns>
-                    </RadzenDataGrid>
-                }
-            </td>
-        </tr>
-    </table>
+        <a class="custom-link" @onclick="ShowAllAccounts_By_HalfYearly">Accounts By Half Yearly</a>
+
+        <a class="custom-link" @onclick="ShowAllAccounts_By_LastQuarterly">Accounts By Quarterly</a>
+
+        <a class="custom-link" @onclick="ShowAllAccounts_By_LastMonth">Accounts By Last Month</a>
+
+        <a class="custom-link" @onclick="ShowAllAccounts_By_BiWeekly">Accounts By BI-Weekly</a>
+
+        <a class="custom-link" @onclick="ShowAllAccounts_By_Weekly">Accounts By Weekly</a>
+    </div> 
 </div>
-@* @data.NetProfit.ToString("C", CultureInfo.CreateSpecificCulture("en-GB")) *@
+
+@if (showAll)
+{
+    <div class="box">
+        <div class="col-lg-6">
+            <table>
+                <tr>
+                    <td>
+                        <h2>Accounts</h2>
+                    </td>
+                    <td style="text-align:right;">
+                        &nbsp;&nbsp;
+                    </td>
+                </tr>
+                <tr style="padding-top:-5px;vertical-align:top;">
+                    <td colspan="2">
+                        @if (accountsData != null)
+                        {
+                            <RadzenDataGrid Data="accountsData" AllowFiltering="true" AllowPaging="true" AllowSorting="true" PageSize="15">
+                                <Columns>
+                                    <RadzenDataGridColumn TItem="AccountsViewModel" Property="WeekId" Title="WeekId" />
+                                    <RadzenDataGridColumn TItem="AccountsViewModel" Property="TotalProfits" Title="Total Receivables">
+                                        <Template Context="data">
+                                            <span style="color:blue;font-weight:600;">
+                                                @data.TotalProfits.ToString("C", CultureInfo.CreateSpecificCulture("en-GB"))
+                                            </span>
+                                        </Template>
+                                        <FooterTemplate>
+                                            <span style="color:blue;font-weight:600;">
+                                                <b>Total: @accountsData.Sum(t => t.TotalProfits).ToString("C", CultureInfo.CreateSpecificCulture("en-GB"))</b>
+                                            </span>
+                                        </FooterTemplate>
+                                    </RadzenDataGridColumn>
+
+                                    <RadzenDataGridColumn TItem="AccountsViewModel" Property="TotalExpenses" Title="Total Expenses">
+                                        <Template Context="data">
+                                            <span style="color:red;font-weight:600;">
+                                                @data.TotalExpenses.ToString("C", CultureInfo.CreateSpecificCulture("en-GB"))
+                                            </span>
+                                        </Template>
+                                        <FooterTemplate>
+                                            <span style="color:red;font-weight:600;">
+                                                <b>Total: @accountsData.Sum(t => t.TotalExpenses).ToString("C", CultureInfo.CreateSpecificCulture("en-GB"))</b>
+                                            </span>
+                                        </FooterTemplate>
+
+                                    </RadzenDataGridColumn>
+                                    <RadzenDataGridColumn TItem="AccountsViewModel" Property="NetProfit" Title="Net Profit">
+                                        <Template Context="data">
+                                            <span style="font-weight:bold;color:@(data.NetProfit < 0 ? "red" : "green")">
+                                                <b>@data.NetProfit.ToString("C", CultureInfo.CreateSpecificCulture("en-GB"))</b>
+                                            </span>
+                                        </Template>
+                                        <FooterTemplate>
+                                            <span style="color:blue;font-weight:600;">
+                                                <b>Total: @accountsData.Sum(t => t.NetProfit).ToString("C", CultureInfo.CreateSpecificCulture("en-GB"))</b>
+                                            </span>
+                                        </FooterTemplate>
+                                    </RadzenDataGridColumn>
+                                    <RadzenDataGridColumn TItem="AccountsViewModel" Property="NumberOfOrders" Title="Number Of Orders" />
+                                </Columns>
+                            </RadzenDataGrid>
+                        }
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+    </div>
+}
+@if (showDivYearly)
+{
+    <div class="col-lg-6">
+        <table>
+            <tr>
+                <td>
+                    <h2>Accounts By Yearly</h2>
+                </td>
+                <td style="text-align:right;">
+                    &nbsp;&nbsp;
+                </td>
+            </tr>
+            <tr style="padding-top:-5px;vertical-align:top;">
+                <td colspan="2">
+                    @if (accountsDataByYearly != null)
+                    {
+                        <RadzenDataGrid Data="accountsDataByYearly" AllowFiltering="true" AllowPaging="true" AllowSorting="true" PageSize="15">
+                            <Columns>
+                                <RadzenDataGridColumn TItem="AccountsViewModel" Property="WeekId" Title="WeekId" />
+                                <RadzenDataGridColumn TItem="AccountsViewModel" Property="TotalProfits" Title="Total Receivables">
+                                    <Template Context="data">
+                                        <span style="color:blue;font-weight:600;">
+                                            @data.TotalProfits.ToString("C", CultureInfo.CreateSpecificCulture("en-GB"))
+                                        </span>
+                                    </Template>
+                                    <FooterTemplate>
+                                        <span style="color:blue;font-weight:600;">
+                                            <b>Total: @accountsDataByYearly.Sum(t => t.TotalProfits).ToString("C", CultureInfo.CreateSpecificCulture("en-GB"))</b>
+                                        </span>
+                                    </FooterTemplate>
+                                </RadzenDataGridColumn>
+
+                                <RadzenDataGridColumn TItem="AccountsViewModel" Property="TotalExpenses" Title="Total Expenses">
+                                    <Template Context="data">
+                                        <span style="color:red;font-weight:600;">
+                                            @data.TotalExpenses.ToString("C", CultureInfo.CreateSpecificCulture("en-GB"))
+                                        </span>
+                                    </Template>
+                                    <FooterTemplate>
+                                        <span style="color:red;font-weight:600;">
+                                            <b>Total: @accountsDataByYearly.Sum(t => t.TotalExpenses).ToString("C", CultureInfo.CreateSpecificCulture("en-GB"))</b>
+                                        </span>
+                                    </FooterTemplate>
+
+                                </RadzenDataGridColumn>
+                                <RadzenDataGridColumn TItem="AccountsViewModel" Property="NetProfit" Title="Net Profit">
+                                    <Template Context="data">
+                                        <span style="font-weight:bold;color:@(data.NetProfit < 0 ? "red" : "green")">
+                                            <b>@data.NetProfit.ToString("C", CultureInfo.CreateSpecificCulture("en-GB"))</b>
+                                        </span>
+                                    </Template>
+                                    <FooterTemplate>
+                                        <span style="color:blue;font-weight:600;">
+                                            <b>Total: @accountsDataByYearly.Sum(t => t.NetProfit).ToString("C", CultureInfo.CreateSpecificCulture("en-GB"))</b>
+                                        </span>
+                                    </FooterTemplate>
+                                </RadzenDataGridColumn>
+                                <RadzenDataGridColumn TItem="AccountsViewModel" Property="NumberOfOrders" Title="Number Of Orders" />
+                            </Columns>
+                        </RadzenDataGrid>
+                    }
+                </td>
+            </tr>
+        </table>
+    </div>
+}
+@if (showDivHalfYearly)
+{
+    <div class="col-lg-6">
+        <table>
+            <tr>
+                <td>
+                    <h2>Accounts By Half Yearly</h2>
+                </td>
+                <td style="text-align:right;">
+                    &nbsp;&nbsp;
+                </td>
+            </tr>
+            <tr style="padding-top:-5px;vertical-align:top;">
+                <td colspan="2">
+                    @if (accountsDataByHalfYearly != null)
+                    {
+                        <RadzenDataGrid Data="accountsDataByHalfYearly" AllowFiltering="true" AllowPaging="true" AllowSorting="true" PageSize="15">
+                            <Columns>
+                                <RadzenDataGridColumn TItem="AccountsViewModel" Property="WeekId" Title="WeekId" />
+                                <RadzenDataGridColumn TItem="AccountsViewModel" Property="TotalProfits" Title="Total Receivables">
+                                    <Template Context="data">
+                                        <span style="color:blue;font-weight:600;">
+                                            @data.TotalProfits.ToString("C", CultureInfo.CreateSpecificCulture("en-GB"))
+                                        </span>
+                                    </Template>
+                                    <FooterTemplate>
+                                        <span style="color:blue;font-weight:600;">
+                                            <b>Total: @accountsDataByHalfYearly.Sum(t => t.TotalProfits).ToString("C", CultureInfo.CreateSpecificCulture("en-GB"))</b>
+                                        </span>
+                                    </FooterTemplate>
+                                </RadzenDataGridColumn>
+
+                                <RadzenDataGridColumn TItem="AccountsViewModel" Property="TotalExpenses" Title="Total Expenses">
+                                    <Template Context="data">
+                                        <span style="color:red;font-weight:600;">
+                                            @data.TotalExpenses.ToString("C", CultureInfo.CreateSpecificCulture("en-GB"))
+                                        </span>
+                                    </Template>
+                                    <FooterTemplate>
+                                        <span style="color:red;font-weight:600;">
+                                            <b>Total: @accountsDataByHalfYearly.Sum(t => t.TotalExpenses).ToString("C", CultureInfo.CreateSpecificCulture("en-GB"))</b>
+                                        </span>
+                                    </FooterTemplate>
+
+                                </RadzenDataGridColumn>
+                                <RadzenDataGridColumn TItem="AccountsViewModel" Property="NetProfit" Title="Net Profit">
+                                    <Template Context="data">
+                                        <span style="font-weight:bold;color:@(data.NetProfit < 0 ? "red" : "green")">
+                                            <b>@data.NetProfit.ToString("C", CultureInfo.CreateSpecificCulture("en-GB"))</b>
+                                        </span>
+                                    </Template>
+                                    <FooterTemplate>
+                                        <span style="color:blue;font-weight:600;">
+                                            <b>Total: @accountsDataByHalfYearly.Sum(t => t.NetProfit).ToString("C", CultureInfo.CreateSpecificCulture("en-GB"))</b>
+                                        </span>
+                                    </FooterTemplate>
+                                </RadzenDataGridColumn>
+                                <RadzenDataGridColumn TItem="AccountsViewModel" Property="NumberOfOrders" Title="Number Of Orders" />
+                            </Columns>
+                        </RadzenDataGrid>
+                    }
+                </td>
+            </tr>
+        </table>
+    </div>
+}
+@if (showDivQuarterly)
+{    
+     <div class="col-lg-6">
+        <table>
+            <tr>
+                <td>
+                    <h2>Accounts By Quarterly</h2>
+                </td>
+                <td style="text-align:right;">
+                    &nbsp;&nbsp;
+                </td>
+            </tr>
+            <tr style="padding-top:-5px;vertical-align:top;">
+                <td colspan="2">
+                    @if (accountsDataByQuarterly != null)
+                    {
+                        <RadzenDataGrid Data="accountsDataByQuarterly" AllowFiltering="true" AllowPaging="true" AllowSorting="true" PageSize="15">
+                            <Columns>
+                                <RadzenDataGridColumn TItem="AccountsViewModel" Property="WeekId" Title="WeekId" />
+                                <RadzenDataGridColumn TItem="AccountsViewModel" Property="TotalProfits" Title="Total Receivables">
+                                    <Template Context="data">
+                                        <span style="color:blue;font-weight:600;">
+                                            @data.TotalProfits.ToString("C", CultureInfo.CreateSpecificCulture("en-GB"))
+                                        </span>
+                                    </Template>
+                                    <FooterTemplate>
+                                        <span style="color:blue;font-weight:600;">
+                                            <b>Total: @accountsDataByQuarterly.Sum(t => t.TotalProfits).ToString("C", CultureInfo.CreateSpecificCulture("en-GB"))</b>
+                                        </span>
+                                    </FooterTemplate>
+                                </RadzenDataGridColumn>
+
+                                <RadzenDataGridColumn TItem="AccountsViewModel" Property="TotalExpenses" Title="Total Expenses">
+                                    <Template Context="data">
+                                        <span style="color:red;font-weight:600;">
+                                            @data.TotalExpenses.ToString("C", CultureInfo.CreateSpecificCulture("en-GB"))
+                                        </span>
+                                    </Template>
+                                    <FooterTemplate>
+                                        <span style="color:red;font-weight:600;">
+                                            <b>Total: @accountsDataByQuarterly.Sum(t => t.TotalExpenses).ToString("C", CultureInfo.CreateSpecificCulture("en-GB"))</b>
+                                        </span>
+                                    </FooterTemplate>
+
+                                </RadzenDataGridColumn>
+                                <RadzenDataGridColumn TItem="AccountsViewModel" Property="NetProfit" Title="Net Profit">
+                                    <Template Context="data">
+                                        <span style="font-weight:bold;color:@(data.NetProfit < 0 ? "red" : "green")">
+                                            <b>@data.NetProfit.ToString("C", CultureInfo.CreateSpecificCulture("en-GB"))</b>
+                                        </span>
+                                    </Template>
+                                    <FooterTemplate>
+                                        <span style="color:blue;font-weight:600;">
+                                            <b>Total: @accountsDataByQuarterly.Sum(t => t.NetProfit).ToString("C", CultureInfo.CreateSpecificCulture("en-GB"))</b>
+                                        </span>
+                                    </FooterTemplate>
+                                </RadzenDataGridColumn>
+                                <RadzenDataGridColumn TItem="AccountsViewModel" Property="NumberOfOrders" Title="Number Of Orders" />
+                            </Columns>
+                        </RadzenDataGrid>
+                    }
+                </td>
+            </tr>
+        </table>
+    </div>
+}
+@if (showDivMonthly)
+{
+    <div class="col-lg-6">
+        <table>
+            <tr>
+                <td>
+                    <h2>Accounts By Last Month</h2>
+                </td>
+                <td style="text-align:right;">
+                    &nbsp;&nbsp;
+                </td>
+            </tr>
+            <tr style="padding-top:-5px;vertical-align:top;">
+                <td colspan="2">
+                    @if (accountsDataByLastMonth != null)
+                    {
+                        <RadzenDataGrid Data="accountsDataByLastMonth" AllowFiltering="true" AllowPaging="true" AllowSorting="true" PageSize="15">
+                            <Columns>
+                                <RadzenDataGridColumn TItem="AccountsViewModel" Property="WeekId" Title="WeekId" />
+                                <RadzenDataGridColumn TItem="AccountsViewModel" Property="TotalProfits" Title="Total Receivables">
+                                    <Template Context="data">
+                                        <span style="color:blue;font-weight:600;">
+                                            @data.TotalProfits.ToString("C", CultureInfo.CreateSpecificCulture("en-GB"))
+                                        </span>
+                                    </Template>
+                                    <FooterTemplate>
+                                        <span style="color:blue;font-weight:600;">
+                                            <b>Total: @accountsDataByLastMonth.Sum(t => t.TotalProfits).ToString("C", CultureInfo.CreateSpecificCulture("en-GB"))</b>
+                                        </span>
+                                    </FooterTemplate>
+                                </RadzenDataGridColumn>
+
+                                <RadzenDataGridColumn TItem="AccountsViewModel" Property="TotalExpenses" Title="Total Expenses">
+                                    <Template Context="data">
+                                        <span style="color:red;font-weight:600;">
+                                            @data.TotalExpenses.ToString("C", CultureInfo.CreateSpecificCulture("en-GB"))
+                                        </span>
+                                    </Template>
+                                    <FooterTemplate>
+                                        <span style="color:red;font-weight:600;">
+                                            <b>Total: @accountsDataByLastMonth.Sum(t => t.TotalExpenses).ToString("C", CultureInfo.CreateSpecificCulture("en-GB"))</b>
+                                        </span>
+                                    </FooterTemplate>
+
+                                </RadzenDataGridColumn>
+                                <RadzenDataGridColumn TItem="AccountsViewModel" Property="NetProfit" Title="Net Profit">
+                                    <Template Context="data">
+                                        <span style="font-weight:bold;color:@(data.NetProfit < 0 ? "red" : "green")">
+                                            <b>@data.NetProfit.ToString("C", CultureInfo.CreateSpecificCulture("en-GB"))</b>
+                                        </span>
+                                    </Template>
+                                    <FooterTemplate>
+                                        <span style="color:blue;font-weight:600;">
+                                            <b>Total: @accountsDataByLastMonth.Sum(t => t.NetProfit).ToString("C", CultureInfo.CreateSpecificCulture("en-GB"))</b>
+                                        </span>
+                                    </FooterTemplate>
+                                </RadzenDataGridColumn>
+                                <RadzenDataGridColumn TItem="AccountsViewModel" Property="NumberOfOrders" Title="Number Of Orders" />
+                            </Columns>
+                        </RadzenDataGrid>
+                    }
+                </td>
+            </tr>
+        </table>
+    </div>
+}
+@if (showDivBiWeekly)
+{
+    <div class="col-lg-6">
+        <table>
+            <tr>
+                <td>
+                    <h2>Accounts By BI-Weekly</h2>
+                </td>
+                <td style="text-align:right;">
+                    &nbsp;&nbsp;
+                </td>
+            </tr>
+            <tr style="padding-top:-5px;vertical-align:top;">
+                <td colspan="2">
+                    @if (accountsDataBiWeekly != null)
+                    {
+                        <RadzenDataGrid Data="accountsDataBiWeekly" AllowFiltering="true" AllowPaging="true" AllowSorting="true" PageSize="15">
+                            <Columns>
+                                <RadzenDataGridColumn TItem="AccountsViewModel" Property="WeekId" Title="WeekId" />
+                                <RadzenDataGridColumn TItem="AccountsViewModel" Property="TotalProfits" Title="Total Receivables">
+                                    <Template Context="data">
+                                        <span style="color:blue;font-weight:600;">
+                                            @data.TotalProfits.ToString("C", CultureInfo.CreateSpecificCulture("en-GB"))
+                                        </span>
+                                    </Template>
+                                    <FooterTemplate>
+                                        <span style="color:blue;font-weight:600;">
+                                            <b>Total: @accountsDataBiWeekly.Sum(t => t.TotalProfits).ToString("C", CultureInfo.CreateSpecificCulture("en-GB"))</b>
+                                        </span>
+                                    </FooterTemplate>
+                                </RadzenDataGridColumn>
+
+                                <RadzenDataGridColumn TItem="AccountsViewModel" Property="TotalExpenses" Title="Total Expenses">
+                                    <Template Context="data">
+                                        <span style="color:red;font-weight:600;">
+                                            @data.TotalExpenses.ToString("C", CultureInfo.CreateSpecificCulture("en-GB"))
+                                        </span>
+                                    </Template>
+                                    <FooterTemplate>
+                                        <span style="color:red;font-weight:600;">
+                                            <b>Total: @accountsDataBiWeekly.Sum(t => t.TotalExpenses).ToString("C", CultureInfo.CreateSpecificCulture("en-GB"))</b>
+                                        </span>
+                                    </FooterTemplate>
+
+                                </RadzenDataGridColumn>
+                                <RadzenDataGridColumn TItem="AccountsViewModel" Property="NetProfit" Title="Net Profit">
+                                    <Template Context="data">
+                                        <span style="font-weight:bold;color:@(data.NetProfit < 0 ? "red" : "green")">
+                                            <b>@data.NetProfit.ToString("C", CultureInfo.CreateSpecificCulture("en-GB"))</b>
+                                        </span>
+                                    </Template>
+                                    <FooterTemplate>
+                                        <span style="color:blue;font-weight:600;">
+                                            <b>Total: @accountsDataBiWeekly.Sum(t => t.NetProfit).ToString("C", CultureInfo.CreateSpecificCulture("en-GB"))</b>
+                                        </span>
+                                    </FooterTemplate>
+                                </RadzenDataGridColumn>
+                                <RadzenDataGridColumn TItem="AccountsViewModel" Property="NumberOfOrders" Title="Number Of Orders" />
+                            </Columns>
+                        </RadzenDataGrid>
+                    }
+                </td>
+            </tr>
+        </table>
+    </div>
+}
+
+@if (showDivWeekly)
+{
+    <div class="col-lg-6">
+        <table>
+            <tr>
+                <td>
+                    <h2>Accounts By Weekly</h2>
+                </td>
+                <td style="text-align:right;">
+                    &nbsp;&nbsp;
+                </td>
+            </tr>
+            <tr style="padding-top:-5px;vertical-align:top;">
+                <td colspan="2">
+                    @if (accountsDataWeekly != null)
+                    {
+                        <RadzenDataGrid Data="accountsDataWeekly" AllowFiltering="true" AllowPaging="true" AllowSorting="true" PageSize="15">
+                            <Columns>
+                                <RadzenDataGridColumn TItem="AccountsViewModel" Property="WeekId" Title="WeekId" />
+                                <RadzenDataGridColumn TItem="AccountsViewModel" Property="TotalProfits" Title="Total Receivables">
+                                    <Template Context="data">
+                                        <span style="color:blue;font-weight:600;">
+                                            @data.TotalProfits.ToString("C", CultureInfo.CreateSpecificCulture("en-GB"))
+                                        </span>
+                                    </Template>
+                                    <FooterTemplate>
+                                        <span style="color:blue;font-weight:600;">
+                                            <b>Total: @accountsDataWeekly.Sum(t => t.TotalProfits).ToString("C", CultureInfo.CreateSpecificCulture("en-GB"))</b>
+                                        </span>
+                                    </FooterTemplate>
+                                </RadzenDataGridColumn>
+
+                                <RadzenDataGridColumn TItem="AccountsViewModel" Property="TotalExpenses" Title="Total Expenses">
+                                    <Template Context="data">
+                                        <span style="color:red;font-weight:600;">
+                                            @data.TotalExpenses.ToString("C", CultureInfo.CreateSpecificCulture("en-GB"))
+                                        </span>
+                                    </Template>
+                                    <FooterTemplate>
+                                        <span style="color:red;font-weight:600;">
+                                            <b>Total: @accountsDataWeekly.Sum(t => t.TotalExpenses).ToString("C", CultureInfo.CreateSpecificCulture("en-GB"))</b>
+                                        </span>
+                                    </FooterTemplate>
+
+                                </RadzenDataGridColumn>
+                                <RadzenDataGridColumn TItem="AccountsViewModel" Property="NetProfit" Title="Net Profit">
+                                    <Template Context="data">
+                                        <span style="font-weight:bold;color:@(data.NetProfit < 0 ? "red" : "green")">
+                                            <b>@data.NetProfit.ToString("C", CultureInfo.CreateSpecificCulture("en-GB"))</b>
+                                        </span>
+                                    </Template>
+                                    <FooterTemplate>
+                                        <span style="color:blue;font-weight:600;">
+                                            <b>Total: @accountsDataWeekly.Sum(t => t.NetProfit).ToString("C", CultureInfo.CreateSpecificCulture("en-GB"))</b>
+                                        </span>
+                                    </FooterTemplate>
+                                </RadzenDataGridColumn>
+                                <RadzenDataGridColumn TItem="AccountsViewModel" Property="NumberOfOrders" Title="Number Of Orders" />
+                            </Columns>
+                        </RadzenDataGrid>
+                    }
+                </td>
+            </tr>
+        </table>
+    </div>
+}
+
 @code {
 
+    private bool showAll = true;
+    private bool showDivYearly = false;
+    private bool showDivHalfYearly = false;
+    private bool showDivQuarterly = false;
+    private bool showDivMonthly = false;
+    private bool showDivBiWeekly = false;
+    private bool showDivWeekly = false;
+
     private List<AccountsViewModel> accountsData { get; set; }
+    private List<AccountsViewModel> accountsDataByYearly { get; set; }
+
+    private List<AccountsViewModel> accountsDataByHalfYearly { get; set; }
+    private List<AccountsViewModel> accountsDataByQuarterly { get; set; }
+
+    private List<AccountsViewModel> accountsDataByLastMonth { get; set; }
+    private List<AccountsViewModel> accountsDataBiWeekly { get; set; }
+    private List<AccountsViewModel> accountsDataWeekly { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
         accountsData = new List<AccountsViewModel>();
         accountsData = await AccountService.GetAllAccounts();
+
+        accountsDataByYearly = new List<AccountsViewModel>();
+        accountsDataByYearly = await AccountService.GetAllAccountsBy_Yearly();
+
+        accountsDataByHalfYearly = new List<AccountsViewModel>();
+        accountsDataByHalfYearly = await AccountService.GetAllAccountsBy_HalfYearly();
+
+        accountsDataByQuarterly = new List<AccountsViewModel>();
+        accountsDataByQuarterly = await AccountService.GetAllAccountsBy_Quarterly();
+
+        accountsDataByLastMonth = new List<AccountsViewModel>();
+        accountsDataByLastMonth = await AccountService.GetAllAccountsBy_LastMonth();
+
+        accountsDataBiWeekly = new List<AccountsViewModel>();
+        accountsDataBiWeekly = await AccountService.GetAllAccountsBy_BIWeekly();
+
+        accountsDataWeekly = new List<AccountsViewModel>();
+        accountsDataWeekly = await AccountService.GetAllAccountsBy_Weekly();
+
+
+    }
+
+    private async void ShowAllAccounts()
+    {
+        showAll = true;
+        showDivYearly = false;
+        showDivHalfYearly = false;
+        showDivQuarterly = false;
+        showDivMonthly = false;
+        showDivBiWeekly = false;
+        showDivWeekly = false;
+    }
+    private async void ShowAllAccounts_By_Yearly()
+    {        
+        showDivYearly = true;
+        showAll = false;
+        showDivHalfYearly = false;
+        showDivHalfYearly = false;
+        showDivQuarterly = false;
+        showDivMonthly = false;
+        showDivBiWeekly = false;
+        showDivWeekly = false;
+    }
+    private async void ShowAllAccounts_By_HalfYearly()
+    {
+        showDivHalfYearly = true;
+        showAll = false;
+        showDivYearly = false;       
+        showDivQuarterly = false;
+        showDivMonthly = false;
+        showDivBiWeekly = false;
+        showDivWeekly = false;
+    }
+    private async void ShowAllAccounts_By_LastQuarterly()
+    {
+        showDivQuarterly = true;
+        showAll = false;
+        showDivYearly = false;
+        showDivHalfYearly = false;
+        showDivMonthly = false;
+        showDivBiWeekly = false;
+        showDivWeekly = false;
+
+    }
+    private async void ShowAllAccounts_By_LastMonth()
+    {
+        showDivMonthly = true;        
+        showAll = false;
+        showDivYearly = false;
+        showDivHalfYearly = false;
+        showDivQuarterly = false;
+        showDivBiWeekly = false;
+        showDivWeekly = false;
+    }
+    private async void ShowAllAccounts_By_BiWeekly()
+    {
+        showDivBiWeekly = true;
+        showDivMonthly = false;
+        showAll = false;
+        showDivYearly = false;
+        showDivHalfYearly = false;
+        showDivQuarterly = false;
+        showDivWeekly = false;
     }
    
+    private async void ShowAllAccounts_By_Weekly()
+    {
+        showDivWeekly = true;
+        showAll = false;
+        showDivYearly = false;  
+        showDivHalfYearly = false;
+        showDivQuarterly = false;
+        showDivMonthly = false;
+        showDivBiWeekly = false;
+    }
 }
 
+<style type="text/css">
+    .custom-link {
+        text-decoration: none;
+        color: blue;
+        font-weight: bold;
+        margin-right: 10px;
+    }
+    .custom-link:hover {
+        color: darkblue;
+        text-decoration: underline;
+            cursor: pointer;
+    }
+</style>

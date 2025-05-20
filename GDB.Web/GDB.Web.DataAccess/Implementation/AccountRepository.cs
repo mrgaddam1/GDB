@@ -35,5 +35,95 @@ namespace GDB.Web.DataAccess.Implementation
             }
             return accountData;
         }
+        public async Task<List<AccountsViewModel>> GetAllAccountsBy_Yearly()
+        {
+            var accountData = new List<AccountsViewModel>();
+            try
+            {
+                var data = DataHelper.GetData(DbContext.Database.GetDbConnection(), "Udp_Accounts_GetAllAccounts_Last_Year", null);
+                accountData = ConvertDataTableToGenericList.ConvertDataTable<AccountsViewModel>(data).
+                                   OrderByDescending(x => x.WeekId).ToList();
+            }
+            catch (Exception ex)
+            {
+                string message = ex.Message;
+            }
+            return accountData;
+        }
+        public async Task<List<AccountsViewModel>> GetAllAccountsBy_HalfYearly()
+        {
+            var accountData = new List<AccountsViewModel>();
+            try
+            {
+                var data = DataHelper.GetData(DbContext.Database.GetDbConnection(), "Udp_Accounts_GetAllAccounts_Last_SixMonths", null);
+                accountData = ConvertDataTableToGenericList.ConvertDataTable<AccountsViewModel>(data).
+                                   OrderByDescending(x => x.WeekId).ToList();
+            }
+            catch (Exception ex)
+            {
+                string message = ex.Message;
+            }
+            return accountData;
+        }
+        public async Task<List<AccountsViewModel>> GetAllAccountsBy_Quarterly()
+        {
+            var accountData = new List<AccountsViewModel>();
+            try
+            {
+                var data = DataHelper.GetData(DbContext.Database.GetDbConnection(), "Udp_Accounts_GetAllAccounts_Last_Quarter", null);
+                accountData = ConvertDataTableToGenericList.ConvertDataTable<AccountsViewModel>(data).
+                                   OrderByDescending(x => x.WeekId).ToList();
+            }
+            catch (Exception ex)
+            {
+                string message = ex.Message;
+            }
+            return accountData;
+        }
+        public async Task<List<AccountsViewModel>> GetAllAccountsBy_LastMonth()
+        {
+            var accountData = new List<AccountsViewModel>();
+            try
+            {
+                var data = DataHelper.GetData(DbContext.Database.GetDbConnection(), "Udp_Accounts_GetAllAccounts_Last_Month", null);
+                accountData = ConvertDataTableToGenericList.ConvertDataTable<AccountsViewModel>(data).
+                                   OrderByDescending(x => x.WeekId).ToList();
+            }
+            catch (Exception ex)
+            {
+                string message = ex.Message;
+            }
+            return accountData;
+        }
+        public async Task<List<AccountsViewModel>> GetAllAccountsBy_BIWeekly()
+        {
+            var accountData = new List<AccountsViewModel>();
+            try
+            {
+                var data = DataHelper.GetData(DbContext.Database.GetDbConnection(), "Udp_Accounts_GetAllAccounts_Last_Bi_Weekly", null);
+                accountData = ConvertDataTableToGenericList.ConvertDataTable<AccountsViewModel>(data).
+                                   OrderByDescending(x => x.WeekId).ToList();
+            }
+            catch (Exception ex)
+            {
+                string message = ex.Message;
+            }
+            return accountData;
+        }
+        public async Task<List<AccountsViewModel>> GetAllAccountsBy_Weekly()
+        {
+            var accountData = new List<AccountsViewModel>();
+            try
+            {
+                var data = DataHelper.GetData(DbContext.Database.GetDbConnection(), "Udp_Accounts_GetAllAccounts_Last_Weekly", null);
+                accountData = ConvertDataTableToGenericList.ConvertDataTable<AccountsViewModel>(data).
+                                   OrderByDescending(x => x.WeekId).ToList();
+            }
+            catch (Exception ex)
+            {
+                string message = ex.Message;
+            }
+            return accountData;
+        }
     }
 }
