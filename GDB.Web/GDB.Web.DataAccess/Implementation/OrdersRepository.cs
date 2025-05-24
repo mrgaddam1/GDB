@@ -28,22 +28,23 @@ namespace GDB.Web.DataAccess.Implementation
 
         public async Task<int?> GetMaxWeekId()
         {
-            int maxWeekId;           
+            int? maxWeekId;           
             DateTime todaysDate = DateTime.Now;
             DateTime weekDate = (from w in DbContext.WeekData select w.WeekDate.Value).FirstOrDefault();
             int numberOfDays = (todaysDate - weekDate).Days;
 
             var weekData = await (DbContext.WeekData.OrderByDescending(x => x.WeekId).FirstOrDefaultAsync());
 
-            if (numberOfDays > 0)
+            //if (numberOfDays > 0)
+            if (numberOfDays > 7)
             {               
-                maxWeekId = weekData.WeekNumber.Value + 1;
-
                 weekData.WeekNumber = weekData.WeekNumber.Value + 1;
                 weekData.WeekDate = System.DateTime.Now;
                 
                 DbContext.WeekData.Update(weekData);
-                DbContext.SaveChanges();                
+                DbContext.SaveChanges();
+
+                maxWeekId = weekData.WeekNumber;
             }
             else
             {

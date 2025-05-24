@@ -1,7 +1,83 @@
 ﻿@page "/inventory/inventoryhistory/list"
+@using Blazorise.DataGrid
+@using GDB.Web.BLL.Interface
+@using GDB.Web.Shared.Inventory
+@using System.Globalization
+@using Radzen.Blazor
 
-<h3>InventoryHistoryList</h3>
+@inject IInventoryService InventoryService
+@inject NavigationManager NavigationManager
+@rendermode @(new InteractiveServerRenderMode(prerender:false))
+ 
+<div class="row">
+    <div class="col-lg-6" align="left">
+        <h2>Inventory History List</h2>
+    </div>
+    <div class="col-lg-6" align="right">
+        &nbsp;
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        @if (inventoryHistoryData != null)
+        {
+            <RadzenDataGrid Data="inventoryHistoryData" AllowFiltering="true" AllowPaging="true" AllowSorting="true" PageSize="20">
+                <Columns>
+                    <RadzenDataGridColumn TItem="InventoryHistoryViewModel" Property="FirstName" Title="First Name" Width="110px" />
+                    <RadzenDataGridColumn TItem="InventoryHistoryViewModel" Property="WeekId" Title="WeekId" Width="75px" />
+                    <RadzenDataGridColumn TItem="InventoryHistoryViewModel" Property="OrderDate" Title="Order Date" Width="100px" />
+
+                    <RadzenDataGridColumn TItem="InventoryHistoryViewModel" Property="CategoryName" Title="Category" Width="150px" />
+                    <RadzenDataGridColumn TItem="InventoryHistoryViewModel" Property="SubCategoryName" Title="SubCategory" Width="150px" />
+                    <RadzenDataGridColumn TItem="InventoryHistoryViewModel" Property="ProductName" Title="Product" Width="425px" />
+                    <RadzenDataGridColumn TItem="InventoryHistoryViewModel" Property="PurchasedDate" Title="Purchased Date" Width="120px">
+                        <Template Context="data">
+                            @data.PurchasedDate.ToString("dd/MM/yyyy")
+                        </Template>
+                    </RadzenDataGridColumn>
+
+                    <RadzenDataGridColumn TItem="InventoryHistoryViewModel" Property="ProductPrice" Title="Price" Width="90px">
+                        <Template Context="data">
+                            <span style="color:blue;font-weight:bold;">
+                                @data.ProductPrice.ToString("C", CultureInfo.CreateSpecificCulture("en-GB"))
+                            </span>
+                        </Template>
+                    </RadzenDataGridColumn>
+
+
+                    <RadzenDataGridColumn TItem="InventoryHistoryViewModel" Property="Quantity" Title="Quantity" Width="90px">
+                        <Template Context="data">
+                            <span style="color:blue;font-weight:bold;">
+                                <b>@data.Quantity</b>
+                            </span>
+                        </Template>
+                    </RadzenDataGridColumn>
+                    <RadzenDataGridColumn TItem="InventoryHistoryViewModel" Property="AvailableQuantity" Title="Available Quantity" Width="120px">
+                        <Template Context="data">
+                            <span style="color:blue;font-weight:bold;">
+                                <b>@data.AvailableQuantity</b>
+                            </span>
+                        </Template>
+                    </RadzenDataGridColumn>
+              
+                </Columns>
+            </RadzenDataGrid>
+        }
+    </div>
+</div>
 
 @code {
 
+    public List<InventoryHistoryViewModel> inventoryHistoryData { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        inventoryHistoryData = new List<InventoryHistoryViewModel>();
+        inventoryHistoryData = await InventoryService.GetAllInventoryHistoryDetails<List<InventoryHistoryViewModel>>();   
+
+    }
+
+   
 }
+

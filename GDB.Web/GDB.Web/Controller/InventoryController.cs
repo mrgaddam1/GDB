@@ -42,6 +42,30 @@ namespace GDB.Web.Controller
                 });
             }
         }
+        [HttpGet]
+        [Route("GetAllInventoryHistory")]
+        public async Task<IActionResult> GetAllInventoryHistory()
+        {
+            try
+            {
+                var inventoryData = await iInventoryRepository.GetAllInventoryHistory();
+                if (inventoryData.Count == 0)
+                {
+                    return NoContent();
+                }
+                return Ok(inventoryData);
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex.Message, "An error occured while processing your request.");
+                return StatusCode(StatusCodes.Status500InternalServerError, new
+                {
+                    Message = ex.Message,
+                    Details = ex.StackTrace
+                });
+            }
+        }
+
 
 
         [HttpPost]

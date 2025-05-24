@@ -34,6 +34,20 @@ namespace GDB.Web.BLL.Implementation
                 throw new ApplicationException();
             }
         }
+        public async Task<List<InventoryHistoryViewModel>> GetAllInventoryHistoryDetails<T>()
+        {
+            try
+            {
+                var response = await httpClient.GetAsync("api/Inventory/GetAllInventoryHistory");
+                var data = await ApiStatusCodeHandler.HandleResponse<List<InventoryHistoryViewModel>>(response);
+                return data;
+            }
+            catch (Exception ex)
+            {
+                string message = ex.Message;
+                throw new ApplicationException();
+            }
+        }
 
         public async Task<bool?> Add(InventoryViewModel inventoryViewModel)
         {

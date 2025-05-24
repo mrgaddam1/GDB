@@ -13,5 +13,6 @@ namespace GDB.Web.BLL.Interface
         Task<List<InventoryViewModel>> GetAllInventoryStock<T>();
         Task<bool?> Add(InventoryViewModel inventoryViewModel);
         Task<bool?> Update(InventoryViewModel inventoryViewModel);
+        Task<List<InventoryHistoryViewModel>> GetAllInventoryHistoryDetails<T>();
     }
 }

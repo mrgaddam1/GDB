@@ -12,5 +12,6 @@ namespace GDB.Web.DataAccess.Interface
         Task<List<InventoryViewModel>> GetAll();
         Task<bool> Add(InventoryViewModel inventoryViewModel);
         Task<bool> Update(InventoryViewModel inventoryViewModel);
+        Task<List<InventoryHistoryViewModel>> GetAllInventoryHistory();
     }
 }
