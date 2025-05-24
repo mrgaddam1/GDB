@@ -1,0 +1,142 @@
+﻿@page "/masterMaintenance/stater/update/{staterId:int}"
+@using GDB.Web.BLL.Interface
+@using GDB.Web.Shared
+@using GDB.Web.Shared.Inventory
+
+@inject IStaterService StaterService
+@inject NavigationManager NavigationManager
+@inject ILogger<Update> Logger
+@rendermode @(new InteractiveAutoRenderMode(prerender:false))
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-8 mx-auto">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    Update Locations
+                </div>
+                <div class="card-body">
+                    <div class="col-lg-12">
+                        <EditForm Model="@statersViewModel" OnValidSubmit="HandleValidSubmit">
+                            @if (errorMessages != null)
+                            {
+                                @foreach (var message in errorMessages)
+                                {
+                                    if (!string.IsNullOrEmpty(message))
+                                    {
+                                        <ul class="alert alert-danger mt-3 text-left">
+                                            <li>@message</li>
+                                        </ul>
+                                    }
+                                }
+                            }
+                            <div class="row rowMargin">
+                                <div class="col-sm-3">
+                                    Starter Description
+                                </div>
+                                <div class="col-sm-6">
+                                    <InputText @bind-Value="statersViewModel.StarterDescription" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="row rowMargin">
+                                <div class="col-sm-3">
+                                    Starter Price
+                                </div>
+                                <div class="col-sm-6">
+                                    <InputNumber @bind-Value="statersViewModel.StaterPrice" class="form-control" />
+                                </div>
+                            </div>
+
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                                <button type="button" class="btn btn-secondary" @onclick="GoBack">Cancel</button>
+                            </div>
+                            @if (!string.IsNullOrEmpty(successMessage))
+                            {
+                                <div class="alert alert-success mt-3 text-center">@successMessage</div>
+                            }
+                        </EditForm>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@code {
+    [Parameter]
+    public int staterId { get; set; }
+    private StatersViewModel statersViewModel = new();
+    private string[] errorMessages;
+    private string successMessage = string.Empty;
+
+    private List<StatersViewModel> statersList { get; set; }
+    protected override async Task OnInitializedAsync()
+    {
+        statersList = new List<StatersViewModel>();
+        statersList = await StaterService.GetAllStaters<List<StatersViewModel>>();
+        statersViewModel = statersList.SingleOrDefault(x => x.StaterId == Convert.ToInt32(staterId));
+    }
+
+    private async void HandleValidSubmit()
+    {
+        errorMessages = Validations(statersViewModel);
+        string validations = string.Join(" ", errorMessages);
+
+        if ((validations == null) || (validations == ""))
+        {
+            var response = await StaterService.Update(statersViewModel);
+            if (response)
+            {
+                Logger.LogInformation("Starter details Updated successfully.");
+                successMessage = "Starter details Updated  successfully!";
+                Reset();
+            }
+            else
+            {
+                Logger.LogInformation("Unable to update Starter details.");
+                successMessage = "Unable to update Starter details.";
+            }
+        }
+        else
+        {
+            //validations = "";
+        }
+    }
+
+    private async void Reset()
+    {
+        statersViewModel = new StatersViewModel();
+        errorMessages = [];
+        StateHasChanged();
+    }
+
+    private string[] Validations(StatersViewModel statersViewModel)
+    {
+        string[] result;
+        string validationMessage = "";
+        if (statersViewModel.StarterDescription == null)
+        {
+            validationMessage = "Starter Description: Please enter Starter Name";
+        }
+        if (statersViewModel.StaterPrice == null)
+        {
+            validationMessage = validationMessage != null
+                                ? validationMessage + ", " + Environment.NewLine + "Starter Price: Please Enter Starter Price."
+                                : "Starter Price: Please Enter Starter Price.";
+        }
+        return result = validationMessage.Split(',').Select(s => s.Trim()).ToArray();
+    }
+    private void GoBack()
+    {
+        NavigationManager.NavigateTo("/masterMaintenance/stater/list");
+    }
+
+}
+<style type="text/css">
+    .rowMargin {
+        margin-bottom: 10px;
+    }
+</style>
+

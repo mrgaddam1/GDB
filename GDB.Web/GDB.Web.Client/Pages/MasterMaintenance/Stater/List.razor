@@ -1,0 +1,76 @@
+﻿@page "/masterMaintenance/stater/list"
+@using Blazorise.DataGrid
+@using GDB.Web.BLL.Interface
+@using GDB.Web.Shared
+@using System.Globalization
+@using Radzen.Blazor
+
+@inject IStaterService StaterService
+@inject NavigationManager NavigationManager
+@rendermode @(new InteractiveServerRenderMode(prerender:false))
+
+
+<div class="col-lg-5">
+    <table>
+        <tr>
+            <td>
+                <h2>Starters</h2>
+            </td>
+            <td style="text-align:right;">
+                <button @onclick="Add" class="btn btn-primary">
+                    <i class="fa fa-plus" aria-hidden="true"></i>
+                    &nbsp;&nbsp;Add New
+                </button>
+            </td>
+        </tr>
+        <tr style="padding-top:-5px;vertical-align:top;">
+      <td colspan="2">
+                @if (staterData != null)
+                {
+                    <RadzenDataGrid Data="staterData" AllowFiltering="true" AllowPaging="true" AllowSorting="true" PageSize="20">
+                        <Columns>
+                            <RadzenDataGridColumn TItem="StatersViewModel" Property="StaterId" Title="Id" />
+                            <RadzenDataGridColumn TItem="StatersViewModel" Property="StarterDescription" Title="Starter Name" />
+                            <RadzenDataGridColumn TItem="StatersViewModel" Property="StaterPrice" Title="Price">
+                                <Template Context="data">
+                                    <span style="color:red;font-weight:600;">
+                                        @data.StaterPrice.Value.ToString("C", CultureInfo.CreateSpecificCulture("en-GB"))
+                                    </span>
+                                </Template>
+                            </RadzenDataGridColumn>
+                            <RadzenDataGridColumn TItem="StatersViewModel">
+                                <Template Context="data">
+                                    <RadzenButton ButtonType="Radzen.ButtonType.Button"
+                                                  Icon="edit" Size="Radzen.ButtonSize.Small"
+                                                  Style="margin-right:5px;"
+                                                  Click="@(() => EditRow(data))" />
+                                </Template>
+                            </RadzenDataGridColumn>
+                        </Columns>
+                    </RadzenDataGrid>
+                }
+            </td>
+        </tr>
+    </table>
+</div>
+
+@code {
+
+    private List<StatersViewModel> staterData { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        staterData = new List<StatersViewModel>();
+        staterData = await StaterService.GetAllStaters<List<StatersViewModel>>();
+    }
+
+    private void Add()
+    {
+        NavigationManager.NavigateTo("/masterMaintenance/stater/add");
+    }
+    protected void EditRow(StatersViewModel statersViewModel)
+    {
+        NavigationManager.NavigateTo("/masterMaintenance/stater/update" + "/" + Convert.ToString(statersViewModel.StaterId));
+    }
+}
+

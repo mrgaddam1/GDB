@@ -1,4 +1,5 @@
 ﻿using GDB.Web.DataAccess.Interface;
+using GDB.Web.Shared;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -63,6 +64,64 @@ namespace GDB.Web.Controller
                 });
             }
         }
+
+        [HttpPost]
+        [Route("Add")]
+        public async Task<IActionResult> Add([FromBody] StatersViewModel statersViewModel)
+        {
+            try
+            {
+                if (statersViewModel == null)
+                {
+                    return BadRequest("Stater data is required.");
+                }
+                var response = await staterRepository.Add(statersViewModel);
+                if (response)
+                {
+                    var status = CreatedAtAction(nameof(Add), new { id = statersViewModel.StaterId }, statersViewModel);
+                    return Ok(status);
+                }
+                return BadRequest("Failed to add stater.");
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex.Message, "An error occured while processing your request.");
+                return StatusCode(StatusCodes.Status500InternalServerError, new
+                {
+                    Message = ex.Message,
+                    Details = ex.StackTrace
+                });
+            }
+        }
+
+        [HttpPost]
+        [Route("Update")]
+        public async Task<IActionResult> Update([FromBody] StatersViewModel statersViewModel)
+        {
+            try
+            {
+                if (statersViewModel == null)
+                {
+                    return BadRequest("Stater data is required.");
+                }
+                var response = await staterRepository.Update(statersViewModel);
+                if (response)
+                {
+                    return Ok("Stater updated successfully.");
+                }
+                return BadRequest("Failed to update stater.");
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex.Message, "An error occured while processing your request.");
+                return StatusCode(StatusCodes.Status500InternalServerError, new
+                {
+                    Message = ex.Message,
+                    Details = ex.StackTrace
+                });
+            }
+        }
+
 
 
     }
