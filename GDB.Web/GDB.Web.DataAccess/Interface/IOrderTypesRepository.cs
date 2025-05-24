@@ -11,5 +11,7 @@ namespace GDB.Web.DataAccess.Interface
     {
         Task<List<OrdersTypeViewModel>> GetAllOrderTypes();
         Task<decimal?> GetSelectedOrderTypeItemPriceOrderType(int orderTypeId);
+        Task<bool> Add(OrdersTypeViewModel ordersTypeViewModel);
+        Task<bool> Update(OrdersTypeViewModel ordersTypeViewModel);
     }
 }

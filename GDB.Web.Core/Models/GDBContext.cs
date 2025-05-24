@@ -295,6 +295,9 @@ public partial class GDBContext : DbContext
 
             entity.ToTable("Stater");
 
+            entity.Property(e => e.CreatedDate).HasColumnType("datetime");
+            entity.Property(e => e.DeletedDate).HasColumnType("datetime");
+            entity.Property(e => e.ModifiedDate).HasColumnType("datetime");
             entity.Property(e => e.StaterDescription)
                 .HasMaxLength(250)
                 .IsUnicode(false);

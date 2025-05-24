@@ -11,5 +11,7 @@ namespace GDB.Web.DataAccess.Interface
     {
         Task<List<StatersViewModel>> GetAllStaters();
         Task<decimal>GetStaterPriceByStater(int staterId);
+        Task<bool> Add(StatersViewModel statersViewModel);
+        Task<bool> Update(StatersViewModel statersViewModel);
     }
 }

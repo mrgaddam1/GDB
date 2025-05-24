@@ -10,5 +10,7 @@ namespace GDB.Web.Shared
     {
         public int StaterId { get; set; }   
         public string StarterDescription { get; set; }
+
+        public decimal? StaterPrice { get; set; }
     }
 }

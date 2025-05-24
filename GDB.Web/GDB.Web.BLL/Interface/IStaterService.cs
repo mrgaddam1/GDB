@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GDB.Web.Shared;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,5 +11,7 @@ namespace GDB.Web.BLL.Interface
     {
         Task<T?> GetAllStaters<T>();
         Task<decimal> GetStaterPriceByStater(int staterId);
+        Task<bool> Add(StatersViewModel statersViewModel);
+        Task<bool> Update(StatersViewModel statersViewModel);
     }
 }
