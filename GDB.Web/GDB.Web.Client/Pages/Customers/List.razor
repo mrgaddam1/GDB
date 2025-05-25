@@ -2,6 +2,7 @@
 @using GDB.Web.BLL.Interface
 @using GDB.Web.Shared
 @using Microsoft.AspNetCore.Components.Authorization
+@using Radzen
 @using Radzen.Blazor
 
 @inject ICustomerService CustomerService
@@ -15,8 +16,8 @@
         <h2>Customers</h2>
     </div>
     <div class="col-lg-6" align="right">
-        <button @onclick="AddNewCustomer" class="btn btn-success">
-            <i class="fa fa-plus" aria-hidden="true"></i>
+        <button @onclick="AddNewCustomer" class="btn btn-success fw-bold">
+            <i class="fas fa-plus" aria-hidden="true"></i>
             &nbsp;&nbsp;Add Customer
         </button>
     </div>
@@ -33,6 +34,7 @@
                 AllowPaging="true" 
                 AllowSorting="true"
                 PageSize="15"
+                CellRender="@OnCellRender"
                 GridLines="@GridLines">
                 <Columns>
                     <RadzenDataGridColumn Property="CustomerId" Title="Id" Width="100" Visible="false" />
@@ -41,16 +43,18 @@
                        
                     <RadzenDataGridColumn Property="MobileNumber" Title="Mobile Number">
                         <Template Context="data">
-                            @{
-                                var maskedNumber = MaskMobile((string)data.MobileNumber);
+                            <span style="color:blue;font-weight:600;">    
+                            @{                                                           
+                                var maskedNumber = MaskMobile((string)data.MobileNumber);                                
                             }
-                            <span>
-                                @maskedNumber
+                             @maskedNumber
                             </span>
                         </Template>                       
                     </RadzenDataGridColumn>
                     <RadzenDataGridColumn Property="LocationName" Title="Location" />
-                    <RadzenDataGridColumn Property="AdvertiseSource" Title="Communication Source" />
+                    <RadzenDataGridColumn Property="AdvertiseSource" Title="Communication Source" >
+                        
+                    </RadzenDataGridColumn>
 
                     <RadzenDataGridColumn TItem="CustomerViewModel" >
                             <Template Context="data">
@@ -81,14 +85,48 @@
 
     protected override async Task OnInitializedAsync()
     {
-      customerViewModel = await CustomerService.GetAllCustomers<List<CustomerViewModel>>();
-       
+        customerViewModel = await CustomerService.GetAllCustomers<List<CustomerViewModel>>();
+
     }
     void EditRow(CustomerViewModel customerViewModel)
     {
         NavigationManager.NavigateTo("/customers/updateCustomer" + "/" + Convert.ToString(customerViewModel.CustomerId));
     }
 
+    void OnCellRender(DataGridCellRenderEventArgs<CustomerViewModel> args)
+    {
+        if (args.Column.Property == "AdvertiseSource")
+        {
+            if (args.Data.AdvertiseSource == "Biriyani Group")
+            {
+                args.Attributes["style"] = "color:white;font-weight:bold;background-color:deepskyblue;";
+            }
+            else if (args.Data.AdvertiseSource == "Friend Referral")
+            {
+                args.Attributes["style"] = "color:#842029;font-weight:bold;background-color:#d7d1fa !important;";
+            }
+            else if (args.Data.AdvertiseSource == "KTC Kent Telugu Community Group")
+            {
+                args.Attributes["style"] = "color:black;font-weight:bold;background-color:#d3d9de !important;";
+            }
+            else if (args.Data.AdvertiseSource == "Medway Telugu Community")
+            {
+                args.Attributes["style"] = "color:#FFFFFF;font-weight:bold;background-color:rgb(255, 165, 0);";
+            }
+            else if (args.Data.AdvertiseSource == "Nissan Local")
+            {
+                args.Attributes["style"] = "color:#842029;background-color:#FFFFE0 !important;";
+            }
+            else if (args.Data.AdvertiseSource == "Oral Communication")
+            {
+                args.Attributes["style"] = "color:#842029;background-color:#F5F5F5; !important;";
+            }
+            else if (args.Data.AdvertiseSource == "Royal Super Market")
+            {
+                args.Attributes["style"] = "color:#842029;background-color:#FF7F7F !important;";
+            }
+        }
+    }
 
 
     // private void OnRowStyling(CustomerViewModel customer, DataGridRowStyling styling)
@@ -128,14 +166,7 @@
     {
         NavigationManager.NavigateTo("/customers/addCustomer");
     }
-    // private void OnSelectedRowStyling(CustomerViewModel customer, DataGridRowStyling styling)
-    // {
-    //     styling.Background = Blazorise.Background.Danger;
-    //     NavigationManager.NavigateTo("/customers/updateCustomer" + "/" + Convert.ToString(customer.CustomerId));
-    // }
-
-
-
+  
 }
 
  
