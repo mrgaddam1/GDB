@@ -349,3 +349,5 @@ GDB.Web/.vs/GDB.Web/v17/
 /GDB.Web/GDB.Web.BLL/obj/GDB.Web.BLL.csproj.nuget.g.props
 /GDB.Web/GDB.Web.BLL/obj/project.assets.json
 /GDB.Web/GDB.Web.BLL/obj/project.nuget.cache
+/GDB.Web/GDB.Web/obj/Debug/net8.0/rjsmcshtml.dswa.cache.json
+/GDB.Web/GDB.Web/obj/Debug/net8.0/rjsmrazor.dswa.cache.json
