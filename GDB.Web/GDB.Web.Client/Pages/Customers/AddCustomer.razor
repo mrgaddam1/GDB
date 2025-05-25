@@ -38,7 +38,7 @@
                                     First Name
                                 </div>
                                 <div class="col-sm-6">
-                                    <InputText @bind-Value="customer.FirstName" class="form-control" />
+                                    <InputText @bind-Value="customer.FirstName" maxLength="150"  class="form-control" />
                                 </div>
                             </div>
 
@@ -47,7 +47,7 @@
                                     Last Name
                                 </div>
                                 <div class="col-sm-6">
-                                    <InputText @bind-Value="customer.LastName" class="form-control" />
+                                    <InputText @bind-Value="customer.LastName" maxLength="150" class="form-control" />
                                 </div>
                             </div>
 
@@ -56,7 +56,7 @@
                                     Mobile Number
                                 </div>
                                 <div class="col-sm-6">
-                                    <InputText @bind-Value="customer.MobileNumber" style="color:red;" class="form-control" />
+                                    <InputText @bind-Value="customer.MobileNumber" maxLength="15" style="color:red;font-weight:bold;" class="form-control" />
                                 </div>
                             </div>
                             <div class="row rowMargin">
@@ -116,8 +116,13 @@
 
 
                             <div class="text-center">
-                                <button type="submit" class="btn btn-primary">Submit</button>
-                                <button type="button" class="btn btn-secondary" @onclick="GoBack">Cancel</button>
+                                <button type="submit" class="btn btn-primary fw-bold">
+                                    <i class="fas fa-plus" aria-hidden="true"></i>
+                                    &nbsp;&nbsp;Add Customer
+                                </button>
+                                <button type="button" class="btn btn-warning fw-bold" @onclick="GoBack">
+                                    <i class="fas fa-times"></i>&nbsp;&nbsp;Cancel
+                                </button>
                             </div>
                             @if (!string.IsNullOrEmpty(successMessage))
                             {
