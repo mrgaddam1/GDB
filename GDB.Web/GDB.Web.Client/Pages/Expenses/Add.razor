@@ -1,5 +1,6 @@
 ﻿@page "/expenses/add" 
 @using GDB.Web.BLL.Interface
+@using GDB.Web.Client.Infrastructure.Utilis.Expenses
 @using GDB.Web.Shared
 
 @inject IStoreService StoreService
@@ -83,7 +84,7 @@
                                     Quantity Description
                                 </div>
                                 <div class="col-sm-6">
-                                    <InputText @bind-Value="expenses.QuantityDescription" class="form-control" />
+                                    <InputText @bind-Value="expenses.QuantityDescription" maxLength="150" class="form-control" />
                                 </div>
                             </div>  
 
@@ -93,7 +94,7 @@
                                     Amount
                                 </div>
                                 <div class="col-sm-6">
-                                    <InputNumber @bind-Value="expenses.ExpensesAmount" class="form-control" />
+                                    <InputNumber @bind-Value="expenses.ExpensesAmount" maxLength="10" style="color:red;font-weight:bold;" class="form-control" />
                                 </div>
                             </div>
 
@@ -116,8 +117,13 @@
                             </div>  
 
                             <div class="text-center">
-                                <button type="submit" class="btn btn-primary">Submit</button>
-                                <button type="button" class="btn btn-secondary" @onclick="GoBack">Cancel</button>
+                                <button type="submit" class="btn btn-primary  fw-bold">
+                                    <i class="fas fa-plus" aria-hidden="true"></i>
+                                    &nbsp;&nbsp;Add Expenses
+                                </button>
+                                <button type="button" class="btn btn-warning fw-bold" @onclick="GoBack">
+                                    <i class="fas fa-times"></i>&nbsp;&nbsp;Cancel
+                                </button>
                             </div>
 
                             @if (!string.IsNullOrEmpty(successMessage))
@@ -136,25 +142,27 @@
 @code {
     private ExpensesViewModel expenses = new();
     private string[] errorMessages;
-    private string successMessage = string.Empty;   
+    private string successMessage = string.Empty; 
+
     public string GroceryInitialText { get; set; } = "---Select Grocery---";
     public string StoreInitialText { get; set; } = "---Select store---";
-
-    //public IEnumerable<GroceryViewModel> groceryViewModelData;
-    //public IEnumerable<StoreViewModel> storeViewModelData;
 
     public List<GroceryViewModel> groceryViewModelData = new();
     public List<StoreViewModel> storeViewModelData = new();
 
     protected override async Task OnInitializedAsync()
     {
+       await BindData();
+    } 
+    private async Task BindData()
+    {
         groceryViewModelData = new List<GroceryViewModel>();
         storeViewModelData = new List<StoreViewModel>();
 
-        groceryViewModelData = await GroceryService.GetAll<List<GroceryViewModel>>();          
+        groceryViewModelData = await GroceryService.GetAll<List<GroceryViewModel>>();
         storeViewModelData = await StoreService.GetAll<List<StoreViewModel>>();
         expenses.WeekNumber = await OrderService.GetMaxWeekId<int>();
-    }    
+    }
 
     private async Task OnstoreSelectionIndexChanged(ChangeEventArgs e)
     {
@@ -167,7 +175,6 @@
         StateHasChanged();
     }
 
-
     private async void HandleValidSubmit()
     {
         errorMessages = Validations(expenses);
@@ -177,22 +184,26 @@
             var response = await ExpensesService.Add(expenses);
             if (response.Value)
             {
-                Logger.LogInformation("Expenses details are added successfully.");
-                successMessage = "Expenses details submitted successfully!";
-                await OnInitializedAsync();
-                Reset();
+                await BindData();
+                SuccessMessage();
             }
             else{
-                Logger.LogInformation("Unable to create new Expenses.");
-                successMessage = "Unable to create new Expenses.";
-                validations = "";
+                ErrorMessages();
             }           
-        }      
-        else{
-            Logger.LogInformation("Unable to create new Expenses.");
-            successMessage = "Unable to create new Expenses.";
-            validations = "";
-        }
+        }  
+        validations = "";
+    }
+
+    private void ErrorMessages()
+    {
+        Logger.LogInformation(ExpesesMessages.Expeses_ErrorMessage);
+        successMessage = ExpesesMessages.Expeses_ErrorMessage;  
+    }
+    private void SuccessMessage()
+    {
+        Logger.LogInformation(ExpesesMessages.Expeses_SuccessMessage);
+        successMessage = ExpesesMessages.Expeses_SuccessMessage;
+        Reset();
     }
 
     private async void Reset()
@@ -209,25 +220,25 @@
         string validationMessage = "";
         if ((expensesViewModel.ExpensesAmount == null) || (expensesViewModel.ExpensesAmount == 0))
         {
-            validationMessage = "Amount: Please enter Expenses Amount.";
+            validationMessage = ExpesesMessages.Expenses_Amount_ValidationMessage; 
         }
         if (expensesViewModel.ExpensesDate == null)
         {
             validationMessage = validationMessage != null ? validationMessage +
-                                ", " + Environment.NewLine + "Expenses Date: Please select Expenses Date."
-                                : "Expenses Date: Please select Expenses Date.";
+                                ", " + Environment.NewLine + ExpesesMessages.Expenses_Date_ValidationMessage
+                                : ExpesesMessages.Expenses_Date_ValidationMessage;
         }      
         if ((expensesViewModel.StoreId == 0) ||(expensesViewModel.StoreId == null))
         {
             validationMessage = validationMessage != null
-                                ? validationMessage + ", " + Environment.NewLine + "Store: Please select Store."
-                                : "Store: Please select Store.";
+                                ? validationMessage + ", " + Environment.NewLine + ExpesesMessages.Expenses_Store_ValidationMessage
+                                : ExpesesMessages.Expenses_Store_ValidationMessage;
         }
         if ((expensesViewModel.GroceryId == 0) || (expensesViewModel.GroceryId == null))
         {
             validationMessage = validationMessage != null
-                                ? validationMessage + ", " + Environment.NewLine + "Grocery: Please select Grocery."
-                                : "Grocery: Please select Grocery.";
+                                ? validationMessage + ", " + Environment.NewLine + ExpesesMessages.Expenses_Grocery_ValidationMessage
+                                : ExpesesMessages.Expenses_Grocery_ValidationMessage;
         }
         return result = validationMessage.Split(',').Select(s => s.Trim()).ToArray();
     }
@@ -236,14 +247,4 @@
     {
         NavigationManager.NavigateTo("/expenses/list");
     }
-}
-<style type="text/css">
-    .rowMargin {
-        margin-bottom: 10px;
-    }
-
-    .textRed {
-        color: red;
-    }
-
-</style> 
+ }

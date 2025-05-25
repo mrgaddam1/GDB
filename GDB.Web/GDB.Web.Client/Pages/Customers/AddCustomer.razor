@@ -112,9 +112,7 @@
                                         <InputText @bind-Value="customer.RefferedBy" class="form-control" />
                                     </div>
                                 </div>
-                            }                    
-
-
+                            } 
                             <div class="text-center">
                                 <button type="submit" class="btn btn-primary fw-bold">
                                     <i class="fas fa-plus" aria-hidden="true"></i>
@@ -141,8 +139,7 @@
     private CustomerViewModel customer = new();
     private string[] errorMessages;
     private string successMessage = string.Empty;     
-    private string SelectedOption = "visibility:hidden;";   
-                       
+    private string SelectedOption = "visibility:hidden;";                          
 
     public string LocationInitialText { get; set; } = "---Select Location---";
     public string AdvertisementSourceInitialText { get; set; } = "---Select Source---";

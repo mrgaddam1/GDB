@@ -1,28 +1,30 @@
 ﻿@page "/expenses/list"
-
 @using GDB.Web.BLL.Implementation
 @using GDB.Web.BLL.Interface
 @using GDB.Web.Shared
 @using System.Globalization
+@using Radzen
 @using Radzen.Blazor
 
 @inject IExpensesService ExpensesService
 @inject IOrderService OrderService
-@inject HttpClient HttpClient
 @inject NavigationManager NavigationManager
 @rendermode @(new InteractiveServerRenderMode(prerender:false))
-
-
 
 <div class="row">
     <div class="col-lg-6" align="left">
         <h2>Expenses</h2>
     </div>
-    <div class="col-lg-6" align="right">
-        <button @onclick="AddNewExpenses" class="btn btn-success">
+
+    <div class="col-lg-6" align="right">    
+        <button @onclick="AddNewExpenses" class="btn btn-success  fw-bold" style="margin-right:30px;">
             <i class="fa fa-plus" aria-hidden="true"></i>
             &nbsp;&nbsp;Add Expenses
         </button>
+        <a href="/reports/reportsHome" class="text-warning text-decoration-none" style="padding-right:10px;">
+            <i class="fas fa-chart-line" aria-hidden="true"></i>
+            &nbsp;&nbsp;Click  Reports
+        </a>
     </div>
 </div>
 <div class="row">
@@ -37,7 +39,8 @@
                             AllowPaging="true"
                             AllowSorting="true"
                             PageSize="15"
-                            GridLines="@GridLines">
+                            GridLines="@GridLines"
+                            CellRender="@OnCellRender">
                 <Columns>
                     <RadzenDataGridColumn Property="ExpensesId" Title="Id" Width="100" Visible="false" />
                     <RadzenDataGridColumn Property="WeekNumber" Title="Week" Width="100px"  />
@@ -46,10 +49,15 @@
                     <RadzenDataGridColumn Property="StoreName" Title="Store Name" Width="250px" />
                     <RadzenDataGridColumn Property="ExpensesAmount" Title="Amount" Width="120px">
                         <Template Context="data">
-                            <span style="color:green;font-weight:600;">
+                            <span style="color:blue;font-weight:600;">
                                 @data.ExpensesAmount.ToString("C", CultureInfo.CreateSpecificCulture("en-GB"))
                             </span>
                         </Template>
+                        <FooterTemplate>
+                            <span style="color:red;font-weight:600;">
+                                <b>Total: @expensesViewModel.Sum(t => t.ExpensesAmount).ToString("C", CultureInfo.CreateSpecificCulture("en-GB"))</b>
+                            </span>
+                        </FooterTemplate>
                     </RadzenDataGridColumn>
                     <RadzenDataGridColumn Property="ExpensesDate" Title="Expenses Date" Width="120px">
                         <Template Context="data">
@@ -75,6 +83,7 @@
     public List<ExpensesViewModel> expensesViewModel { get; set; }
     public int CurrentWeekId { get; set; }
     Radzen.DataGridGridLines GridLines = Radzen.DataGridGridLines.Both;
+
     protected override async Task OnInitializedAsync()
     {
         try
@@ -97,48 +106,48 @@
         NavigationManager.NavigateTo("/expenses/updateExpenses" + "/" + Convert.ToString(expensesViewModel.ExpensesId));
     }
 
-    // private void OnRowStyling(ExpensesViewModel expensesViewModel, DataGridRowStyling styling)
-    // {
-    //     if (expensesViewModel.WeekNumber == CurrentWeekId)
-    //     {
-    //         styling.Style = "color:#0f5132;background-color:#d1e7dd !important;";
-    //     }
-    //     else if (expensesViewModel.WeekNumber == 17)
-    //     {
-    //         styling.Style = "color:#ffffff;background-color:#5F9EA0 !important;";
-    //     }
-    //     else if (expensesViewModel.WeekNumber == 16)
-    //     {
-    //         styling.Style = "color:#ffffff;background-color:#483D8B !important;";
-    //     }
-    //     else if (expensesViewModel.WeekNumber == 15)
-    //     {
-    //         styling.Style = "color:#ffffff;background-color:#F08080 !important;";
-    //     }
-    //     else if ((expensesViewModel.WeekNumber == 14))
-    //     {
-    //         styling.Style = "color:#ffffff;background-color:#8FBC8F !important;";
-    //     }
-    //     else if ((expensesViewModel.WeekNumber == 13))
-    //     {
-    //         styling.Style = "color:#ffffff;background-color:#20B2AA !important;";
-    //     }
-    //     else if ((expensesViewModel.WeekNumber == 12))
-    //     {
-    //         styling.Style = "color:#ffffff;background-color:#7B68EE !important;";
-    //     }
-    //     else
-    //     {
-    //         styling.Style = "color:#ffffff;background-color:#DB7093 !important;";
-    //     }
-    //  }
-    // private void OnSelectedRowStyling(ExpensesViewModel expensesViewModel, DataGridRowStyling styling)
-    // {
-    //     styling.Background = Blazorise.Background.Primary;
-    //     NavigationManager.NavigateTo("/expenses/updateExpenses" + "/" + Convert.ToString(expensesViewModel.ExpensesId));
-    // }
-
-
+    void OnCellRender(DataGridCellRenderEventArgs<ExpensesViewModel> args)
+    {
+        if (args.Column.Property == "StoreName")
+        {
+            if (args.Data.StoreName == "Icenland")
+            {
+                args.Attributes["style"] = "color:white;font-weight:bold;background-color:deepskyblue;";
+            }
+            else if (args.Data.StoreName == "Kent Cash and Carry - Near Nissan Local")
+            {
+                args.Attributes["style"] = "color:#842029;font-weight:bold;background-color:#d7d1fa !important;";
+            }
+            else if (args.Data.StoreName == "London Cash and Carry - Chatham")
+            {
+                args.Attributes["style"] = "color:black;font-weight:bold;background-color:#d3d9de !important;";
+            }
+            else if (args.Data.StoreName == "London Cash and Carry - Gillingham")
+            {
+                args.Attributes["style"] = "color:#FFFFFF;font-weight:bold;background-color:rgb(255, 165, 0);";
+            }
+            else if (args.Data.StoreName == "New Season Cash and Carry Near by EE")
+            {
+                args.Attributes["style"] = "color:#842029;background-color:#FFFFE0 !important;";
+            }
+            else if (args.Data.StoreName == "Kent Cash and Carry - Near PostOffice")
+            {
+                args.Attributes["style"] = "color:#842029;background-color:lightcoral; !important;";
+            }
+            else if (args.Data.StoreName == "Nissan Local")
+            {
+                args.Attributes["style"] = "color:#842029;background-color:#FF7F7F !important;";
+            }
+            else if (args.Data.StoreName == "Royal Stores")
+            {
+                args.Attributes["style"] = "color:#FFFFFF;font-weight:bold;background-color:lightblue;";
+            }
+            else if (args.Data.StoreName == "General")
+            {
+                args.Attributes["style"] = "color:#FFFFFF;font-weight:bold;background-color:lightsalmon;";
+            }
+        }
+    }
 
 
 }

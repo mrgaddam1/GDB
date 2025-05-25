@@ -24,34 +24,40 @@ namespace GDB.Web.DataAccess.Implementation
         }
         public async  Task<List<ExpensesViewModel>> GetAllExpenses()
         {
-            var expensesData = new List<ExpensesViewModel>();
-            try
-            {
-                expensesData = await (from e in DbContext.Expenses
-                                      join g in DbContext.Groceries
-                                      on e.GroceryId equals g.GroceryId
-                                      join s in DbContext.Stores
-                                      on e.StoreId equals s.StoreId
-                                      select new ExpensesViewModel
-                                      {
-                                          ExpensesId = e.ExpensesId,
-                                          UserId = e.UserId,
-                                          GroceryDescription = g.GroceryDescription,
-                                          QuantityDescription = e.QuantityDescription ?? null,
-                                          StoreName = s.StoreName,
-                                          ExpensesAmount = e.Amount,
-                                          ExpensesDate = e.ExpensesDate,
-                                          WeekNumber = e.WeekId
+            var expensesByCurrentWeek = new List<ExpensesViewModel>();
+           
+ 
 
-                                      }).OrderByDescending(x => x.WeekNumber).ToListAsync();
-            }
-            catch(Exception ex)
-            {
-                logger.LogError(ex.Message, "An error occured while processing the request.");
-                expensesData = new List<ExpensesViewModel>();
-            }           
+                try
+                {
+                    var data = DataHelper.GetData(DbContext.Database.GetDbConnection(), "Udp_Expesnes_GetAllExpensesBy_CurrentWeek", null);
+                    expensesByCurrentWeek = ConvertDataTableToGenericList.ConvertDataTable<ExpensesViewModel>(data).
+                                       OrderByDescending(x => x.WeekNumber).ToList();
+                }
+                catch (Exception ex)
+                {
+                    logger.LogError(ex.Message, "An error occured while processing the request.");
+                    expensesByCurrentWeek = new List<ExpensesViewModel>();
+                }
+                return expensesByCurrentWeek;
 
-            return expensesData;
+                //expensesData = await (from e in DbContext.Expenses
+                //                      join g in DbContext.Groceries
+                //                      on e.GroceryId equals g.GroceryId
+                //                      join s in DbContext.Stores
+                //                      on e.StoreId equals s.StoreId
+                //                      select new ExpensesViewModel
+                //                      {
+                //                          ExpensesId = e.ExpensesId,                                          
+                //                          GroceryDescription = g.GroceryDescription,
+                //                          QuantityDescription = e.QuantityDescription ?? null,
+                //                          StoreName = s.StoreName,
+                //                          ExpensesAmount = e.Amount,
+                //                          ExpensesDate = e.ExpensesDate,
+                //                          WeekNumber = e.WeekId
+
+                //                      }).OrderByDescending(x => x.WeekNumber).ToListAsync();
+            
         }
         public async Task<bool> Add(ExpensesViewModel expensesViewModel)
         {
