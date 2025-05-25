@@ -1,5 +1,188 @@
-﻿<h3>Add</h3>
+﻿@page "/masterMaintenance/orderType/add"
+@using GDB.Web.BLL.Interface
+@using GDB.Web.Shared
+@using System.Globalization
+@using Radzen.Blazor
+
+@inject ILogger<Add> Logger
+@inject IOrdersTypeService OrdersTypeService
+@inject NavigationManager NavigationManager
+@rendermode @(new InteractiveServerRenderMode(prerender:false))
+
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-10 mx-auto">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    Add Order Types
+                </div>
+                <div class="card-body">
+                    <div class="col-lg-12">
+                        <EditForm Model="@orderTypes" OnValidSubmit="HandleValidSubmit">
+                            @if (errorMessages != null)
+                            {
+                                @foreach (var message in errorMessages)
+                                {
+                                    if (!string.IsNullOrEmpty(message))
+                                    {
+                                        <ul class="alert alert-danger mt-3 text-left">
+                                            <li>@message</li>
+                                        </ul>
+                                    }
+                                }
+                            }
+                            <div class="row rowMargin">
+                                <div class="col-sm-3">
+                                    OrderType Name
+                                </div>
+                                <div class="col-sm-6">
+                                    <InputText @bind-Value="orderTypes.OrderTypeName" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="row rowMargin">
+                                <div class="col-sm-3">
+                                    Food Packing Type
+                                </div>
+                                <div class="col-sm-6">
+                                    <select style="width:250px;font-size:13px;"
+                                            @onchange="OnStaterSelectionIndexChanged"                                          
+                                            id="ddlStarters"
+                                            name="StaterId"
+                                            class="form-select">
+                                        <option>@FoodPackingTypeInitialText</option>
+                                        @if (foodPackingTypesData != null)
+                                        {
+                                            @foreach (var item in foodPackingTypesData)
+                                            {
+                                                <option value="@item.FoodPackingTypeId">@item.FoodPackingTypeDescription</option>
+                                            }
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                             <div class="row rowMargin">
+                                <div class="col-sm-3">
+                                   Price
+                                </div>
+                                <div class="col-sm-6">
+                                    <InputNumber @bind-Value="orderTypes.Price" style="width:250px" class="form-control textRed" />
+                                </div>
+                             </div>
+                          
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-primary">Save</button>
+                                <button type="button" class="btn btn-secondary" @onclick="GoBack">Cancel</button>
+                            </div>
+                            @if (!string.IsNullOrEmpty(successMessage))
+                            {
+                                <div class="alert alert-success mt-3 text-center">@successMessage</div>
+                            }
+                        </EditForm>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 
 @code {
+
+    private OrderTypeViewModel orderTypes = new();
+    private string[] errorMessages;
+    private string successMessage;
+    public IEnumerable<FoodPackingTypesViewModel> foodPackingTypesData;
+
+
+    public string FoodPackingTypeInitialText { get; set; } = "---Select Food Packing Type---";
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        foodPackingTypesData =  GetAllFoodPackingTypes();
+    }
+
+    protected List<FoodPackingTypesViewModel> GetAllFoodPackingTypes()
+    {
+        var foodPackingTypesData = new List<FoodPackingTypesViewModel>(){
+            new FoodPackingTypesViewModel { FoodPackingTypeId = 1, FoodPackingTypeDescription = "Family Pack" },
+            new FoodPackingTypesViewModel { FoodPackingTypeId = 2, FoodPackingTypeDescription = "Single Pack" },
+            new FoodPackingTypesViewModel { FoodPackingTypeId = 3, FoodPackingTypeDescription = "Staters Pack" },
+            new FoodPackingTypesViewModel { FoodPackingTypeId = 3, FoodPackingTypeDescription = "Biriyani Ingridents" }
+        };
+        return foodPackingTypesData;
+    }
+    private async void HandleValidSubmit()
+    {
+        successMessage = "";     
+        
+        errorMessages = Validations(orderTypes);
+        string validations = string.Join(" ", errorMessages);
+        if ((validations == null) || (validations == ""))
+        {
+            var response = await OrdersTypeService.Add(orderTypes);
+            if (response)
+            {
+                Logger.LogInformation("Order Type details are added successfully.");
+                successMessage = "Order Type details submitted successfully!";
+                Reset();
+
+                GetAllFoodPackingTypes();
+            }
+            else
+            {
+                Logger.LogInformation("Unable to create new Order Type.");
+                successMessage = "Unable to create new Order Type.";               
+            }
+        }
+        else
+        {
+            validations = "";
+        }
+
+    }
+
+    private async void Reset()
+    {
+        orderTypes = new OrderTypeViewModel();      
+        StateHasChanged();
+    }
+
+    private string[] Validations(OrderTypeViewModel orderTypeViewModel)
+    {
+        string[] result;
+        string validationMessage = "";
+
+        if (orderTypeViewModel.OrderTypeName == null)
+        {
+            validationMessage = "Order Type Name: Please enter Order Type Name.";
+        }
+        if ((orderTypeViewModel.Price == 0) || (orderTypeViewModel.Price == null))
+        {
+            validationMessage = validationMessage != null ? validationMessage +
+                                ", " + Environment.NewLine + "Price: Please enter Price."
+                                : "Price: Please enter Price.";
+        }
+        if (orderTypeViewModel.FoodPackingTypeId == null)
+        {
+            validationMessage = validationMessage != null
+                                ? validationMessage + ", " + Environment.NewLine + "Food Packing Type: Please select Food Packing Type."
+                                : "Food Packing Type: Please select Food Packing Type.";
+        }       
+        return result = validationMessage.Split(',').Select(s => s.Trim()).ToArray();
+    }
+
+    private void GoBack()
+    {
+        NavigationManager.NavigateTo("/masterMaintenance/orderType/list");
+    }
+    private async Task OnStaterSelectionIndexChanged(ChangeEventArgs e)
+    {
+        orderTypes.FoodPackingTypeId = Convert.ToInt32(e.Value.ToString());      
+        StateHasChanged();
+    }
 
 }
