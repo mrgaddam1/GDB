@@ -6,11 +6,12 @@ using System.Threading.Tasks;
 
 namespace GDB.Web.Shared
 {
-    public class OrdersTypeViewModel
+    public class OrderTypeViewModel
     {
         public int OrderTypeId { get; set; }
         public string OrderTypeName { get; set; }
         public int? FoodPackingTypeId { get; set; }
-        public string FoodPackingTypeDescription { get; set; }
+        public string? FoodPackingTypeDescription { get; set; }
+        public decimal? Price { get; set; }
     }
 }

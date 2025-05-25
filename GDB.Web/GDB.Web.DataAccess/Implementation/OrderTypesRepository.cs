@@ -21,17 +21,20 @@ namespace GDB.Web.DataAccess.Implementation
             DbContext = _DbContext;
             logger = _logger;
         }
-        public async Task<List<OrdersTypeViewModel>> GetAllOrderTypes()
+        public async Task<List<OrderTypeViewModel>> GetAllOrderTypes()
         {
-             var orderTypesData = new List<OrdersTypeViewModel>();
-            orderTypesData = await(from o in DbContext.OrderTypes join p in DbContext.FoodPackingTypes
+             var orderTypesData = new List<OrderTypeViewModel>();
+            orderTypesData = await(from o in DbContext.OrderTypes join p in DbContext.FoodPackingTypes                                  
                                    on o.FoodPackingTypeId equals p.FoodPackingTypeId
-                                  select new OrdersTypeViewModel
+                                   join op in DbContext.OrderTypePrices on o.OrderTypeId equals op.OrderTypeId
+
+                                   select new OrderTypeViewModel
                                   {
                                       OrderTypeId = o.OrderTypeId,
                                       OrderTypeName = o.OrderTypeName,
                                       FoodPackingTypeId = o.FoodPackingTypeId,
-                                      FoodPackingTypeDescription  = p.FoodPackingTypeDescription
+                                      FoodPackingTypeDescription  = p.FoodPackingTypeDescription,
+                                      Price = op.OrderTypePrice1 ?? 0,
                                   }).OrderBy(x => x.OrderTypeName).ToListAsync();
 
             return orderTypesData;
@@ -45,7 +48,7 @@ namespace GDB.Web.DataAccess.Implementation
                           select ot.OrderTypePrice1).SingleOrDefaultAsync();
         }
 
-        public async Task<bool> Add(OrdersTypeViewModel ordersTypeViewModel)
+        public async Task<bool> Add(OrderTypeViewModel ordersTypeViewModel)
         {
             try
             {
@@ -54,12 +57,21 @@ namespace GDB.Web.DataAccess.Implementation
                     UserId = 1,
                     OrderTypeName = ordersTypeViewModel.OrderTypeName,
                     FoodPackingTypeId = ordersTypeViewModel.FoodPackingTypeId,
-                    CreatedDate = DateTime.UtcNow,
-                    ModifiedDate = null                    
+                    CreatedDate = DateTime.UtcNow,     
                 };  
                
                 DbContext.OrderTypes.Add(orderTypes);
                 await DbContext.SaveChangesAsync();
+
+                var orderTypePrice = new OrderTypePrice
+                {
+                    OrderTypeId = orderTypes.OrderTypeId,
+                    OrderTypePrice1 = ordersTypeViewModel.Price,
+                };
+                DbContext.OrderTypePrices.Add(orderTypePrice);
+                await DbContext.SaveChangesAsync();
+
+
                 return true;
 
             }
@@ -69,7 +81,7 @@ namespace GDB.Web.DataAccess.Implementation
                 return false;
             }
         }
-        public async Task<bool> Update(OrdersTypeViewModel ordersTypeViewModel)
+        public async Task<bool> Update(OrderTypeViewModel ordersTypeViewModel)
         {
             try
             {
@@ -88,6 +100,17 @@ namespace GDB.Web.DataAccess.Implementation
                 }
 
                 DbContext.OrderTypes.Update(existingOrderTypesData);
+
+                var existingOrderTypePrice = (DbContext.OrderTypePrices.SingleOrDefault(x => x.OrderTypeId == ordersTypeViewModel.OrderTypeId));    
+                if(existingOrderTypePrice == null)
+                {
+                    logger.LogWarning("Order Type Price with OrderTypeId {OrderTypeId} not found.", ordersTypeViewModel.OrderTypeId);
+                    return false;
+                }
+                existingOrderTypePrice.OrderTypePrice1 = ordersTypeViewModel.Price;
+                DbContext.OrderTypePrices.Update(existingOrderTypePrice);   
+
+
                 await DbContext.SaveChangesAsync();
                 return true;
             }
