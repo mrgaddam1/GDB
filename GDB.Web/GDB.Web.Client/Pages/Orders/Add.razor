@@ -1,6 +1,7 @@
 ﻿@page "/orders/add"
 @using System.ComponentModel.DataAnnotations
 @using GDB.Web.BLL.Interface
+@using GDB.Web.Client.Infrastructure.Utilis.Orders
 @using GDB.Web.Shared
 
 @inject ICustomerService CustomerService
@@ -129,7 +130,7 @@
                                 <div class="col-md-4">
                                     <InputNumber 
                                         @bind-Value="order.TotalStaterPrice" 
-                                        style="width:250px" readonly class="form-control textRed" />
+                                        style="width:250px" readonly class="form-control text-danger" />
                                 </div>
                             </div>
 
@@ -170,7 +171,7 @@
                                     Amount
                                 </div>
                                 <div class="col-md-4">
-                                    <InputNumber @bind-Value="order.Amount" style="width:250px" readonly class="form-control textRed" />
+                                    <InputNumber @bind-Value="order.Amount" style="width:250px" readonly class="form-control text-danger" />
                                 </div>
                                 <div class="col-md-2">
                                     Quantity
@@ -209,20 +210,25 @@
                                     Total Amount
                                 </div>
                                 <div class="col-md-4">
-                                    <InputNumber @bind-Value="order.TotalPrice" style="width:250px" readonly class="form-control textRed" />
+                                    <InputNumber @bind-Value="order.TotalPrice" style="width:250px" readonly class="form-control text-danger" />
                                 </div>
                                 <div class="col-md-2">
                                     Week
                                 </div>
                                 <div class="col-md-4">
-                                    <InputNumber @bind-Value="order.WeekId" style="width:250px" readonly class="form-control textRed" />
+                                    <InputNumber @bind-Value="order.WeekId" style="width:250px" readonly class="form-control text-danger" />
                                 </div>
 
                             </div>
 
                             <div class="text-center">
-                                <button type="submit" class="btn btn-primary">Submit</button>
-                                <button type="button" class="btn btn-secondary" @onclick="GoBack">Cancel</button>
+                                <button type="submit" class="btn btn-primary  fw-bold">
+                                    <i class="fas fa-plus" aria-hidden="true"></i>
+                                    &nbsp;&nbsp;Add Order
+                                </button>
+                                <button type="button" class="btn btn-warning fw-bold" @onclick="GoBack">
+                                    <i class="fas fa-times"></i>&nbsp;&nbsp;Cancel
+                                </button>
                             </div>
                             @if (!string.IsNullOrEmpty(successMessage))
                             {
@@ -287,7 +293,6 @@
     private async void HandleValidSubmit()
     {
         successMessage = "";
-        var data = order;
         order.Amount = order.TotalPrice;
         errorMessages = Validations(order);
         string validations = string.Join(" ", errorMessages);
@@ -296,25 +301,28 @@
             var response = await orderService.Add(order);
             if (response.Value)
             {
-                Logger.LogInformation("Order details are added successfully.");
-                successMessage = "Order details submitted successfully!";
-                Reset();
-
+                Success();
                 await BindData();
             }
             else
             {
-                Logger.LogInformation("Unable to create new Orders.");
-                successMessage = "Unable to create new Orders.";
-                validations = "";
+                Error();
             }
         }
-        else
-        {
-            validations = "";
-        }
-
+        validations = "";
     }
+    private void Success()
+    {
+        Logger.LogInformation(OrderUtils.Order_SuccessMessage);
+        successMessage = OrderUtils.Order_SuccessMessage;
+        Reset();
+    }
+    private void Error()
+    {
+        Logger.LogInformation(OrderUtils.Order_ErrorMessage);
+        successMessage = OrderUtils.Order_ErrorMessage;
+    }
+
     private async Task OnStaterSelectionIndexChanged(ChangeEventArgs e)
     {
         order.StaterId = Convert.ToInt32(e.Value.ToString());
@@ -330,7 +338,7 @@
     private async Task OnOrderTypeSelectionIndexChanged(ChangeEventArgs e)
     {
         order.OrderTypeId = Convert.ToInt32(e.Value.ToString());
-        order.Amount = await OrdersTypeService.GetOrderTypePriceByOrderType(Convert.ToInt32(e.Value.ToString()));
+        order.Amount = await OrdersTypeService.GetOrderTypePriceByOrderType(Convert.ToInt32(e.Value.ToString())) ;
         var orderTypesData = await OrdersTypeService.GetAllOrderTypes<List<OrderTypesViewModel>>();
         if (orderTypesData != null)
         {
@@ -379,25 +387,25 @@
 
         if (ordersViewModel.CustomerId == 0)
         {
-            validationMessage = "Customer: Please select Customer.";
+            validationMessage = OrderUtils.Order_Customer_ValidationMessage; 
         }
         if ((ordersViewModel.OrderTypeId == 0) || (ordersViewModel.OrderTypeId == null))
         {
             validationMessage = validationMessage != null ? validationMessage +
-                                ", " + Environment.NewLine + "Order Type: Please select Order Type."
-                                : "Order Type: Please select Order Type.";
+                                ", " + Environment.NewLine + OrderUtils.Order_OrderType_ValidationMessage
+                                : OrderUtils.Order_OrderType_ValidationMessage;
         }
-        if (ordersViewModel.Quantity == null)
+        if ((ordersViewModel.Quantity == 0) || (ordersViewModel.Quantity == null))
         {
             validationMessage = validationMessage != null
-                                ? validationMessage + ", " + Environment.NewLine + "Quantity: Please select Quantity."
-                                : "Quantity: Please select Quantity.";
+                                ? validationMessage + ", " + Environment.NewLine + OrderUtils.Order_Quantity_ValidationMessage
+                                : OrderUtils.Order_Quantity_ValidationMessage;
         }
         if (ordersViewModel.OrderDate == null)
         {
             validationMessage = validationMessage != null
-                                ? validationMessage + ", " + Environment.NewLine + "Order Date: Please select Order Date."
-                                : "Order Date: Please select Order Date.";
+                                ? validationMessage + ", " + Environment.NewLine + OrderUtils.Order_OrderDate_ValidationMessage
+                                : OrderUtils.Order_OrderDate_ValidationMessage;
         }
         return result = validationMessage.Split(',').Select(s => s.Trim()).ToArray();
     }
@@ -480,14 +488,5 @@
     }
 
 }
-<style type="text/css">
-    .rowMargin {
-        margin-bottom: 10px;
-    }
 
-    .textRed {
-        color: red;
-    }
-
-</style>
 

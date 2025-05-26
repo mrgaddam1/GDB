@@ -9,5 +9,5 @@ public partial class OrderTypePrice
 
     public int OrderTypeId { get; set; }
 
-    public decimal? OrderTypePrice1 { get; set; }
+    public decimal OrderTypePrice1 { get; set; }
 }

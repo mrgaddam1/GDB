@@ -12,6 +12,6 @@ namespace GDB.Web.Shared
         public string OrderTypeName { get; set; }
         public int? FoodPackingTypeId { get; set; }
         public string? FoodPackingTypeDescription { get; set; }
-        public decimal? Price { get; set; }
+        public decimal Price { get; set; }
     }
 }
