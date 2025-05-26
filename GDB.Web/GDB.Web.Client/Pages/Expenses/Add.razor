@@ -152,7 +152,8 @@
 
     protected override async Task OnInitializedAsync()
     {
-       await BindData();
+        expenses.ExpensesDate = DateTime.Now;
+        await BindData();
     } 
     private async Task BindData()
     {

@@ -55,44 +55,19 @@ namespace GDB.Web.DataAccess.Implementation
         }
         public async Task<List<OrdersViewModel>> GetAllOrders()
         {
-            var ordersData = new List<OrdersViewModel>();
-            ordersData = await (from o in DbContext.Orders
-                                join c in DbContext.Customers on o.CustomerId equals c.CustomerId
-                                join a in DbContext.AdvertiseSources on c.AdvertiseSourceId equals a.AdvertiseId
-                                join l in DbContext.Locations on c.LocationId equals l.LocationId
-                                
-                                join p in DbContext.PaymentTypes on o.PaymentTypeId equals p.PaymentTypeId into paymentGroup
-                                from p in paymentGroup.DefaultIfEmpty()
+            var ordersDataForCurrentWeek = new List<OrdersViewModel>();
+            try
+            {
+                var data = DataHelper.GetData(DbContext.Database.GetDbConnection(), "Udp_Orders_GetAll_Orders_By_Current_Week", null);
+                ordersDataForCurrentWeek = ConvertDataTableToGenericList.ConvertDataTable<OrdersViewModel>(data).ToList();
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex.Message, "An error occured while processing the request.");
+                ordersDataForCurrentWeek = new List<OrdersViewModel>();
+            }
+            return ordersDataForCurrentWeek;
 
-                                join ot in DbContext.OrderTypes on o.OrderTypeId equals ot.OrderTypeId into orderGroup
-                                from ot in orderGroup.DefaultIfEmpty()
-
-                                select new OrdersViewModel
-                                {
-                                    OrderId = o.OrderId,
-                                    CustomerName = c.FirstName + "  " + c.LastName,
-                                    LastName = c.LastName,
-                                    MobileNumber = c.MobileNumber,
-                                    OrderTypeName = ot.OrderTypeName,
-                                    Quantity = o.Quantity,
-                                    AdvertisementDescription = a.AdvertiseDescription,
-                                    Location = l.LocationDescription,
-                                    Amount = o.Amount,
-                                    AmountPaid = o.AmountPaid,
-                                    AmountPaidDate = o.AmountPaidDate.Value.Date,
-                                    OrderDate = o.OrderDate.Value.Date,
-                                    PaymentTypeId = o.PaymentTypeId,
-                                    PaymentType = p.PaymentTypeDescription,
-                                    WeekId = o.WeekId,
-                                    FoodPackingTypeId = o.FoodPackingTypeId,
-
-
-                                }).OrderByDescending(x=>x.WeekId)
-                                  .ThenBy(x => x.AmountPaid == false || x.AmountPaid == null)
-                                  .ThenBy(x => x.AmountPaid == true)
-
-                                .ToListAsync();
-            return ordersData;
         }
         public async Task<bool> Add(OrdersViewModel ordersViewModel)
         {

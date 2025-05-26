@@ -34,12 +34,12 @@ namespace GDB.Web.DataAccess.Implementation
                                       OrderTypeName = o.OrderTypeName,
                                       FoodPackingTypeId = o.FoodPackingTypeId,
                                       FoodPackingTypeDescription  = p.FoodPackingTypeDescription,
-                                      Price = op.OrderTypePrice1 ?? 0,
+                                      Price = op.OrderTypePrice1,
                                   }).OrderBy(x => x.OrderTypeName).ToListAsync();
 
             return orderTypesData;
         }
-        public async Task<decimal?> GetSelectedOrderTypeItemPriceOrderType(int orderTypeId)
+        public async Task<decimal> GetSelectedOrderTypeItemPriceOrderType(int orderTypeId)
         {
             return await (from o in DbContext.OrderTypes
                           join ot in DbContext.OrderTypePrices

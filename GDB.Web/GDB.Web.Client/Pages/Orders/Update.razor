@@ -3,6 +3,7 @@
 @using Blazorise
 @using Blazorise.Components
 @using GDB.Web.BLL.Interface
+@using GDB.Web.Client.Infrastructure.Utilis.Orders
 @using GDB.Web.Shared
 
 @inject ICustomerService CustomerService
@@ -14,8 +15,6 @@
 @inject NavigationManager NavigationManager
 @inject ILogger<Add> Logger
 @rendermode @(new InteractiveAutoRenderMode(prerender:false))
-
-
 
 <div class="container">
     <div class="row">
@@ -70,7 +69,7 @@
                                         Total Stater Price
                                     </div>
                                     <div class="col-md-4">
-                                        <InputNumber @bind-Value="order.SelectedStaterPrice" readonly class="form-control txtAmountColor" />
+                                        <InputNumber @bind-Value="order.SelectedStaterPrice" readonly class="form-control text-danger" />
                                     </div>
                                 }
                             </div>
@@ -103,7 +102,7 @@
                                     Amount
                                 </div>
                                 <div class="col-md-4">
-                                    <InputNumber @bind-Value="order.Amount" readonly class="form-control txtAmountColor" />
+                                    <InputNumber @bind-Value="order.Amount" readonly class="form-control text-danger" />
                                 </div>
                             </div>
 
@@ -112,14 +111,14 @@
                                     Quantity
                                 </div>
                                 <div class="col-md-4">
-                                    <InputNumber @bind-Value="order.Quantity" readonly class="form-control txtAmountColor" />
+                                    <InputNumber @bind-Value="order.Quantity" readonly class="form-control text-danger" />
                                 </div>
 
                                 <div class="col-md-2">
                                     Total Amount
                                 </div>
                                 <div class="col-md-4">
-                                    <InputNumber @bind-Value="order.Amount" readonly class="form-control txtAmountColor" />
+                                    <InputNumber @bind-Value="order.Amount" readonly class="form-control text-danger" />
                                 </div>
                             </div>
 
@@ -142,9 +141,10 @@
                                             disabled="@(!checkAmountPaidOrNot)"
                                             id="ddlPaymentType"
                                             name="OrderItem"
-                                            class="form-select">
+                                            class="form-select"
+                                            >
                                         <option>@PaymentTypeInitialText</option>
-                                        @if (paymentTypeViewModel != null)
+                                       @if (paymentTypeViewModel != null)
                                         {
                                             @foreach (var item in paymentTypeViewModel)
                                             {
@@ -174,8 +174,11 @@
                             </div>
                              
                             <div class="text-center">
-                                <button type="submit" class="btn btn-primary">Update</button>
-                                <button type="button" class="btn btn-secondary" @onclick="GoBack">Cancel</button>
+                                <button type="submit" class="btn btn-primary fw-bold">
+                                    <i class="fas fa-save" aria-hidden="true"></i>
+                                    &nbsp;&nbsp;Update Order</button>
+                                <button type="button"class="btn btn-warning fw-bold" @onclick="GoBack">
+                                    <i class="fas fa-times"></i>&nbsp;&nbsp;Cancel</button>
                             </div>
                             
                             @if (!string.IsNullOrEmpty(successMessage))
@@ -197,7 +200,7 @@
     private OrdersViewModel order = new();
     string selectedDropValue { get; set; } = "";
 
-    public string PaymentTypeInitialText { get; set; } = "---Select Payment Type---";
+    public string PaymentTypeInitialText; { get; set; } = "---Select Payment Type---";
     public IEnumerable<PaymentTypeViewModel> paymentTypeViewModel;
 
     private bool checkAmountPaidOrNot
@@ -219,11 +222,9 @@
     {
         ordersViewModel = await OrderService.GetAllOrders<List<OrdersViewModel>>();
         order = ordersViewModel.ToList().Find(x => x.OrderId == orderId);
-        
+     
         paymentTypeViewModel = await PaymentTypeService.GetAllPaymentTypes<List<PaymentTypeViewModel>>();
     }
-
-
 
     private async void UpdateOrder()
     {
@@ -236,25 +237,30 @@
             var response = await OrderService.Update(order);
             if (response.Value)
             {
-                Logger.LogInformation("Order details are Updated successfully.");
-                successMessage = "Order details Updated successfully!";
-                Reset();
-                NavigationManager.NavigateTo("/orders/ordersList");
+                Success();
             }
             else
             {
-                Logger.LogInformation("Unable to Updated Order.");
-                successMessage = "Unable to Updated Order.";
-                validations = "";
+                Error();
             }
         }
         else
         {
-            OnInitializedAsync();
-            validations = "";
+            OnInitializedAsync();            
         }
     }
-
+    private void Success()
+    {
+        Logger.LogInformation(OrderUtils.Order_Update_SuccessMessage);
+        successMessage = OrderUtils.Order_Update_SuccessMessage;
+        Reset();
+        NavigationManager.NavigateTo("/orders/ordersList");
+    }
+    private void Error()
+    {
+        Logger.LogInformation(OrderUtils.Order_Update_ErrorMessage);
+        successMessage = OrderUtils.Order_Update_ErrorMessage;               
+    }
 
     private async void Reset()
     {
@@ -274,19 +280,20 @@
 
         if ((ordersViewModel.PaymentTypeId == 0) || (ordersViewModel.PaymentTypeId == null))
         {
-            validationMessage = "Payment Type: Please select Payment Type.";
+            validationMessage = OrderUtils.Order_Update_PaymentType_ValidationMessage;
         }
         if ((ordersViewModel.AmountPaid == false) || (ordersViewModel.AmountPaid == null))
         {
             validationMessage = validationMessage != null ? validationMessage +
-                                ", " + Environment.NewLine + "Order Type: Please select Order Type."
-                                : "Amount Paid or not: Please select Amount Paid or not.";
+                                ", " + Environment.NewLine + OrderUtils.Order_Update_AmountPaidOrNot_ValidationMessage
+                                : OrderUtils.Order_Update_AmountPaidOrNot_ValidationMessage;
         }
         if (ordersViewModel.AmountPaidDate == null)
         {
             validationMessage = validationMessage != null
-                                ? validationMessage + ", " + Environment.NewLine + "Amount Paid Date: Please select Amount Paid Date."
-                                : "Amount Paid Date: Please select Amount Paid Date.";
+                                ? validationMessage + ", " + Environment.NewLine +
+                                 OrderUtils.Order_Update_AmountPaidDate_ValidationMessage
+                                : OrderUtils.Order_Update_AmountPaidDate_ValidationMessage;
         }
         return result = validationMessage.Split(',').Select(s => s.Trim()).ToArray();
     }
@@ -297,13 +304,3 @@
     }
 
 }
-<style type="text/css">
-    .rowMargin {
-        margin-bottom: 10px;
-    }
-
-    .txtAmountColor {
-        color: red;
-    }
-
-</style>

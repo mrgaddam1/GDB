@@ -16,10 +16,14 @@
         <h2>Orders</h2>
     </div>
     <div class="col-lg-6" align="right">
-        <button @onclick="AddNewOrder" class="btn btn-primary">
+        <button @onclick="AddNewOrder" class="btn btn-success fw-bold" style="margin-right:30px;">
             <i class="fa fa-plus" aria-hidden="true"></i>
             &nbsp;&nbsp;Add Order
         </button>
+        <a href="/reports/reportsHome" class="text-warning text-decoration-none" style="padding-right:10px;">
+            <i class="fas fa-chart-line" aria-hidden="true"></i>
+            &nbsp;&nbsp;View Reports
+        </a>
     </div>
 </div>
 <div class="row">
@@ -34,6 +38,7 @@
                         AllowSorting="true"
                         PageSize="15"
                         GridLines="@GridLines"
+                        CellRender="@OnCellRender"
                         RowRender="@OnRowRender">
             <Columns>
                 <RadzenDataGridColumn Property="OrderId" Title="Id" Width="100" Visible="false" />
@@ -52,10 +57,15 @@
                 <RadzenDataGridColumn Property="AmountPaid" Title="Amount Paid" Width="120px" />
                 <RadzenDataGridColumn Property="Amount" Title="Amount" Width="100px" >
                     <Template Context="data">
-                        <span style="color:green;font-weight:bold;">
-                            @data.Amount.Value.ToString("C", CultureInfo.CreateSpecificCulture("en-GB"))
+                        <span style="color:red;font-weight:bold;">
+                            @data.Amount.ToString("C", CultureInfo.CreateSpecificCulture("en-GB"))
                         </span>
                     </Template>
+                    <FooterTemplate>
+                        <span style="color:red;font-weight:600;">
+                            <b>Total: @ordersViewModel.Sum(t => t.Amount).ToString("C", CultureInfo.CreateSpecificCulture("en-GB"))</b>
+                        </span>
+                    </FooterTemplate>
                 </RadzenDataGridColumn>
                 <RadzenDataGridColumn Property="AmountPaidDate" Title="Paid Date" Width="110px"  >
                     <Template Context="data">
@@ -121,10 +131,53 @@
         }
     }
 
-    // private void UpdateOrder()
-    // {
-    //     NavigationManager.NavigateTo("/orders/update" + "/" + Convert.ToString(ordersViewModel.FirstOrDefault().OrderId));
-    // }    
+    void OnCellRender(DataGridCellRenderEventArgs<OrdersViewModel> args)
+    {
+        if (args.Column.Property == "AdvertisementDescription")
+        {
+            if (args.Data.AdvertisementDescription == "Biriyani Group")
+            {
+                args.Attributes["style"] = "color:white;font-weight:bold;background-color:deepskyblue;";
+            }
+            else if (args.Data.AdvertisementDescription == "Friend Referral")
+            {
+                args.Attributes["style"] = "color:#842029;font-weight:bold;background-color:#d7d1fa !important;";
+            }
+            else if (args.Data.AdvertisementDescription == "Royal Super Market")
+            {
+                args.Attributes["style"] = "color:black;font-weight:bold;background-color:#d3d9de !important;";
+            }
+            else if (args.Data.AdvertisementDescription == "Medway Telugu Community")
+            {
+                args.Attributes["style"] = "color:#FFFFFF;font-weight:bold;background-color:rgb(255, 165, 0);";
+            }
+            else if (args.Data.AdvertisementDescription == "KTC Kent Telugu Community Group")
+            {
+                args.Attributes["style"] = "color:#842029;background-color:#FFFFE0 !important;";
+            }
+            else if (args.Data.AdvertisementDescription == "Bharat Storese")
+            {
+                args.Attributes["style"] = "color:#842029;background-color:lightcoral; !important;";
+            }
+            else if (args.Data.AdvertisementDescription == "Nissan Local")
+            {
+                args.Attributes["style"] = "color:#842029;background-color:#FF7F7F !important;";
+            }
+            else if (args.Data.AdvertisementDescription == "Royal Super Market")
+            {
+                args.Attributes["style"] = "color:#FFFFFF;font-weight:bold;background-color:lightblue;";
+            }
+            else if (args.Data.AdvertisementDescription == "Oral Communication")
+            {
+                args.Attributes["style"] = "color:#FFFFFF;font-weight:bold;background-color:lightsalmon;";
+            }
+        }
+    }
+
+
+
+
+
 }
 <style type="text/css">
  .gridItemColor{

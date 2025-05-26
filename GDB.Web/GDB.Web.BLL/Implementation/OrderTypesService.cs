@@ -21,7 +21,7 @@ namespace GDB.Web.BLL.Implementation
             return await ApiStatusCodeHandler.HandleResponse<T>(response);
         }
 
-        public async Task<decimal?> GetOrderTypePriceByOrderType(int orderTypeId)
+        public async Task<decimal> GetOrderTypePriceByOrderType(int orderTypeId)
         {
             var response = await httpClient.GetAsync("api/OrderTypes/GetOrderTypeItemPriceByOrderType/" + orderTypeId);
             return await ApiStatusCodeHandler.HandleResponse<decimal>(response);
