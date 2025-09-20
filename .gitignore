@@ -339,3 +339,5 @@ GDB.Web/.vs/GDB.Web/v17/
 /GDB.Web.Shared/obj/GDB.Web.Shared.csproj.nuget.g.props
 /GDB.Web.Shared/obj/project.assets.json
 /GDB.Web.Shared/obj/project.nuget.cache
+/GDB.Web/GDB.Web.Client/obj/GDB.Web.Client.csproj.nuget.dgspec.json
+/GDB.Web/GDB.Web.DataAccess/bin/Debug/net8.0/GDB.Web.DataAccess.deps.json
