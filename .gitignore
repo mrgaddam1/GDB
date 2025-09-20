@@ -279,3 +279,19 @@ GDB.Web/.vs/GDB.Web/v17/
 >>>>>>> eb512126fd86e2d110ab23cabeb49ef75b773b42
 /GDB.Web.Infrastructure/obj/Debug/net8.0/GDB.Web.Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
 /GDB.Web.Infrastructure/bin/Debug/net8.0/GDB.Web.Infrastructure.deps.json
+/GDB.Web/GDB.Web.Client/obj/Debug/net8.0/rbcswa.dswa.cache.json
+/GDB.Web/GDB.Web.Client/obj/Debug/net8.0/rjsmcshtml.dswa.cache.json
+/GDB.Web/GDB.Web.Client/obj/Debug/net8.0/rjsmrazor.dswa.cache.json
+/GDB.Web/GDB.Web.Client/obj/Debug/net8.0/rpswa.dswa.cache.json
+/GDB.Web/GDB.Web/obj/Debug/net8.0/GDB.Web.assets.cache
+/GDB.Web/GDB.Web/obj/Debug/net8.0/rjsmcshtml.dswa.cache.json
+/GDB.Web/GDB.Web/obj/Debug/net8.0/rjsmrazor.dswa.cache.json
+/GDB.Web/GDB.Web/obj/Debug/net8.0/rpswa.dswa.cache.json
+/GDB.Web/GDB.Web.BLL/obj/Debug/net8.0/GDB.Web.BLL.assets.cache
+/GDB.Web/GDB.Web.Client/obj/Debug/net8.0/GDB.Web.Client.assets.cache
+/GDB.Web/GDB.Web.Common/obj/Debug/net8.0/GDB.Web.Common.assets.cache
+/GDB.Web/GDB.Web.DataAccess/obj/Debug/net8.0/GDB.Web.DataAccess.assets.cache
+/GDB.Web.Client.Infrastructure/obj/Debug/net8.0/GDB.Web.Client.Infrastructure.assets.cache
+/GDB.Web.Core/obj/Debug/net8.0/GDB.Web.Core.assets.cache
+/GDB.Web.Core/obj/Debug/net8.0/GDB.Web.Core.csproj.AssemblyReference.cache
+/GDB.Web.Shared/obj/Debug/net8.0/GDB.Web.Shared.assets.cache
