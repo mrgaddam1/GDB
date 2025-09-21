@@ -354,3 +354,6 @@ GDB.Web/.vs/GDB.Web/v17/
 /GDB.Web/GDB.Web.Client/obj/Debug/net8.0/rbcswa.dswa.cache.json
 /GDB.Web/GDB.Web.Client/obj/Debug/net8.0/rjsmcshtml.dswa.cache.json
 /GDB.Web/GDB.Web.Client/obj/Debug/net8.0/rjsmrazor.dswa.cache.json
+/GDB.Web/GDB.Web/obj/Debug/net8.0/rjimswa.dswa.cache.json
+/GDB.Web/GDB.Web.Client/obj/Debug/net8.0/GDB.Web.Client.csproj.CoreCompileInputs.cache
+/GDB.Web.Client.Infrastructure/obj/Debug/net8.0/GDB.Web.Client.Infrastructure.csproj.CoreCompileInputs.cache
