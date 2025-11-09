@@ -9,7 +9,7 @@ namespace GDB.Web.BLL.Interface
 {
     public interface IExpensesService
     {
-        Task<T?> GetAllExpenses<T>();
+        Task<List<ExpensesViewModel>> GetAllExpenses();
         Task<bool?> Add(ExpensesViewModel expensesViewModel);
         Task<bool?> Update(ExpensesViewModel expensesViewModel);
         Task<T?> GetTotalExpensesByWeekwise<T>();

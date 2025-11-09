@@ -33,7 +33,13 @@ public partial class GDBContext : DbContext
 
     public virtual DbSet<InventoryHistory> InventoryHistories { get; set; }
 
+    public virtual DbSet<InvestmentOption> InvestmentOptions { get; set; }
+
+    public virtual DbSet<InvestmentSubCategory> InvestmentSubCategories { get; set; }
+
     public virtual DbSet<Location> Locations { get; set; }
+
+    public virtual DbSet<MyInvestment> MyInvestments { get; set; }
 
     public virtual DbSet<Order> Orders { get; set; }
 
@@ -183,6 +189,20 @@ public partial class GDBContext : DbContext
                 .IsFixedLength();
         });
 
+        modelBuilder.Entity<InvestmentOption>(entity =>
+        {
+            entity.ToTable("InvestmentOption");
+
+            entity.Property(e => e.InvestmentOptionDescription).HasMaxLength(250);
+        });
+
+        modelBuilder.Entity<InvestmentSubCategory>(entity =>
+        {
+            entity.ToTable("InvestmentSubCategory");
+
+            entity.Property(e => e.InvestmentSubCategoryDescription).HasMaxLength(250);
+        });
+
         modelBuilder.Entity<Location>(entity =>
         {
             entity.ToTable("Location");
@@ -191,6 +211,20 @@ public partial class GDBContext : DbContext
             entity.Property(e => e.LocationDescription)
                 .HasMaxLength(250)
                 .IsUnicode(false);
+            entity.Property(e => e.ModifiedDate).HasColumnType("datetime");
+        });
+
+        modelBuilder.Entity<MyInvestment>(entity =>
+        {
+            entity.HasKey(e => e.InvestmentId);
+
+            entity.ToTable("MyInvestment");
+
+            entity.Property(e => e.CreatedDate).HasColumnType("datetime");
+            entity.Property(e => e.DeletedDate).HasColumnType("datetime");
+            entity.Property(e => e.Descrpition).HasMaxLength(1000);
+            entity.Property(e => e.InvestedAmount).HasColumnType("decimal(18, 2)");
+            entity.Property(e => e.InvestedDate).HasColumnType("datetime");
             entity.Property(e => e.ModifiedDate).HasColumnType("datetime");
         });
 

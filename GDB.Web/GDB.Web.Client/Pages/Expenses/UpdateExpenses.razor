@@ -148,7 +148,7 @@
 
     private async Task BindData()
     {
-        expensesData = await ExpensesService.GetAllExpenses<List<ExpensesViewModel>>();
+        expensesData = await ExpensesService.GetAllExpenses();
         expenses = expensesData.SingleOrDefault(x => x.ExpensesId == Convert.ToInt32(expensesId));
     }
 

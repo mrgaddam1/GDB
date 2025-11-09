@@ -1,14 +1,8 @@
 ﻿@page "/expenses/list"
-@using GDB.Web.BLL.Implementation
-@using GDB.Web.BLL.Interface
 @using GDB.Web.Shared
 @using System.Globalization
 @using Radzen
 @using Radzen.Blazor
-
-@inject IExpensesService ExpensesService
-@inject IOrderService OrderService
-@inject NavigationManager NavigationManager
 @rendermode @(new InteractiveServerRenderMode(prerender:false))
 
 <div class="row">
@@ -29,7 +23,7 @@
 </div>
 <div class="row">
     <div class="col-lg-12">
-        @if (expensesViewModel.Count > 0)
+        @if (expensesViewModel != null)
         {
             <RadzenDataGrid class="radzen-grid radgen-grid-font"
                             Data="@expensesViewModel"
@@ -78,76 +72,3 @@
     </div>
      
 </div>
-
-@code {
-    public List<ExpensesViewModel> expensesViewModel { get; set; }
-    public int CurrentWeekId { get; set; }
-    Radzen.DataGridGridLines GridLines = Radzen.DataGridGridLines.Both;
-
-    protected override async Task OnInitializedAsync()
-    {
-        try
-        {
-            expensesViewModel = new List<ExpensesViewModel>();
-            expensesViewModel = await ExpensesService.GetAllExpenses<List<ExpensesViewModel>>();
-            CurrentWeekId = await OrderService.GetMaxWeekId<int>();
-        }
-        catch (Exception ex)
-        {
-            string errorMessage = ex.Message;
-        }
-    }
-    private void AddNewExpenses()
-    {
-        NavigationManager.NavigateTo("/expenses/add");
-    }
-    void EditRow(ExpensesViewModel expensesViewModel)
-    {
-        NavigationManager.NavigateTo("/expenses/updateExpenses" + "/" + Convert.ToString(expensesViewModel.ExpensesId));
-    }
-
-    void OnCellRender(DataGridCellRenderEventArgs<ExpensesViewModel> args)
-    {
-        if (args.Column.Property == "StoreName")
-        {
-            if (args.Data.StoreName == "Icenland")
-            {
-                args.Attributes["style"] = "color:white;font-weight:bold;background-color:deepskyblue;";
-            }
-            else if (args.Data.StoreName == "Kent Cash and Carry - Near Nissan Local")
-            {
-                args.Attributes["style"] = "color:#842029;font-weight:bold;background-color:#d7d1fa !important;";
-            }
-            else if (args.Data.StoreName == "London Cash and Carry - Chatham")
-            {
-                args.Attributes["style"] = "color:black;font-weight:bold;background-color:#d3d9de !important;";
-            }
-            else if (args.Data.StoreName == "London Cash and Carry - Gillingham")
-            {
-                args.Attributes["style"] = "color:#FFFFFF;font-weight:bold;background-color:rgb(255, 165, 0);";
-            }
-            else if (args.Data.StoreName == "New Season Cash and Carry Near by EE")
-            {
-                args.Attributes["style"] = "color:#842029;background-color:#FFFFE0 !important;";
-            }
-            else if (args.Data.StoreName == "Kent Cash and Carry - Near PostOffice")
-            {
-                args.Attributes["style"] = "color:#842029;background-color:lightcoral; !important;";
-            }
-            else if (args.Data.StoreName == "Nissan Local")
-            {
-                args.Attributes["style"] = "color:#842029;background-color:#FF7F7F !important;";
-            }
-            else if (args.Data.StoreName == "Royal Stores")
-            {
-                args.Attributes["style"] = "color:#FFFFFF;font-weight:bold;background-color:lightblue;";
-            }
-            else if (args.Data.StoreName == "General")
-            {
-                args.Attributes["style"] = "color:#FFFFFF;font-weight:bold;background-color:lightsalmon;";
-            }
-        }
-    }
-
-
-}
