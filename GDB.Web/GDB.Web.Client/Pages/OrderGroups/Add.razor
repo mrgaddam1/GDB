@@ -1,0 +1,494 @@
+﻿@page "/orderGroups/add"
+@using System.ComponentModel.DataAnnotations
+@using GDB.Web.BLL.Interface
+@using GDB.Web.Shared
+
+@inject ICustomerService CustomerService
+@inject IOrdersTypeService OrdersTypeService
+@inject IStaterService StaterService
+@inject IOrderService orderService
+@inject IOrderGroupService OrderGroupService
+@inject IPaymentTypeService PaymentTypeService
+@inject HttpClient HttpClient
+@inject NavigationManager NavigationManager
+@inject ILogger<Add> Logger
+@rendermode @(new InteractiveAutoRenderMode(prerender:false))
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-10 mx-auto">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    Add Orders
+                </div>
+                <div class="card-body">
+                    <div class="col-lg-12">
+                        <EditForm Model="@order" OnValidSubmit="HandleValidSubmit">
+                            @if (errorMessages != null)
+                            {
+                                @foreach (var message in errorMessages)
+                                {
+                                    if (!string.IsNullOrEmpty(message))
+                                    {
+                                        <ul class="alert alert-danger mt-3 text-left">
+                                            <li>@message</li>
+                                        </ul>
+                                    }
+                                }
+                            }
+                            <div class="row rowMargin">
+                                <div class="col-md-2">
+                                    Customer
+                                </div>
+                                <div class="col-md-4">
+                                    <select style="width:250px;font-size:13px;"
+                                            id="ddlCustomer"
+                                            name="storageAccountId"
+                                            @onchange="OnCustomerIndexChanged"
+                                            class="form-select">
+                                        <option>@CustomerInitialText</option>
+                                        @if (customersViewModelData != null)
+                                        {
+                                            @foreach (var item in customersViewModelData)
+                                            {
+                                                <option value="@item.CustomerId">@item.FirstName  @item.LastName</option>
+                                            }
+                                        }
+                                    </select>
+                                </div>
+                                <div class="col-md-2">
+                                    Any Staters ?
+                                </div>
+                                <div class="col-md-4">
+                                    <InputCheckbox @bind-Value="checkStaterSelectedOrNot" class="form-check-input" />
+                                    <label class="form-check-label">
+                                        @(order.StaterSelectedOrNot ?? false)
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="row rowMargin">
+                                <div class="col-md-2">
+                                    Select Stater
+                                </div>
+                                <div class="col-md-4">
+                                    <select style="width:250px;font-size:13px;"
+                                            @onchange="OnStaterSelectionIndexChanged"
+                                            disabled="@(!checkStaterSelectedOrNot)"
+                                            id="ddlStarters"
+                                            name="StaterId"
+                                            class="form-select">
+                                        <option>@StatersInitialText</option>
+                                        @if (statersViewModelData != null)
+                                        {
+                                            @foreach (var item in statersViewModelData)
+                                            {
+                                                <option value="@item.StaterId">@item.StarterDescription</option>
+                                            }
+                                        }
+                                    </select>
+                                </div>
+
+                                <div class="col-md-2">
+                                    Stater Price
+                                </div>
+                                <div class="col-md-4">
+                                    <InputNumber 
+                                        @bind-Value="order.SelectedStaterPrice" 
+                                        style="width:250px" 
+                                        readonly class="form-control textRed" />
+                                </div>
+                            </div>
+
+
+                            <div class="row rowMargin">
+                                <div class="col-md-2">
+                                    Quantity
+                                </div>
+                                <div class="col-md-4">
+                                    <select style="width:250px;font-size:13px;"
+                                            @onchange="OnStaterQuantitySelectionIndexChanged"
+                                            disabled="@(!checkStaterSelectedOrNot)"
+                                            id="ddlStaterItems"
+                                            name="StaterItems"
+                                            class="form-select">
+                                        <option value="0">@StaterQuantityInitialText</option>
+                                        @if (staterQuantitylist != null)
+                                        {
+                                            @foreach (var item in staterQuantitylist)
+                                            {
+                                                <option value="@item.StaterQuantity">@item.StaterQuantity</option>
+                                            }
+                                        }
+                                    </select>
+                                </div>
+
+                                <div class="col-md-2">
+                                    Total Stater Price
+                                </div>
+                                <div class="col-md-4">
+                                    <InputNumber 
+                                        @bind-Value="order.TotalStaterPrice" 
+                                        style="width:250px" readonly class="form-control textRed" />
+                                </div>
+                            </div>
+
+                            <div class="row rowMargin">
+
+                                <div class="col-md-2">
+                                    Order Types
+                                </div>
+                                <div class="col-md-4">
+                                    <select style="width:250px;font-size:13px;"
+                                            @onchange="OnOrderTypeSelectionIndexChanged"
+                                            id="ddlOrderTypes"
+                                            name="OrderTypeId"
+                                            class="form-select">
+                                        <option>@OrderTypesInitialText</option>
+                                        @if (orderTypesViewModelData != null)
+                                        {
+                                            @foreach (var item in orderTypesViewModelData)
+                                            {
+                                                <option value="@item.OrderTypeId">@item.OrderTypeName</option>
+                                            }
+                                        }
+                                    </select>
+                                </div>
+
+                                <div class="col-md-2">
+                                    Order Date
+                                </div>
+                                <div class="col-md-4">
+                                    <InputDate @bind-Value="order.OrderDate" style="width:250px" class="form-control" />
+                                </div>
+
+                            </div>
+
+                            <div class="row rowMargin">
+
+                                <div class="col-md-2">
+                                    Amount
+                                </div>
+                                <div class="col-md-4">
+                                    <InputNumber @bind-Value="order.Amount" style="width:250px" readonly class="form-control textRed" />
+                                </div>
+                                <div class="col-md-2">
+                                    Quantity
+                                </div>
+                                <div class="col-md-4">
+                                    <select style="width:250px;font-size:13px;"
+                                            @onchange="OnQuantitySelectionIndexChanged"
+                                            id="ddlItems"
+                                            name="OrderItem"
+                                            class="form-select">
+
+                                        <option value="0">@QuantityInitialText</option>
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
+                                        <option value="6">6</option>
+                                        <option value="7">7</option>
+                                        <option value="8">8</option>
+                                        <option value="9">9</option>
+                                        <option value="10">10</option>
+                                        <option value="15">15</option>
+                                        <option value="15">16</option>
+                                        <option value="15">17</option>
+                                        <option value="15">18</option>
+                                        <option value="15">19</option>
+                                        <option value="15">20</option>
+                                    </select>
+                                </div>
+
+                            </div>
+
+                            <div class="row rowMargin">
+                                <div class="col-md-2">
+                                    Total Amount
+                                </div>
+                                <div class="col-md-4">
+                                    <InputNumber @bind-Value="order.TotalPrice" style="width:250px" readonly class="form-control textRed" />
+                                </div>
+                                <div class="col-md-2">
+                                    Week
+                                </div>
+                                <div class="col-md-4">
+                                    <InputNumber @bind-Value="order.WeekId" style="width:250px" readonly class="form-control textRed" />
+                                </div>
+
+                            </div>
+
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                                <button type="button" class="btn btn-secondary" @onclick="GoBack">Cancel</button>
+                            </div>
+                            @if (!string.IsNullOrEmpty(successMessage))
+                            {
+                                <div class="alert alert-success mt-3 text-center">@successMessage</div>
+                            }
+
+                        </EditForm>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    private bool isChecked = false;
+
+    private bool checkAmountPaidOrNot
+    {
+        get => order.AmountPaid ?? false; // Default to false if null
+        set => order.AmountPaid = value;  // Update original property
+    }
+
+    private bool checkStaterSelectedOrNot
+    {
+        get => order.StaterSelectedOrNot ?? false; // Default to false if null
+        set => order.StaterSelectedOrNot = value;  // Update original property
+    }
+
+
+    private OrderGroupsViewModel order = new();
+    private string[] errorMessages;
+    private string successMessage = string.Empty;
+
+    public string CustomerInitialText { get; set; } = "---Select Customer---";
+    public string StatersInitialText { get; set; } = "---Select Starter---";
+    public string StaterQuantityInitialText { get; set; } = "---Select Quantity Type---";
+    public string OrderTypesInitialText { get; set; } = "---Select Order Type---";
+    public string QuantityInitialText { get; set; } = "---Select Quantity---";
+    public string PaymentTypeInitialText { get; set; } = "---Select Payment Type---";
+
+    public IEnumerable<CustomerViewModel> customersViewModelData;
+    public IEnumerable<OrderTypesViewModel> orderTypesViewModelData;
+    public IEnumerable<StatersViewModel> statersViewModelData;
+    public IEnumerable<PaymentTypeViewModel> paymentTypeViewModel;
+    public List<StaterQuantityViewModel> staterQuantitylist = new List<StaterQuantityViewModel>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await BindData();
+    }
+    private async Task BindData()
+    {
+        customersViewModelData = await CustomerService.GetAllCustomers<List<CustomerViewModel>>();
+        orderTypesViewModelData = await OrdersTypeService.GetAllOrderTypes<List<OrderTypesViewModel>>();
+        statersViewModelData = await StaterService.GetAllStaters<List<StatersViewModel>>();
+        paymentTypeViewModel = await PaymentTypeService.GetAllPaymentTypes<List<PaymentTypeViewModel>>();
+        order.WeekId = await orderService.GetMaxWeekId<int>();
+        GetStaterQuantityDetails();
+    }
+
+    private async void HandleValidSubmit()
+    {
+        successMessage = "";
+        var data = order;
+        order.Amount = order.TotalPrice;
+        errorMessages = Validations(order);
+        string validations = string.Join(" ", errorMessages);
+        if ((validations == null) || (validations == ""))
+        {
+            var response = await OrderGroupService.Add(order);
+            if (response.Value)
+            {
+                Logger.LogInformation("Group Order details are added successfully.");
+                successMessage = "Group Order details submitted successfully!";
+                Reset();
+
+                await BindData();
+            }
+            else
+            {
+                Logger.LogInformation("Unable to create Group Orders.");
+                successMessage = "Unable to create Group Orders.";
+                validations = "";
+            }
+        }
+        else
+        {
+            validations = "";
+        }
+
+    }
+    private async Task OnStaterSelectionIndexChanged(ChangeEventArgs e)
+    {
+        order.StaterId = Convert.ToInt32(e.Value.ToString());
+        order.SelectedStaterPrice = await StaterService.GetStaterPriceByStater(Convert.ToInt32(e.Value.ToString()));
+        StateHasChanged();
+    }
+    private async Task OnCustomerIndexChanged(ChangeEventArgs e)
+    {
+        order.CustomerId = Convert.ToInt32(e.Value.ToString());
+        StateHasChanged();
+    }
+
+    private async Task OnOrderTypeSelectionIndexChanged(ChangeEventArgs e)
+    {
+        order.OrderTypeId = Convert.ToInt32(e.Value.ToString());
+        order.Amount = await OrdersTypeService.GetOrderTypePriceByOrderType(Convert.ToInt32(e.Value.ToString()));
+        var orderTypesData = await OrdersTypeService.GetAllOrderTypes<List<OrderTypesViewModel>>();
+        if (orderTypesData != null)
+        {
+            var orderType = orderTypesData.FirstOrDefault(x => x.OrderTypeId == order.OrderTypeId);
+            if (orderType != null)
+            {
+                order.FoodPackingTypeId = orderType.FoodPackingTypeId;
+            }
+        }
+        StateHasChanged();
+    }
+
+    private async Task OnStaterQuantitySelectionIndexChanged(ChangeEventArgs e)
+    {
+        order.TotalStaterPrice = Convert.ToDecimal(order.SelectedStaterPrice) *
+                                    Convert.ToDecimal(e.Value.ToString());
+        order.StaterQuantity = Convert.ToInt32(e.Value.ToString());
+        StateHasChanged();
+    }
+
+    private async Task OnPaymentTypeSelectionIndexChanged(ChangeEventArgs e)
+    {
+        order.PaymentTypeId = Convert.ToInt32(e.Value.ToString());
+        StateHasChanged();
+    }
+    private async Task OnQuantitySelectionIndexChanged(ChangeEventArgs e)
+    {
+        order.Quantity = Convert.ToInt32(e.Value.ToString());
+        order.TotalPrice = (Convert.ToDecimal(e.Value.ToString()) *
+                            Convert.ToDecimal(order.Amount) + Convert.ToDecimal(order.TotalStaterPrice == null ? 0 : order.TotalStaterPrice)
+                            );
+
+        StateHasChanged();
+    }
+
+    private async void Reset()
+    {
+        order = new OrderGroupsViewModel();
+        order.WeekId = await orderService.GetMaxWeekId<int>();
+        StateHasChanged();
+    }
+    private string[] Validations(OrderGroupsViewModel ordersViewModel)
+    {
+        string[] result;
+        string validationMessage = "";
+
+        if (ordersViewModel.CustomerId == 0)
+        {
+            validationMessage = "Customer: Please select Customer.";
+        }
+        if ((ordersViewModel.OrderTypeId == 0) || (ordersViewModel.OrderTypeId == null))
+        {
+            validationMessage = validationMessage != null ? validationMessage +
+                                ", " + Environment.NewLine + "Order Type: Please select Order Type."
+                                : "Order Type: Please select Order Type.";
+        }
+        if (ordersViewModel.Quantity == null)
+        {
+            validationMessage = validationMessage != null
+                                ? validationMessage + ", " + Environment.NewLine + "Quantity: Please select Quantity."
+                                : "Quantity: Please select Quantity.";
+        }
+        if (ordersViewModel.OrderDate == null)
+        {
+            validationMessage = validationMessage != null
+                                ? validationMessage + ", " + Environment.NewLine + "Order Date: Please select Order Date."
+                                : "Order Date: Please select Order Date.";
+        }
+        return result = validationMessage.Split(',').Select(s => s.Trim()).ToArray();
+    }
+
+    protected void GetStaterQuantityDetails()
+    {
+
+        var staterQuantity = new StaterQuantityViewModel
+            {
+                StaterQuantityId = 1,
+                StaterQuantity = 1
+            };
+        staterQuantitylist.Add(staterQuantity);
+        var staterQuantity1 = new StaterQuantityViewModel
+            {
+                StaterQuantityId = 2,
+                StaterQuantity = 2
+            };
+
+        staterQuantitylist.Add(staterQuantity1);
+        var staterQuantity2 = new StaterQuantityViewModel
+            {
+                StaterQuantityId = 3,
+                StaterQuantity = 3
+            };
+        staterQuantitylist.Add(staterQuantity2);
+        var staterQuantity3 = new StaterQuantityViewModel
+            {
+                StaterQuantityId = 4,
+                StaterQuantity = 4
+            };
+        staterQuantitylist.Add(staterQuantity3);
+        var staterQuantity4 = new StaterQuantityViewModel
+            {
+                StaterQuantityId = 5,
+                StaterQuantity = 5
+            };
+        staterQuantitylist.Add(staterQuantity4);
+        var staterQuantity5 = new StaterQuantityViewModel
+            {
+                StaterQuantityId = 6,
+                StaterQuantity = 10
+            };
+        staterQuantitylist.Add(staterQuantity5);
+        var staterQuantity6 = new StaterQuantityViewModel
+            {
+                StaterQuantityId = 7,
+                StaterQuantity = 15
+            };
+        staterQuantitylist.Add(staterQuantity6);
+        var staterQuantity7 = new StaterQuantityViewModel
+            {
+                StaterQuantityId = 8,
+                StaterQuantity = 20
+            };
+        staterQuantitylist.Add(staterQuantity7);
+        var staterQuantity8 = new StaterQuantityViewModel
+            {
+                StaterQuantityId = 9,
+                StaterQuantity = 25
+            };
+        staterQuantitylist.Add(staterQuantity8);
+        var staterQuantity9 = new StaterQuantityViewModel
+            {
+                StaterQuantityId = 10,
+                StaterQuantity = 30
+            };
+        staterQuantitylist.Add(staterQuantity9);
+    }
+
+    public class StaterQuantityViewModel
+    {
+        public int StaterQuantityId { get; set; }
+        public int StaterQuantity { get; set; }
+    }
+
+    private void GoBack()
+    {
+        NavigationManager.NavigateTo("/orders/ordersList");
+    }
+
+}
+<style type="text/css">
+    .rowMargin {
+        margin-bottom: 10px;
+    }
+
+    .textRed {
+        color: red;
+    }
+
+</style>
+

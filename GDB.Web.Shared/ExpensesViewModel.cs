@@ -16,7 +16,7 @@ namespace GDB.Web.Shared
         public DateTime? ExpensesDate { get; set; }
         public int GroceryId { get; set; }
         public int StoreId { get; set; }
-        public int? WeekNumber{ get; set; }
+        public int WeekNumber{ get; set; }
         public string? QuantityDescription { get; set; }
 
     }

@@ -1,0 +1,131 @@
+﻿using GDB.Web.DataAccess.Implementation;
+using GDB.Web.DataAccess.Interface;
+using GDB.Web.Shared;
+using Microsoft.AspNetCore.Mvc;
+
+namespace GDB.Web.Controller
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    public class InvestmentController : ControllerBase
+    {
+
+        private readonly ILogger<InvestmentController> logger;
+        private IInvestmentRepository investmentRepository { get; set; }
+        public InvestmentController(IInvestmentRepository _investmentRepository, ILogger<InvestmentController> _logger)
+        {
+            investmentRepository = _investmentRepository;
+            logger = _logger;
+        }
+
+
+        [HttpGet]
+        [Route("GetAllInvestmentSubCategories")]
+        public async Task<IActionResult> GetAllInvestmentSubCategories()
+        {
+            try
+            {
+                var investmentSubCategoriesData = await investmentRepository.GetAllInvestmentSubCategories();
+                if (investmentSubCategoriesData.Count == 0)
+                {
+                    return NoContent();
+                }
+                return Ok(investmentSubCategoriesData);
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex.Message, "An error occured while processing your request.");
+                return StatusCode(StatusCodes.Status500InternalServerError, new
+                {
+                    Message = ex.Message,
+                    Details = ex.StackTrace
+                });
+            }
+        }
+
+        [HttpGet]
+        [Route("GetAllInvestmentCategories")]
+        public async Task<IActionResult> GetAllInvestmentCategories()
+        {
+            try
+            {
+                var investmentCategoriesData = await investmentRepository.GetAllInvestmentCategories();
+                if (investmentCategoriesData.Count == 0)
+                {
+                    return NoContent();
+                }
+                return Ok(investmentCategoriesData);
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex.Message, "An error occured while processing your request.");
+                return StatusCode(StatusCodes.Status500InternalServerError, new
+                {
+                    Message = ex.Message,
+                    Details = ex.StackTrace
+                });
+            }
+        }
+
+        [HttpGet]
+        [Route("GetAllInvestments")]
+        public async Task<IActionResult> GetAllInvestments()
+        {
+            try
+            {
+                var investments = await investmentRepository.GetAllInvestmentDetails();
+                if (investments.Count == 0)
+                {
+                    return NoContent();
+                }
+                return Ok(investments);
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex.Message, "An error occured while processing your request.");
+                return StatusCode(StatusCodes.Status500InternalServerError, new
+                {
+                    Message = ex.Message,
+                    Details = ex.StackTrace
+                });
+            }
+        }
+
+
+
+        [HttpPost]
+        [Route("Add")]
+        public async Task<IActionResult> Add([FromBody] InvestmentViewModel investmentViewModel)
+        {
+            try
+            {
+                if (investmentViewModel == null)
+                {
+                    return BadRequest("Investment data is required.");
+                }
+                var response = await investmentRepository.AddInvestment(investmentViewModel);
+                if (response)
+                {
+                    var status = CreatedAtAction(nameof(Add), new { id = investmentViewModel.InvestmentId }, investmentViewModel);
+                    return Ok(status);
+                }
+                else
+                {
+                    var status = StatusCode(StatusCodes.Status400BadRequest, "Failed to add Investment ");
+                    return BadRequest(status);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex.Message, "An error occured while processing your request.");
+                return StatusCode(StatusCodes.Status500InternalServerError, new
+                {
+                    Message = ex.Message,
+                    Details = ex.StackTrace
+                });
+            }
+        }
+
+    }
+}

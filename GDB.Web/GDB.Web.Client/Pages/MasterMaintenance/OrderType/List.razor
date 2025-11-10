@@ -28,9 +28,10 @@
                 {
                     <RadzenDataGrid Data="ordersTypeData" AllowFiltering="true" AllowPaging="true" AllowSorting="true" PageSize="20">
                         <Columns>
-                            <RadzenDataGridColumn TItem="OrdersTypeViewModel" Property="OrderTypeId" Title="Id" />
-                            <RadzenDataGridColumn TItem="OrdersTypeViewModel" Property="OrderTypeName" Title="Order Type Name" />
-                            <RadzenDataGridColumn TItem="OrdersTypeViewModel" Property="FoodPackingTypeDescription" Title="FoodPacking Type Description" />
+                            <RadzenDataGridColumn TItem="OrderTypeViewModel" Property="OrderTypeId" Title="Id" />
+                            <RadzenDataGridColumn TItem="OrderTypeViewModel" Property="OrderTypeName" Title="Order Type Name" />
+                            <RadzenDataGridColumn TItem="OrderTypeViewModel" Property="FoodPackingTypeDescription" Title="FoodPacking Type Description" />
+                            <RadzenDataGridColumn TItem="OrderTypeViewModel" Property="Price" Title="Price" />
                         </Columns>
                     </RadzenDataGrid>
                 }
@@ -41,12 +42,12 @@
 
 @code {
 
-    private List<OrdersTypeViewModel> ordersTypeData { get; set; }
+    private List<OrderTypeViewModel> ordersTypeData { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
-        ordersTypeData = new List<OrdersTypeViewModel>();
-        ordersTypeData = await OrdersTypeService.GetAllOrderTypes<List<OrdersTypeViewModel>>();
+        ordersTypeData = new List<OrderTypeViewModel>();
+        ordersTypeData = await OrdersTypeService.GetAllOrderTypes<List<OrderTypeViewModel>>();
     }
 
     private void Add()

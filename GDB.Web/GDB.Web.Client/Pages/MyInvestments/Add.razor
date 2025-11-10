@@ -1,0 +1,117 @@
+﻿@page "/myInvestments/addInvestment"
+@rendermode @(new InteractiveAutoRenderMode(prerender:false))
+
+ <div class="container">
+    <div class="row">
+        <div class="col-md-8 mx-auto">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    Add Expenses
+                </div>
+                <div class="card-body">
+                    <div class="col-lg-12">
+                        <EditForm Model="@investmentViewModel" OnValidSubmit="HandleValidSubmit">
+                            @if (errorMessages != null)
+                            {
+                                @foreach (var message in errorMessages)
+                                {
+                                    if (!string.IsNullOrEmpty(message))
+                                    {
+                                        <ul class="alert alert-danger mt-3 text-left">
+                                            <li>@message</li>
+                                        </ul>
+                                    }
+                                }
+                            }
+                            <div class="row rowMargin">
+                                <div class="col-sm-3">
+                                    Investment Amount
+                                </div>
+                                <div class="col-sm-6">
+                                    <InputNumber @bind-Value="investmentViewModel.InvestedAmount" maxLength="5" class="form-control" />
+                                </div>
+                            </div>
+                            
+                            <div class="row rowMargin">
+                                <div class="col-sm-3">
+                                    Investment Platform
+                                </div>
+                                <div class="col-sm-6">
+                                    <select style="width:250px;font-size:13px;"                                           
+                                            id="ddlCategories"
+                                            name="CategoryId"
+                                            class="form-select"
+                                            @onchange="OnInvestmentCategorySelectionIndexChanged">
+                                        <option>@InvestmentCategoryInitialText</option>
+                                        @if (investmentOptionCategoryViewModel != null)
+                                        {
+                                            @foreach (var item in investmentOptionCategoryViewModel)
+                                            {
+                                                <option value="@item.InvestmentOptionCategoryId">@item.InvestmentOptionCategoryDescription
+                                               </option>
+                                            }
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="row rowMargin">
+                                <div class="col-sm-3">
+                                    Invested Type
+                                </div>
+                                <div class="col-sm-6">
+                                    <select style="width:250px;font-size:13px;"
+                                            id="ddlCategories"
+                                            name="CategoryId"
+                                            class="form-select" @onchange="OnInvestmentSubCategorySelectionIndexChanged">
+                                        <option>@InvestmentSubCategoryInitialText</option>
+                                        @if (investmentOptionSubCategoryViewModel != null)
+                                        {
+                                            @foreach (var item in investmentOptionSubCategoryViewModel)
+                                            {
+                                                <option value="@item.InvestmentSubCategoryId">
+                                                    @item.InvestmentSubCategoryDescription
+                                                </option>
+                                            }
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row rowMargin">
+                                <div class="col-sm-3">
+                                    Investment Date
+                                </div>
+                                <div class="col-sm-6">
+                                    <InputDate @bind-Value="investmentViewModel.InvestedDate" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="row rowMargin">
+                                <div class="col-sm-3">
+                                    Description
+                                </div>
+                                <div class="col-sm-6">
+                                    <InputText @bind-Value="investmentViewModel.Descrpition" maxLength="250" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-primary  fw-bold">
+                                    <i class="fas fa-plus" aria-hidden="true"></i>
+                                    &nbsp;&nbsp;Investment your Amount 
+                                </button>
+                                <button type="button" class="btn btn-warning fw-bold" @onclick="GoBack">
+                                    <i class="fas fa-times"></i>&nbsp;&nbsp;Cancel
+                                </button>
+                            </div>
+
+                            @if (!string.IsNullOrEmpty(successMessage))
+                            {
+                                <div class="alert alert-success mt-3 text-center">@successMessage</div>
+                            }
+                        </EditForm>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

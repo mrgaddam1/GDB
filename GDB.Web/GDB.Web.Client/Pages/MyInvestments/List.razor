@@ -1,0 +1,79 @@
+﻿@page "/my-investments/list"
+@using GDB.Web.Shared
+@using System.Globalization
+@using Radzen
+@using Radzen.Blazor
+@rendermode @(new InteractiveServerRenderMode(prerender:false))
+
+
+<div class="row">
+    <div class="col-lg-6" align="left">
+        <h2>Investments into Business</h2>
+    </div>
+
+    <div class="col-lg-6" align="right">
+        <button @onclick="AddNewInvestment" class="btn btn-success  fw-bold" style="margin-right:30px;">
+            <i class="fa fa-plus" aria-hidden="true"></i>
+            &nbsp;&nbsp;Add New Investments
+        </button>
+        <a href="/reports/reportsHome" class="text-warning text-decoration-none" style="padding-right:10px;">
+            <i class="fas fa-chart-line" aria-hidden="true"></i>
+            &nbsp;&nbsp;View Reports
+        </a>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        @if (investmentViewModel != null)
+        {
+            <RadzenDataGrid class="radzen-grid radgen-grid-font"
+                            Data="@investmentViewModel"
+                            TItem="InvestmentViewModel"
+                            EditMode="Radzen.DataGridEditMode.Single"
+                            AllowFiltering="true"
+                            AllowPaging="true"
+                            AllowSorting="true"
+                            PageSize="15"
+                            GridLines="@GridLines"
+                           >
+                <Columns>
+                    <RadzenDataGridColumn Property="InvestmentId" Title="Id" Width="100" Visible="false" />
+                      <RadzenDataGridColumn Property="InvestedAmount" Title="Invested Amount" Width="120px">
+                        <Template Context="data">
+                            <span style="color:blue;font-weight:600;">
+                                @data.InvestedAmount.ToString("C", CultureInfo.CreateSpecificCulture("en-GB"))
+                            </span>
+                        </Template>
+                        <FooterTemplate>
+                            <span style="color:red;font-weight:600;">
+                                <b>Total: @investmentViewModel.Sum(t => t.InvestedAmount).ToString("C", CultureInfo.CreateSpecificCulture("en-GB"))</b>
+                            </span>
+                        </FooterTemplate>
+                    </RadzenDataGridColumn>
+                  
+                    <RadzenDataGridColumn Property="InvestedDate" Title="Investment Date" Width="120px">
+                        <Template Context="data">
+                            @data.InvestedDate.ToString("dd/MM/yyyy")
+                        </Template>
+                    </RadzenDataGridColumn>  
+
+                    <RadzenDataGridColumn Property="InvestmentOptionCategoryDescription" Title="Category" Width="150px" />
+                    <RadzenDataGridColumn Property="InvestmentSubCategoryDescription" Title="SubCategory" Width="150px" />
+                    <RadzenDataGridColumn Property="Descrpition" Title="Description" Width="300px" />
+                                     
+                   
+                    <RadzenDataGridColumn TItem="InvestmentViewModel" Width="120px">
+                        <Template Context="data">
+                            <RadzenButton ButtonType="Radzen.ButtonType.Button"
+                                          Icon="edit" Size="Radzen.ButtonSize.Small"
+                                          Style="margin-right:5px;"
+                                          Click="@(() => EditRow(data))" />
+                        </Template>
+                    </RadzenDataGridColumn>
+                </Columns>
+            </RadzenDataGrid>
+        }
+    </div>
+
+</div>

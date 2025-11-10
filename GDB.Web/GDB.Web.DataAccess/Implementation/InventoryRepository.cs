@@ -1,4 +1,6 @@
-﻿using GDB.Web.Core.Models;
+﻿using GDB.Web.Common.Extensions;
+using GDB.Web.Common.Helpers;
+using GDB.Web.Core.Models;
 using GDB.Web.DataAccess.Interface;
 using GDB.Web.Shared;
 using GDB.Web.Shared.Inventory;
@@ -107,6 +109,24 @@ namespace GDB.Web.DataAccess.Implementation
                 return isUpdated;
             }
         }
-        
+
+        public async Task<List<InventoryHistoryViewModel>> GetAllInventoryHistory()
+        {
+            var inventoryHistoryData = new List<InventoryHistoryViewModel>();
+            try
+            {
+                var data = DataHelper.GetData(DbContext.Database.GetDbConnection(), "Udp_Inventory_Inventory_History_Details", null);
+                inventoryHistoryData = ConvertDataTableToGenericList.ConvertDataTable<InventoryHistoryViewModel>(data).
+                                   OrderByDescending(x => x.WeekId).ToList();
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "An error occurred while fetching all Inventories.");
+                return new List<InventoryHistoryViewModel>();
+            }
+            return inventoryHistoryData;
+        }
+
+
     }
 }

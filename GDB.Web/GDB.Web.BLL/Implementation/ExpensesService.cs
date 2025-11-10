@@ -18,24 +18,15 @@ namespace GDB.Web.BLL.Implementation
         {
             httpClient = _httpClient;
         }
-        public async Task<T?> GetAllExpenses<T>()
+        public async Task<List<ExpensesViewModel>> GetAllExpenses()
         {
-            try
+            var response = await httpClient.GetAsync("api/Expenses/GetAllExpenses");
+            if (!response.IsSuccessStatusCode)
             {
-                var response = await httpClient.GetAsync("api/Expenses/GetAllExpenses");
-                if (!response.IsSuccessStatusCode)
-                {
-                    var errorContent = await response.Content.ReadAsStringAsync();
-                    Console.WriteLine($"Error: {response.StatusCode} - {errorContent}");
-                }
-                return await ApiStatusCodeHandler.HandleResponse<T>(response);
+                return new List<ExpensesViewModel>();
             }
-            catch (Exception ex)
-            {
-                string message = ex.Message.ToString();
-                return await ApiStatusCodeHandler.HandleResponse<T>(null);
-            }          
-            
+            var result = await response.Content.ReadFromJsonAsync<List<ExpensesViewModel>>();
+            return result ?? new List<ExpensesViewModel>();
         }
 
         public async Task<bool?> Add(ExpensesViewModel expensesViewModel)

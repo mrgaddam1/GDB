@@ -1,0 +1,130 @@
+﻿@page "/masterMaintenance/stater/add"
+@using GDB.Web.BLL.Interface
+@using GDB.Web.Shared
+
+@inject IStaterService StaterService
+@inject NavigationManager NavigationManager
+@inject ILogger<Add> Logger
+@rendermode @(new InteractiveAutoRenderMode(prerender:false))
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-8 mx-auto">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    Add Starter
+                </div>
+                <div class="card-body">
+                    <div class="col-lg-12">
+                        <EditForm Model="@stater" OnValidSubmit="HandleValidSubmit">
+                            @if (errorMessages != null)
+                            {
+                                @foreach (var message in errorMessages)
+                                {
+                                    if (!string.IsNullOrEmpty(message))
+                                    {
+                                        <ul class="alert alert-danger mt-3 text-left">
+                                            <li>@message</li>
+                                        </ul>
+                                    }
+                                }
+                            }
+                            <div class="row rowMargin">
+                                <div class="col-sm-3">
+                                    Starter Descripion
+                                </div>
+                                <div class="col-sm-6">
+                                    <InputText @bind-Value="stater.StarterDescription" class="form-control" />
+                                </div>
+                            </div>
+
+                            <div class="row rowMargin">
+                                <div class="col-sm-3">
+                                    Starter Price
+                                </div>
+                                <div class="col-sm-6">
+                                    <InputNumber @bind-Value="stater.StaterPrice" class="form-control" />
+                                </div>
+                            </div>
+
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-primary">Save</button>
+                                <button type="button" class="btn btn-secondary" @onclick="GoBack">Cancel</button>
+                            </div>
+                            @if (!string.IsNullOrEmpty(successMessage))
+                            {
+                                <div class="alert alert-success mt-3 text-center">@successMessage</div>
+                            }
+                        </EditForm>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@code {
+    private StatersViewModel stater = new();
+    private string[] errorMessages;
+    private string successMessage = string.Empty;
+
+    private async void HandleValidSubmit()
+    {
+        errorMessages = Validations(stater);
+        string validations = string.Join(" ", errorMessages);
+        if ((validations == null) || (validations == ""))
+        {
+            var response = await StaterService.Add(stater);
+            if (response)
+            {
+                Logger.LogInformation("New Starter added successfully.");
+                successMessage = "New Starter added  successfully!";
+                Reset();
+            }
+            else
+            {
+                Logger.LogInformation("Unable to add new Starter.");
+                successMessage = "Unable to add new Starter.";
+            }
+        }
+        else
+        {
+            //validations = "";
+        }
+    }
+
+    private async void Reset()
+    {
+        stater = new StatersViewModel();
+        errorMessages = [];
+        StateHasChanged();
+    }
+
+    private string[] Validations(StatersViewModel statersViewModel)
+    {
+        string[] result;
+        string validationMessage = "";
+        if (statersViewModel.StarterDescription == null)
+        {
+            validationMessage = "Starter Description: Please enter Starter Name";
+        }
+        if (statersViewModel.StaterPrice == null)
+        {
+            validationMessage = validationMessage != null
+                                ? validationMessage + ", " + Environment.NewLine + "Starter Price: Please Enter Starter Price."
+                                : "Starter Price: Please Enter Starter Price.";
+        }
+        return result = validationMessage.Split(',').Select(s => s.Trim()).ToArray();
+    }
+    private void GoBack()
+    {
+        NavigationManager.NavigateTo("/masterMaintenance/locations/list");
+    }
+}
+<style type="text/css">
+    .rowMargin {
+        margin-bottom: 10px;
+    }
+</style>
+

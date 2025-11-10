@@ -33,7 +33,13 @@ public partial class GDBContext : DbContext
 
     public virtual DbSet<InventoryHistory> InventoryHistories { get; set; }
 
+    public virtual DbSet<InvestmentOptionCategory> InvestmentOptionCategories { get; set; }
+
+    public virtual DbSet<InvestmentOptionSubCategory> InvestmentOptionSubCategories { get; set; }
+
     public virtual DbSet<Location> Locations { get; set; }
+
+    public virtual DbSet<MyInvestment> MyInvestments { get; set; }
 
     public virtual DbSet<Order> Orders { get; set; }
 
@@ -183,6 +189,24 @@ public partial class GDBContext : DbContext
                 .IsFixedLength();
         });
 
+        modelBuilder.Entity<InvestmentOptionCategory>(entity =>
+        {
+            entity.HasKey(e => e.InvestmentOptionCategoryId).HasName("PK_InvestmentOption");
+
+            entity.ToTable("InvestmentOptionCategory");
+
+            entity.Property(e => e.InvestmentOptionCategoryDescription).HasMaxLength(250);
+        });
+
+        modelBuilder.Entity<InvestmentOptionSubCategory>(entity =>
+        {
+            entity.HasKey(e => e.InvestmentSubCategoryId).HasName("PK_InvestmentSubCategory");
+
+            entity.ToTable("InvestmentOptionSubCategory");
+
+            entity.Property(e => e.InvestmentSubCategoryDescription).HasMaxLength(250);
+        });
+
         modelBuilder.Entity<Location>(entity =>
         {
             entity.ToTable("Location");
@@ -191,6 +215,20 @@ public partial class GDBContext : DbContext
             entity.Property(e => e.LocationDescription)
                 .HasMaxLength(250)
                 .IsUnicode(false);
+            entity.Property(e => e.ModifiedDate).HasColumnType("datetime");
+        });
+
+        modelBuilder.Entity<MyInvestment>(entity =>
+        {
+            entity.HasKey(e => e.InvestmentId);
+
+            entity.ToTable("MyInvestment");
+
+            entity.Property(e => e.CreatedDate).HasColumnType("datetime");
+            entity.Property(e => e.DeletedDate).HasColumnType("datetime");
+            entity.Property(e => e.Descrpition).HasMaxLength(1000);
+            entity.Property(e => e.InvestedAmount).HasColumnType("decimal(18, 2)");
+            entity.Property(e => e.InvestedDate).HasColumnType("datetime");
             entity.Property(e => e.ModifiedDate).HasColumnType("datetime");
         });
 
@@ -295,6 +333,9 @@ public partial class GDBContext : DbContext
 
             entity.ToTable("Stater");
 
+            entity.Property(e => e.CreatedDate).HasColumnType("datetime");
+            entity.Property(e => e.DeletedDate).HasColumnType("datetime");
+            entity.Property(e => e.ModifiedDate).HasColumnType("datetime");
             entity.Property(e => e.StaterDescription)
                 .HasMaxLength(250)
                 .IsUnicode(false);

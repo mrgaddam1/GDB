@@ -92,6 +92,7 @@ static void ServiceDependency(WebApplicationBuilder builder)
 {
     builder.Services.AddScoped<AuthStateService>();
     builder.Services.AddScoped<IOrdersRepository, OrdersRepository>();
+    builder.Services.AddScoped<IOrderGroupsRepository, OrderGroupsRepository>();
     builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
     builder.Services.AddScoped<IOrderTypesRepository, OrderTypesRepository>();
     builder.Services.AddScoped<IStaterRepository, StaterRepository>();
@@ -109,8 +110,11 @@ static void ServiceDependency(WebApplicationBuilder builder)
     builder.Services.AddScoped<IProductRepository, ProductRepository>();
     builder.Services.AddScoped<IInventoryRepository, InventoryRepository>();
     builder.Services.AddScoped<IVendorRepository, VendorRepository>();
+    builder.Services.AddScoped<IInvestmentRepository, InvestmentRepository>();
+
 
     builder.Services.AddScoped<IOrderService, OrderService>();
+    builder.Services.AddScoped<IOrderGroupService, OrderGroupService>();
     builder.Services.AddScoped<ICustomerService, CustomerService>();
     builder.Services.AddScoped<IOrdersTypeService, OrderTypesService>();
     builder.Services.AddScoped<IStaterService, StaterService>();
@@ -129,6 +133,7 @@ static void ServiceDependency(WebApplicationBuilder builder)
     builder.Services.AddScoped<IProductService, ProductService>();
     builder.Services.AddScoped<IInventoryService, InventoryService>();
     builder.Services.AddScoped<IVendorService, VendorService>();
+    builder.Services.AddScoped<IInvestmentService, InvestmentService>();
 }
 
 static void RegisterAuthenticationServices(WebApplicationBuilder builder)

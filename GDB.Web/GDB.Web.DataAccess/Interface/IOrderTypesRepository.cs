@@ -9,7 +9,9 @@ namespace GDB.Web.DataAccess.Interface
 {
     public  interface IOrderTypesRepository
     {
-        Task<List<OrdersTypeViewModel>> GetAllOrderTypes();
-        Task<decimal?> GetSelectedOrderTypeItemPriceOrderType(int orderTypeId);
+        Task<List<OrderTypeViewModel>> GetAllOrderTypes();
+        Task<decimal> GetSelectedOrderTypeItemPriceOrderType(int orderTypeId);
+        Task<bool> Add(OrderTypeViewModel ordersTypeViewModel);
+        Task<bool> Update(OrderTypeViewModel ordersTypeViewModel);
     }
 }
