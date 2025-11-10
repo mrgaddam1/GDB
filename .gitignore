@@ -93,6 +93,11 @@ StyleCopReport.xml
 *.svclog
 *.scc
 
+#from webcil folder from below path....
+GDB.We.Client/obj/bin/debug/net8.0/webcil/*.wasm
+
+
+
 # Chutzpah Test files
 _Chutzpah*
 
@@ -737,3 +742,7 @@ GDB.Web/.vs/GDB.Web/v17/
 /GDB.Web/GDB.Web/obj/Debug/net8.0/GDB.Web.GlobalUsings.g.cs
 *.map
 *.wasm
+/GDB.Web/GDB.Web.Common/obj/Debug/net8.0/GDB.Web.Common.csproj.CoreCompileInputs.cache
+/GDB.Web/GDB.Web.DataAccess/obj/GDB.Web.DataAccess.csproj.nuget.g.targets
+/GDB.Web/GDB.Web/obj/GDB.Web.csproj.nuget.g.targets
+/GDB.Web/GDB.Web.BLL/obj/GDB.Web.BLL.csproj.nuget.g.targets

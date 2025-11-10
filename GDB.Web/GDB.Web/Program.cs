@@ -110,6 +110,8 @@ static void ServiceDependency(WebApplicationBuilder builder)
     builder.Services.AddScoped<IProductRepository, ProductRepository>();
     builder.Services.AddScoped<IInventoryRepository, InventoryRepository>();
     builder.Services.AddScoped<IVendorRepository, VendorRepository>();
+    builder.Services.AddScoped<IInvestmentRepository, InvestmentRepository>();
+
 
     builder.Services.AddScoped<IOrderService, OrderService>();
     builder.Services.AddScoped<IOrderGroupService, OrderGroupService>();
@@ -131,6 +133,7 @@ static void ServiceDependency(WebApplicationBuilder builder)
     builder.Services.AddScoped<IProductService, ProductService>();
     builder.Services.AddScoped<IInventoryService, InventoryService>();
     builder.Services.AddScoped<IVendorService, VendorService>();
+    builder.Services.AddScoped<IInvestmentService, InvestmentService>();
 }
 
 static void RegisterAuthenticationServices(WebApplicationBuilder builder)
