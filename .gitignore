@@ -748,3 +748,6 @@ GDB.Web/.vs/GDB.Web/v17/
 /GDB.Web/GDB.Web.BLL/obj/GDB.Web.BLL.csproj.nuget.g.targets
 /GDB.Web/GDB.Web.BLL/obj/Debug/net8.0/GDB.Web.BLL.GeneratedMSBuildEditorConfig.editorconfig
 /GDB.Web/GDB.Web.DataAccess/obj/Debug/net8.0/GDB.Web.DataAccess.GeneratedMSBuildEditorConfig.editorconfig
+/GDB.Web/GDB.Web.Client/bin/Debug/net8.0/dotnet.js
+/GDB.Web/GDB.Web.Client/bin/Debug/net8.0/dotnet.native.js
+/GDB.Web/GDB.Web.Client/bin/Debug/net8.0/dotnet.runtime.js
