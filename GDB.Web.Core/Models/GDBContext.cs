@@ -33,9 +33,9 @@ public partial class GDBContext : DbContext
 
     public virtual DbSet<InventoryHistory> InventoryHistories { get; set; }
 
-    public virtual DbSet<InvestmentOption> InvestmentOptions { get; set; }
+    public virtual DbSet<InvestmentOptionCategory> InvestmentOptionCategories { get; set; }
 
-    public virtual DbSet<InvestmentSubCategory> InvestmentSubCategories { get; set; }
+    public virtual DbSet<InvestmentOptionSubCategory> InvestmentOptionSubCategories { get; set; }
 
     public virtual DbSet<Location> Locations { get; set; }
 
@@ -189,16 +189,20 @@ public partial class GDBContext : DbContext
                 .IsFixedLength();
         });
 
-        modelBuilder.Entity<InvestmentOption>(entity =>
+        modelBuilder.Entity<InvestmentOptionCategory>(entity =>
         {
-            entity.ToTable("InvestmentOption");
+            entity.HasKey(e => e.InvestmentOptionCategoryId).HasName("PK_InvestmentOption");
 
-            entity.Property(e => e.InvestmentOptionDescription).HasMaxLength(250);
+            entity.ToTable("InvestmentOptionCategory");
+
+            entity.Property(e => e.InvestmentOptionCategoryDescription).HasMaxLength(250);
         });
 
-        modelBuilder.Entity<InvestmentSubCategory>(entity =>
+        modelBuilder.Entity<InvestmentOptionSubCategory>(entity =>
         {
-            entity.ToTable("InvestmentSubCategory");
+            entity.HasKey(e => e.InvestmentSubCategoryId).HasName("PK_InvestmentSubCategory");
+
+            entity.ToTable("InvestmentOptionSubCategory");
 
             entity.Property(e => e.InvestmentSubCategoryDescription).HasMaxLength(250);
         });

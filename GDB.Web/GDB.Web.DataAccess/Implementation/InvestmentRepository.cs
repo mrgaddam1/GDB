@@ -1,0 +1,140 @@
+﻿using GDB.Web.Core.Models;
+using GDB.Web.DataAccess.Interface;
+using GDB.Web.Shared;
+using GDB.Web.Shared.Inventory;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+
+namespace GDB.Web.DataAccess.Implementation
+{
+    public class InvestmentRepository : IInvestmentRepository
+    {
+        private readonly ILogger<InvestmentRepository> logger;
+        private GDBContext DbContext { get; set; }
+
+        public InvestmentRepository(GDBContext _DbContext)
+        {
+            DbContext = _DbContext;
+        }
+        public async Task<List<InvestmentOptionCategoryViewModel>> GetAllInvestmentCategories()
+        {
+            try
+            {
+                var investmentCategories = await DbContext
+                                                .InvestmentOptionCategories
+                                                .OrderBy(x => x.InvestmentOptionCategoryId)
+                                                .Select(x => new InvestmentOptionCategoryViewModel
+                                                {
+                                                    InvestmentOptionCategoryId = x.InvestmentOptionCategoryId,
+                                                    InvestmentOptionCategoryDescription = x.InvestmentOptionCategoryDescription
+                                                })
+                                                .ToListAsync();
+
+                if (investmentCategories == null || investmentCategories.Count == 0)
+                {
+                    logger.LogInformation("No locations found in the database.");
+                    return new List<InvestmentOptionCategoryViewModel>();
+                }
+                return investmentCategories;
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "An error occurred while fetching all investment Categories.");
+                return new List<InvestmentOptionCategoryViewModel>();
+            }
+        }
+
+        public async Task<List<InvestmentOptionSubCategoryViewModel>> GetAllInvestmentSubCategories()
+        {
+            try
+            {
+                var investmentSubCategories = await DbContext
+                                                .InvestmentOptionSubCategories
+                                                .OrderBy(x => x.InvestmentSubCategoryId)
+                                                .Select(x => new InvestmentOptionSubCategoryViewModel
+                                                {
+                                                    InvestmentSubCategoryId = x.InvestmentSubCategoryId,
+                                                    InvestmentOptionCategoryId = x.InvestmentOptionCategoryId,
+                                                    InvestmentSubCategoryDescription = x.InvestmentSubCategoryDescription
+                                                })
+                                                .ToListAsync();
+
+                if (investmentSubCategories == null || investmentSubCategories.Count == 0)
+                {
+                    logger.LogInformation("No locations found in the database.");
+                    return new List<InvestmentOptionSubCategoryViewModel>();
+                }
+                return investmentSubCategories;
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "An error occurred while fetching all investment Sub Categories.");
+                return new List<InvestmentOptionSubCategoryViewModel>();
+            }
+        }
+
+
+
+        public async Task<List<InvestmentViewModel>> GetAllInvestmentDetails()
+        {
+            try
+            {
+                var investmentData = await (from i in DbContext.MyInvestments
+                                      join ic in DbContext.InvestmentOptionCategories on i.InvestmentOptionId equals ic.InvestmentOptionCategoryId
+                                      join isc in DbContext.InvestmentOptionSubCategories on i.InvestmentSubCategoryId equals isc.InvestmentSubCategoryId
+                                      select new InvestmentViewModel
+                                      {
+                                          InvestmentId = i.InvestmentId,
+                                          InvestmentCategoryId = ic.InvestmentOptionCategoryId,
+                                          InvestmentOptionCategoryDescription = ic.InvestmentOptionCategoryDescription,
+                                          InvestmentSubCategoryId = isc.InvestmentSubCategoryId,
+                                          InvestmentSubCategoryDescription = isc.InvestmentSubCategoryDescription,
+                                          InvestedAmount = i.InvestedAmount,
+                                          InvestedDate = i.InvestedDate,
+                                          Descrpition = i.Descrpition
+                                      }).OrderByDescending(x => x.InvestmentId).ToListAsync();
+
+                if (investmentData == null || investmentData.Count == 0)
+                {
+                    logger.LogInformation("No locations found in the database.");
+                    return new List<InvestmentViewModel>();
+                }
+                return investmentData;
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "An error occurred while fetching all investment Sub Categories.");
+                return new List<InvestmentViewModel>();
+            }
+        }
+
+
+        public async Task<bool> AddInvestment(InvestmentViewModel investmentViewModel)
+        {
+            try
+            {
+                var investment = new MyInvestment
+                {
+                    UserId = 1,
+                    InvestedAmount = investmentViewModel.InvestedAmount,
+                    InvestedDate = investmentViewModel.InvestedDate,
+                    InvestmentOptionId = investmentViewModel.InvestmentCategoryId,
+                    InvestmentSubCategoryId = investmentViewModel.InvestmentSubCategoryId,
+                    Descrpition = investmentViewModel.Descrpition,
+                    CreatedDate = DateTime.UtcNow,
+                    ModifiedDate = null
+                };
+               
+                DbContext.MyInvestments.Add(investment);
+                await DbContext.SaveChangesAsync();
+                return true;
+
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex.Message, "An error occured while processing the request.");
+                return false;
+            }
+        }
+    }
+}
