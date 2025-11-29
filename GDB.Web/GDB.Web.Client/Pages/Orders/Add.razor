@@ -293,11 +293,11 @@
     private async void HandleValidSubmit()
     {
         successMessage = "";
-        order.Amount = order.TotalPrice;
         errorMessages = Validations(order);
         string validations = string.Join(" ", errorMessages);
         if ((validations == null) || (validations == ""))
         {
+            order.Amount = order.TotalPrice;
             var response = await orderService.Add(order);
             if (response.Value)
             {
@@ -371,6 +371,7 @@
                             Convert.ToDecimal(order.Amount) + Convert.ToDecimal(order.TotalStaterPrice == null ? 0 : order.TotalStaterPrice)
                             );
 
+
         StateHasChanged();
     }
 
@@ -395,6 +396,16 @@
                                 ", " + Environment.NewLine + OrderUtils.Order_OrderType_ValidationMessage
                                 : OrderUtils.Order_OrderType_ValidationMessage;
         }
+        if ((ordersViewModel.OrderTypeId != 0) || (ordersViewModel.OrderTypeId != null))
+        {
+            if(ordersViewModel.Amount == 0 || ordersViewModel.Amount == null)
+            {
+                validationMessage = validationMessage != null ? validationMessage +
+                                    ", " + Environment.NewLine + "Plese select valid Order Type to get Amount"
+                                    : "Plese select valid Order Type to get Amount";
+            }
+        }
+       
         if ((ordersViewModel.Quantity == 0) || (ordersViewModel.Quantity == null))
         {
             validationMessage = validationMessage != null
