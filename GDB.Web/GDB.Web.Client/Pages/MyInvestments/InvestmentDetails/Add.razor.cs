@@ -51,7 +51,7 @@ namespace GDB.Web.Client.Pages.MyInvestments.InvestmentDetails
          }
         private void GoBack()
         {
-            NavigationManager.NavigateTo("/my-investments/list");
+            NavigationManager.NavigateTo("/myInvestments/investmentDetails/list");
         }
         private async Task OnInvestmentCategorySelectionIndexChanged(ChangeEventArgs e)
         {

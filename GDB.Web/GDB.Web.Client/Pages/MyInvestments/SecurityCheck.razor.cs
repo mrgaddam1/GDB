@@ -18,7 +18,7 @@ namespace GDB.Web.Client.Pages.MyInvestments
             {
 
                 isSuccess = result;
-                 NavigationManager.NavigateTo("/my-investments/list");
+                NavigationManager.NavigateTo("/myInvestments/investmentDetails/list");
             }
             else
             {

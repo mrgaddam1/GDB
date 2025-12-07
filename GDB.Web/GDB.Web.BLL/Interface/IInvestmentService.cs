@@ -10,5 +10,6 @@ namespace GDB.Web.BLL.Interface
         Task<bool?> Add(InvestmentViewModel investmentViewModel);
         Task<bool?> Update(InvestmentViewModel investmentViewModel);
         Task<bool> VerifySecurityChecks(SecurityCheckViewModel securityCheckViewModel);
+        Task<bool> AddInvestmentSummary(InvestmentSummaryViewModel investmentSummaryViewModel);
     }
 }
