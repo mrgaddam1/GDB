@@ -3,7 +3,7 @@ using GDB.Web.BLL.Interface;
 using GDB.Web.Shared;
 using Microsoft.AspNetCore.Components;
 
-namespace GDB.Web.Client.Pages.MyInvestments
+namespace GDB.Web.Client.Pages.MyInvestments.InvestmentDetails
 {
     public partial class List : ComponentBase
     {

@@ -6,7 +6,7 @@ using GDB.Web.DataAccess.Interface;
 using GDB.Web.Shared;
 using Microsoft.AspNetCore.Components;
 
-namespace GDB.Web.Client.Pages.MyInvestments
+namespace GDB.Web.Client.Pages.MyInvestments.InvestmentDetails
 {
     public partial class Add : ComponentBase
     {
@@ -51,7 +51,7 @@ namespace GDB.Web.Client.Pages.MyInvestments
          }
         private void GoBack()
         {
-            NavigationManager.NavigateTo("/customers/list");
+            NavigationManager.NavigateTo("/my-investments/list");
         }
         private async Task OnInvestmentCategorySelectionIndexChanged(ChangeEventArgs e)
         {

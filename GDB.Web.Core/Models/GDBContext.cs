@@ -37,6 +37,8 @@ public partial class GDBContext : DbContext
 
     public virtual DbSet<InvestmentOptionSubCategory> InvestmentOptionSubCategories { get; set; }
 
+    public virtual DbSet<InvestmentSecurityCheck> InvestmentSecurityChecks { get; set; }
+
     public virtual DbSet<Location> Locations { get; set; }
 
     public virtual DbSet<MyInvestment> MyInvestments { get; set; }
@@ -205,6 +207,20 @@ public partial class GDBContext : DbContext
             entity.ToTable("InvestmentOptionSubCategory");
 
             entity.Property(e => e.InvestmentSubCategoryDescription).HasMaxLength(250);
+        });
+
+        modelBuilder.Entity<InvestmentSecurityCheck>(entity =>
+        {
+            entity.HasKey(e => e.SecurityInvestmentId);
+
+            entity.ToTable("InvestmentSecurityCheck");
+
+            entity.Property(e => e.SecurityInvestmentId).ValueGeneratedNever();
+            entity.Property(e => e.CreatedDate).HasColumnType("datetime");
+            entity.Property(e => e.FullName).HasMaxLength(150);
+            entity.Property(e => e.MobileNumber).HasMaxLength(150);
+            entity.Property(e => e.Security12DigitsPasscode).HasMaxLength(150);
+            entity.Property(e => e.Security6DigitsPincode).HasMaxLength(150);
         });
 
         modelBuilder.Entity<Location>(entity =>

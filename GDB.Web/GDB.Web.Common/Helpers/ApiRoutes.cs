@@ -14,6 +14,7 @@
             public const string DeleteInvestment = "Delete";
             public const string GetAllBusinessInvestmentsById = "GetAllInvestmentDetailsById";
             public const string GetAllInvestments = "GetAllInvestments";
+            public const string VerifySecurityCheck = "VerifySecurityCheck";
         }
        
     }
