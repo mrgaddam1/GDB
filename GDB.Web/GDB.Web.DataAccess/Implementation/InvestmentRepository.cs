@@ -77,7 +77,7 @@ namespace GDB.Web.DataAccess.Implementation
         {
             try
             {
-                var investmentData = await (from i in DbContext.MyInvestments
+                var investmentData = await (from i in DbContext.InvestmentDetails
                                       join ic in DbContext.InvestmentOptionCategories on i.InvestmentOptionId equals ic.InvestmentOptionCategoryId
                                       join isc in DbContext.InvestmentOptionSubCategories on i.InvestmentSubCategoryId equals isc.InvestmentSubCategoryId
                                       select new InvestmentViewModel
@@ -110,7 +110,7 @@ namespace GDB.Web.DataAccess.Implementation
         {
             try
             {
-                var investment = new MyInvestment
+                var investment = new InvestmentDetail
                 {
                     UserId = 1,
                     InvestedAmount = investmentViewModel.InvestedAmount,
@@ -122,7 +122,7 @@ namespace GDB.Web.DataAccess.Implementation
                     ModifiedDate = null
                 };
                
-                DbContext.MyInvestments.Add(investment);
+                DbContext.InvestmentDetails.Add(investment);
                 await DbContext.SaveChangesAsync();
                 return true;
 
@@ -138,7 +138,7 @@ namespace GDB.Web.DataAccess.Implementation
         {
             try
             {
-                var existingInvestment = await DbContext.MyInvestments.FindAsync(investmentViewModel.InvestmentId);
+                var existingInvestment = await DbContext.InvestmentDetails.FindAsync(investmentViewModel.InvestmentId);
                 if (existingInvestment == null)
                 {
                     logger.LogWarning("Investment with ID {InvestmentId} not found.", investmentViewModel.InvestmentId);
@@ -150,7 +150,7 @@ namespace GDB.Web.DataAccess.Implementation
                 existingInvestment.InvestmentSubCategoryId = investmentViewModel.InvestmentSubCategoryId;
                 existingInvestment.Descrpition = investmentViewModel.Descrpition;
                 existingInvestment.ModifiedDate = DateTime.UtcNow;
-                DbContext.MyInvestments.Update(existingInvestment);
+                DbContext.InvestmentDetails.Update(existingInvestment);
                 await DbContext.SaveChangesAsync();
                 return true;
             }
@@ -166,18 +166,18 @@ namespace GDB.Web.DataAccess.Implementation
              
             bool securityCheckStatus = true;
 
-            var fullName = BCrypt.Net.BCrypt.HashPassword(securityCheckViewModel.FullName);
-            var mobileNumber = BCrypt.Net.BCrypt.HashPassword(securityCheckViewModel.MobileNumber);
-            var user12DigitsPasscode = BCrypt.Net.BCrypt.HashPassword(securityCheckViewModel.Security12DigitsPasscode);
-            var user6DigitsPincode = BCrypt.Net.BCrypt.HashPassword(securityCheckViewModel.Security6DigitsPincode);
+            //var fullName = BCrypt.Net.BCrypt.HashPassword(securityCheckViewModel.FullName);
+            //var mobileNumber = BCrypt.Net.BCrypt.HashPassword(securityCheckViewModel.MobileNumber);
+            //var user12DigitsPasscode = BCrypt.Net.BCrypt.HashPassword(securityCheckViewModel.Security12DigitsPasscode);
+            //var user6DigitsPincode = BCrypt.Net.BCrypt.HashPassword(securityCheckViewModel.Security6DigitsPincode);
 
 
             securityCheckStatus = (await DbContext
                                         .InvestmentSecurityChecks
-                                        .AnyAsync(s => s.FullName == fullName &&
-                                                       s.MobileNumber == mobileNumber &&
-                                                       s.Security12DigitsPasscode == user12DigitsPasscode &&
-                                                       s.Security6DigitsPincode == user6DigitsPincode)
+                                        .AnyAsync(s => s.FullName == BCrypt.Net.BCrypt.HashPassword(securityCheckViewModel.FullName) &&
+                                                       s.MobileNumber == BCrypt.Net.BCrypt.HashPassword(securityCheckViewModel.MobileNumber) &&
+                                                       s.Security12DigitsPasscode == BCrypt.Net.BCrypt.HashPassword(securityCheckViewModel.Security12DigitsPasscode) &&
+                                                       s.Security6DigitsPincode == BCrypt.Net.BCrypt.HashPassword(securityCheckViewModel.Security6DigitsPincode))
 
             );
             if (!securityCheckStatus)
@@ -186,6 +186,32 @@ namespace GDB.Web.DataAccess.Implementation
                 return securityCheckStatus;
             }
             return securityCheckStatus;
+        }
+
+        public async Task<bool> AddInvestmentSummary(InvestmentSummaryViewModel investmentSummaryViewModel)
+        {
+            try
+            {
+                var investmentSummary = new InvestmentSummary
+                {
+                    UserId = 1,   
+                    InvestmentOptionCategoryId = investmentSummaryViewModel.InvestmentOptionCategoryId,
+                    InvestmentSubCategoryId = investmentSummaryViewModel.InvestmentSubCategoryId,
+                    Descrpition = investmentSummaryViewModel.Descrpition,
+                    CreatedDate = DateTime.UtcNow,
+                    ModifiedDate = null
+                };
+
+                DbContext.InvestmentSummaries.Add(investmentSummary);
+                await DbContext.SaveChangesAsync();
+                return true;
+
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex.Message, "An error occured while processing the request.");
+                return false;
+            }
         }
     }
 }

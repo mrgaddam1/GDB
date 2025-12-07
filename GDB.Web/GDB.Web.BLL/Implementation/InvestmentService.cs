@@ -108,5 +108,31 @@ namespace GDB.Web.BLL.Implementation
                 return isSuccess;
             }
         }
+
+        public async Task<bool> AddInvestmentSummary(InvestmentSummaryViewModel investmentSummaryViewModel)
+        {
+            bool isSuccess = false;
+            try
+            {
+                var response = await httpClient.PostAsJsonAsync($"{ApiRoutes.Investments.Base}{ApiRoutes.Investments.AddInvestmentSummary}", investmentSummaryViewModel);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    var errorContent = await response.Content.ReadAsStringAsync();
+                    Console.WriteLine($"Error: {response.StatusCode} - {errorContent}");
+                    isSuccess = false;
+                }
+                else
+                {
+                    isSuccess = true;
+                }
+                return isSuccess;
+            }
+            catch (Exception ex)
+            {
+                var error = ex.Message;
+                return isSuccess;
+            }
+        }
     }
 }

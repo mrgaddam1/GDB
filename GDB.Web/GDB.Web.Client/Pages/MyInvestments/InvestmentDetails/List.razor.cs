@@ -35,7 +35,7 @@ namespace GDB.Web.Client.Pages.MyInvestments.InvestmentDetails
         }
         private void AddNewInvestment()
         {
-            NavigationManager.NavigateTo("/myInvestments/addInvestment");
+            NavigationManager.NavigateTo("/myInvestments/investmentDetails/addInvestment");
         }
         void EditRow(InvestmentViewModel investmentViewModel)
         {

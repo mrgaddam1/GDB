@@ -159,5 +159,39 @@ namespace GDB.Web.Controller
             }
         }
 
+
+        [HttpPost]
+        [Route("AddInvestmentSummary")]
+        public async Task<IActionResult> AddInvestmentSummary([FromBody] InvestmentSummaryViewModel investmentSummaryViewModel)
+        {
+            try
+            {
+                if (investmentSummaryViewModel == null)
+                {
+                    return BadRequest("Investment data is required.");
+                }
+                var response = await investmentRepository.AddInvestmentSummary(investmentSummaryViewModel);
+                if (response)
+                {
+                    var status = CreatedAtAction(nameof(Add), new { id = investmentSummaryViewModel.InvestmentSummaryId }, investmentSummaryViewModel);
+                    return Ok(status);
+                }
+                else
+                {
+                    var status = StatusCode(StatusCodes.Status400BadRequest, "Failed to add Investment ");
+                    return BadRequest(status);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex.Message, "An error occured while processing your request.");
+                return StatusCode(StatusCodes.Status500InternalServerError, new
+                {
+                    Message = ex.Message,
+                    Details = ex.StackTrace
+                });
+            }
+        }
     }
 }
