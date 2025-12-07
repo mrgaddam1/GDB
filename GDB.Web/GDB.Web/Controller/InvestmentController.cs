@@ -1,4 +1,5 @@
-﻿using GDB.Web.DataAccess.Implementation;
+﻿using GDB.Web.Core.Models;
+using GDB.Web.DataAccess.Implementation;
 using GDB.Web.DataAccess.Interface;
 using GDB.Web.Shared;
 using Microsoft.AspNetCore.Mvc;
@@ -124,6 +125,37 @@ namespace GDB.Web.Controller
                     Message = ex.Message,
                     Details = ex.StackTrace
                 });
+            }
+        }
+       
+        
+        [HttpPost]
+        [Route("VerifySecurityCheck")]
+        public async Task<IActionResult> VerifySecurityCheck([FromBody] SecurityCheckViewModel securityCheckViewModel)
+        {
+            try
+            {
+                if (securityCheckViewModel == null)
+                {
+                    return BadRequest("Investment data is required.");
+                }
+                var response = await investmentRepository.VerifySecurityChecks(securityCheckViewModel);
+                if (response)
+                {
+                    var status = CreatedAtAction(nameof(Add), new { id = securityCheckViewModel.Security12DigitsPasscode }, securityCheckViewModel);
+                    return Ok(status);
+                }
+                else
+                {
+                    var status = StatusCode(StatusCodes.Status400BadRequest, "Failed to add Investment ");
+                    return BadRequest(status);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex.Message, "An error occured while processing your request.");
+                return Ok(false);
             }
         }
 

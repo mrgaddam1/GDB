@@ -8,6 +8,7 @@ namespace GDB.Web.BLL.Interface
         Task<List<InvestmentOptionSubCategoryViewModel>>? GetAllInvestmentSubCategories();
         Task<List<InvestmentViewModel>> GetAllInvestmentDetails();
         Task<bool?> Add(InvestmentViewModel investmentViewModel);
-
+        Task<bool?> Update(InvestmentViewModel investmentViewModel);
+        Task<bool> VerifySecurityChecks(SecurityCheckViewModel securityCheckViewModel);
     }
 }

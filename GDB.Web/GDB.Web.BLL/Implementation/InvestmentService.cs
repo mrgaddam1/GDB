@@ -77,5 +77,36 @@ namespace GDB.Web.BLL.Implementation
                         .ReadFromJsonAsync<List<InvestmentViewModel>>()
                         ?? new List<InvestmentViewModel>();
         }
+
+        public Task<bool?> Update(InvestmentViewModel investmentViewModel)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<bool> VerifySecurityChecks(SecurityCheckViewModel securityCheckViewModel)
+        {
+            bool isSuccess = false;
+            try
+            {
+                var response = await httpClient.PostAsJsonAsync($"{ApiRoutes.Investments.Base}{ApiRoutes.Investments.VerifySecurityCheck}", securityCheckViewModel);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    var errorContent = await response.Content.ReadAsStringAsync();
+                    Console.WriteLine($"Error: {response.StatusCode} - {errorContent}");
+                    isSuccess = false;
+                }
+                else
+                {
+                    isSuccess = true;
+                }
+                return isSuccess;
+            }
+            catch (Exception ex)
+            {
+                var error = ex.Message;
+                return isSuccess;
+            }
+        }
     }
 }

@@ -73,8 +73,6 @@ namespace GDB.Web.DataAccess.Implementation
             }
         }
 
-
-
         public async Task<List<InvestmentViewModel>> GetAllInvestmentDetails()
         {
             try
@@ -108,7 +106,6 @@ namespace GDB.Web.DataAccess.Implementation
             }
         }
 
-
         public async Task<bool> AddInvestment(InvestmentViewModel investmentViewModel)
         {
             try
@@ -135,6 +132,60 @@ namespace GDB.Web.DataAccess.Implementation
                 logger.LogError(ex.Message, "An error occured while processing the request.");
                 return false;
             }
+        }
+
+        public async Task<bool> UpdateInvestment(InvestmentViewModel investmentViewModel)
+        {
+            try
+            {
+                var existingInvestment = await DbContext.MyInvestments.FindAsync(investmentViewModel.InvestmentId);
+                if (existingInvestment == null)
+                {
+                    logger.LogWarning("Investment with ID {InvestmentId} not found.", investmentViewModel.InvestmentId);
+                    return false;
+                }
+                existingInvestment.InvestedAmount = investmentViewModel.InvestedAmount;
+                existingInvestment.InvestedDate = investmentViewModel.InvestedDate;
+                existingInvestment.InvestmentOptionId = investmentViewModel.InvestmentCategoryId;
+                existingInvestment.InvestmentSubCategoryId = investmentViewModel.InvestmentSubCategoryId;
+                existingInvestment.Descrpition = investmentViewModel.Descrpition;
+                existingInvestment.ModifiedDate = DateTime.UtcNow;
+                DbContext.MyInvestments.Update(existingInvestment);
+                await DbContext.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex.Message, "An error occured while processing the request.");
+                return false;
+            }
+        }   
+
+        public async Task<bool> VerifySecurityChecks(SecurityCheckViewModel securityCheckViewModel)
+        {
+             
+            bool securityCheckStatus = true;
+
+            var fullName = BCrypt.Net.BCrypt.HashPassword(securityCheckViewModel.FullName);
+            var mobileNumber = BCrypt.Net.BCrypt.HashPassword(securityCheckViewModel.MobileNumber);
+            var user12DigitsPasscode = BCrypt.Net.BCrypt.HashPassword(securityCheckViewModel.Security12DigitsPasscode);
+            var user6DigitsPincode = BCrypt.Net.BCrypt.HashPassword(securityCheckViewModel.Security6DigitsPincode);
+
+
+            securityCheckStatus = (await DbContext
+                                        .InvestmentSecurityChecks
+                                        .AnyAsync(s => s.FullName == fullName &&
+                                                       s.MobileNumber == mobileNumber &&
+                                                       s.Security12DigitsPasscode == user12DigitsPasscode &&
+                                                       s.Security6DigitsPincode == user6DigitsPincode)
+
+            );
+            if (!securityCheckStatus)
+            {
+                logger.LogWarning("Security check failed for user with Full Name: {FullName}", securityCheckViewModel.FullName);
+                return securityCheckStatus;
+            }
+            return securityCheckStatus;
         }
     }
 }
