@@ -24,4 +24,6 @@ public partial class InvestmentDetail
     public DateTime? ModifiedDate { get; set; }
 
     public DateTime? DeletedDate { get; set; }
+
+    public bool? IsInvestmentComplete { get; set; }
 }

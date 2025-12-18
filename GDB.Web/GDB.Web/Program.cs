@@ -111,7 +111,7 @@ static void ServiceDependency(WebApplicationBuilder builder)
     builder.Services.AddScoped<IInventoryRepository, InventoryRepository>();
     builder.Services.AddScoped<IVendorRepository, VendorRepository>();
     builder.Services.AddScoped<IInvestmentRepository, InvestmentRepository>();
-
+    builder.Services.AddScoped<IMonthlyDirectDebitPaymentRepository, MonthlyDirectDebitPaymentRepository>();
 
     builder.Services.AddScoped<IOrderService, OrderService>();
     builder.Services.AddScoped<IOrderGroupService, OrderGroupService>();
