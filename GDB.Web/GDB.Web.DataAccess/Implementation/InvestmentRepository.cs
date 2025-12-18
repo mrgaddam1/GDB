@@ -90,7 +90,7 @@ namespace GDB.Web.DataAccess.Implementation
                                           InvestedAmount = i.InvestedAmount,
                                           InvestedDate = i.InvestedDate,
                                           Descrpition = i.Descrpition
-                                      }).OrderByDescending(x => x.InvestmentId).ToListAsync();
+                                      }).OrderByDescending(x => x.InvestmentCategoryId).ToListAsync();
 
                 if (investmentData == null || investmentData.Count == 0)
                 {

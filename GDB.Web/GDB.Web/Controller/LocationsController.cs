@@ -110,8 +110,5 @@ namespace GDB.Web.Controller
                 });
             }
         }
-
-
-
     }
 }

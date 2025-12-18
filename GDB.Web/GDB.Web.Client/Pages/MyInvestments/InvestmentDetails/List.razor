@@ -52,18 +52,18 @@
                         </FooterTemplate>
                     </RadzenDataGridColumn>
                   
-                    <RadzenDataGridColumn Property="InvestedDate" Title="Investment Date" Width="120px">
+                    <RadzenDataGridColumn Property="InvestedDate" Title="Investment Date" Width="100px">
                         <Template Context="data">
                             @data.InvestedDate.ToString("dd/MM/yyyy")
                         </Template>
                     </RadzenDataGridColumn>  
 
-                    <RadzenDataGridColumn Property="InvestmentOptionCategoryDescription" Title="Category" Width="150px" />
-                    <RadzenDataGridColumn Property="InvestmentSubCategoryDescription" Title="SubCategory" Width="150px" />
+                    <RadzenDataGridColumn Property="InvestmentOptionCategoryDescription" Title="Category" Width="120px" />
+                    <RadzenDataGridColumn Property="InvestmentSubCategoryDescription" Title="SubCategory" Width="300px" />
                     <RadzenDataGridColumn Property="Descrpition" Title="Description" Width="300px" />
                                      
                    
-                    <RadzenDataGridColumn TItem="InvestmentViewModel" Width="120px">
+                    <RadzenDataGridColumn TItem="InvestmentViewModel" Width="100px">
                         <Template Context="data">
                             <RadzenButton ButtonType="Radzen.ButtonType.Button"
                                           Icon="edit" Size="Radzen.ButtonSize.Small"

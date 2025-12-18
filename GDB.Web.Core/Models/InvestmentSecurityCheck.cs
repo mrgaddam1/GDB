@@ -16,4 +16,6 @@ public partial class InvestmentSecurityCheck
     public string Security6DigitsPincode { get; set; } = null!;
 
     public DateTime CreatedDate { get; set; }
+
+    public int? PasswordCount { get; set; }
 }

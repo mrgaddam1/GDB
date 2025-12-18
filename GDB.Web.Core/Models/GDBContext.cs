@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace GDB.Web.Core.Models;
 
@@ -44,6 +42,10 @@ public partial class GDBContext : DbContext
     public virtual DbSet<InvestmentSummary> InvestmentSummaries { get; set; }
 
     public virtual DbSet<Location> Locations { get; set; }
+
+    public virtual DbSet<MonthlyDirectDebit> MonthlyDirectDebits { get; set; }
+
+    public virtual DbSet<MonthlyDirectDebitPayment> MonthlyDirectDebitPayments { get; set; }
 
     public virtual DbSet<Order> Orders { get; set; }
 
@@ -258,6 +260,31 @@ public partial class GDBContext : DbContext
             entity.Property(e => e.LocationDescription)
                 .HasMaxLength(250)
                 .IsUnicode(false);
+            entity.Property(e => e.ModifiedDate).HasColumnType("datetime");
+        });
+
+        modelBuilder.Entity<MonthlyDirectDebit>(entity =>
+        {
+            entity.HasKey(e => e.DirectDebitId).HasName("PK_Bills");
+
+            entity.ToTable("MonthlyDirectDebit");
+
+            entity.Property(e => e.Amount).HasColumnType("decimal(18, 2)");
+            entity.Property(e => e.DirectDebitDescription).HasMaxLength(1000);
+            entity.Property(e => e.DirectDebitName).HasMaxLength(250);
+        });
+
+        modelBuilder.Entity<MonthlyDirectDebitPayment>(entity =>
+        {
+            entity.HasKey(e => e.DeductionId).HasName("PK_MonthlyDirectDebit");
+
+            entity.ToTable("MonthlyDirectDebitPayment");
+
+            entity.Property(e => e.Amount).HasColumnType("decimal(18, 2)");
+            entity.Property(e => e.DeletedDate).HasColumnType("datetime");
+            entity.Property(e => e.Description).HasMaxLength(1000);
+            entity.Property(e => e.DirectDebitMonthName).HasMaxLength(100);
+            entity.Property(e => e.DirectDebitStatus).HasMaxLength(100);
             entity.Property(e => e.ModifiedDate).HasColumnType("datetime");
         });
 
