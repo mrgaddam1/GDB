@@ -133,29 +133,30 @@ namespace GDB.Web.Controller
         [Route("VerifySecurityCheck")]
         public async Task<IActionResult> VerifySecurityCheck([FromBody] SecurityCheckViewModel securityCheckViewModel)
         {
+            var securityCheckResultData = new SecurityCheckViewModel();
             try
             {
                 if (securityCheckViewModel == null)
                 {
                     return BadRequest("Investment data is required.");
                 }
-                var response = await investmentRepository.VerifySecurityChecks(securityCheckViewModel);
-                if (response)
+                securityCheckResultData = await investmentRepository.VerifySecurityChecks(securityCheckViewModel);
+                if (securityCheckResultData != null)
                 {
-                    var status = CreatedAtAction(nameof(Add), new { id = securityCheckViewModel.Security12DigitsPasscode }, securityCheckViewModel);
-                    return Ok(status);
+                    //var status = CreatedAtAction(nameof(Add), new { id = securityCheckViewModel.Security12DigitsPasscode }, securityCheckViewModel);
+                    return Ok(securityCheckResultData);
                 }
                 else
                 {
                     var status = StatusCode(StatusCodes.Status400BadRequest, "Failed to add Investment ");
-                    return BadRequest(status);
+                    return BadRequest(null);
                 }
 
             }
             catch (Exception ex)
             {
                 logger.LogError(ex.Message, "An error occured while processing your request.");
-                return Ok(false);
+                return Ok(null);
             }
         }
 

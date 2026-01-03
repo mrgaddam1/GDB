@@ -18,4 +18,8 @@ public partial class InvestmentSecurityCheck
     public DateTime CreatedDate { get; set; }
 
     public int? PasswordCount { get; set; }
+
+    public bool? SecurityStatus { get; set; }
+
+    public DateTime? UpdatedDate { get; set; }
 }

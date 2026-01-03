@@ -1,4 +1,5 @@
-﻿using GDB.Web.BLL.Implementation;
+﻿using Blazored.LocalStorage;
+using GDB.Web.BLL.Implementation;
 using GDB.Web.BLL.Interface;
 using GDB.Web.Shared;
 using Microsoft.AspNetCore.Components;
@@ -9,19 +10,27 @@ namespace GDB.Web.Client.Pages.MyInvestments.InvestmentDetails
     {
         [Inject] public NavigationManager NavigationManager { get; set; }
         [Inject] public IInvestmentService  investmentService{ get; set; }
-
+        [Inject] ILocalStorageService LocalStorage { get; set; }
         public List<InvestmentViewModel> investmentViewModel = null;
+
         Radzen.DataGridGridLines GridLines = Radzen.DataGridGridLines.Both;
+
+
         protected override async Task OnInitializedAsync()
         {
-            await GetAllInvestments();
+            var passCode = await LocalStorage.GetItemAsync<string>("12DigitsPasscode");
+            if(passCode == null)
+            {
+                NavigationManager.NavigateTo("/myInvestments/securityCheck");
+            }
+            await GetAllInvestments(passCode);
         }
 
-        private async Task<List<InvestmentViewModel>> GetAllInvestments()
+        private async Task<List<InvestmentViewModel>> GetAllInvestments(string passCode)
         {
             try
             {
-                investmentViewModel = await investmentService.GetAllInvestmentDetails();
+                investmentViewModel = await investmentService.GetAllInvestmentDetails(passCode);
                 if (investmentViewModel == null || !investmentViewModel.Any())
                 {
                     return new List<InvestmentViewModel>();

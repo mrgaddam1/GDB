@@ -2,6 +2,8 @@
 using GDB.Web.Client.Infrastructure.Common;
 using GDB.Web.Common.Helpers;
 using GDB.Web.Shared;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Net.Http.Json;
 
 namespace GDB.Web.BLL.Implementation
@@ -66,8 +68,10 @@ namespace GDB.Web.BLL.Implementation
             }
         }
 
-        public async Task<List<InvestmentViewModel>> GetAllInvestmentDetails()
+        public async Task<List<InvestmentViewModel>> GetAllInvestmentDetails(string passCode)
         {
+            //httpClient.DefaultRequestHeaders.Authorization =  new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", passCode);
+
             var response = await httpClient.GetAsync($"{ApiRoutes.Investments.Base}{ApiRoutes.Investments.GetAllInvestments}");
             if (!response.IsSuccessStatusCode)
                 return new List<InvestmentViewModel>();
@@ -83,30 +87,20 @@ namespace GDB.Web.BLL.Implementation
             throw new NotImplementedException();
         }
 
-        public async Task<bool> VerifySecurityChecks(SecurityCheckViewModel securityCheckViewModel)
+        public async Task<SecurityCheckViewModel> VerifySecurityChecks(SecurityCheckViewModel securityCheckViewModel)
         {
             bool isSuccess = false;
-            try
-            {
-                var response = await httpClient.PostAsJsonAsync($"{ApiRoutes.Investments.Base}{ApiRoutes.Investments.VerifySecurityCheck}", securityCheckViewModel);
+             
+            var response = await httpClient.PostAsJsonAsync($"{ApiRoutes.Investments.Base}{ApiRoutes.Investments.VerifySecurityCheck}", securityCheckViewModel);
 
-                if (!response.IsSuccessStatusCode)
-                {
-                    var errorContent = await response.Content.ReadAsStringAsync();
-                    Console.WriteLine($"Error: {response.StatusCode} - {errorContent}");
-                    isSuccess = false;
-                }
-                else
-                {
-                    isSuccess = true;
-                }
-                return isSuccess;
-            }
-            catch (Exception ex)
-            {
-                var error = ex.Message;
-                return isSuccess;
-            }
+            if (!response.IsSuccessStatusCode)
+                return new SecurityCheckViewModel();
+
+            return await response
+                        .Content
+                        .ReadFromJsonAsync<SecurityCheckViewModel>()
+                        ?? new SecurityCheckViewModel();
+            
         }
 
         public async Task<bool> AddInvestmentSummary(InvestmentSummaryViewModel investmentSummaryViewModel)

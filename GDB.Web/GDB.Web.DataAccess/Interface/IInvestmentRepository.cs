@@ -8,7 +8,7 @@ namespace GDB.Web.DataAccess.Interface
         Task<List<InvestmentOptionSubCategoryViewModel>> GetAllInvestmentSubCategories();
         Task<List<InvestmentViewModel>> GetAllInvestmentDetails();
         Task<bool> AddInvestment(InvestmentViewModel investmentViewModel);
-        Task<bool> VerifySecurityChecks(SecurityCheckViewModel securityCheckViewModel);
+        Task<SecurityCheckViewModel> VerifySecurityChecks(SecurityCheckViewModel securityCheckViewModel);
         Task<bool> AddInvestmentSummary(InvestmentSummaryViewModel investmentSummaryViewModel);
     }
 }

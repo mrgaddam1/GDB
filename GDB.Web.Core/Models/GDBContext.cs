@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
 
 namespace GDB.Web.Core.Models;
 
@@ -239,6 +241,7 @@ public partial class GDBContext : DbContext
             entity.Property(e => e.MobileNumber).HasMaxLength(150);
             entity.Property(e => e.Security12DigitsPasscode).HasMaxLength(150);
             entity.Property(e => e.Security6DigitsPincode).HasMaxLength(150);
+            entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
         });
 
         modelBuilder.Entity<InvestmentSummary>(entity =>

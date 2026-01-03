@@ -1,4 +1,5 @@
-﻿using GDB.Web.Core.Models;
+﻿using GDB.Web.Common.Helpers;
+using GDB.Web.Core.Models;
 using GDB.Web.DataAccess.Interface;
 using GDB.Web.Shared;
 using GDB.Web.Shared.Inventory;
@@ -159,33 +160,85 @@ namespace GDB.Web.DataAccess.Implementation
                 logger.LogError(ex.Message, "An error occured while processing the request.");
                 return false;
             }
-        }   
+        }
 
-        public async Task<bool> VerifySecurityChecks(SecurityCheckViewModel securityCheckViewModel)
+        public async Task<SecurityCheckViewModel> VerifySecurityChecks(SecurityCheckViewModel model)
         {
-             
-            bool securityCheckStatus = true;
 
-            //var fullName = BCrypt.Net.BCrypt.HashPassword(securityCheckViewModel.FullName);
-            //var mobileNumber = BCrypt.Net.BCrypt.HashPassword(securityCheckViewModel.MobileNumber);
-            //var user12DigitsPasscode = BCrypt.Net.BCrypt.HashPassword(securityCheckViewModel.Security12DigitsPasscode);
-            //var user6DigitsPincode = BCrypt.Net.BCrypt.HashPassword(securityCheckViewModel.Security6DigitsPincode);
+            var securityCheckViewModel = new SecurityCheckViewModel();
+            var userData = await DbContext.InvestmentSecurityChecks
+                            .AsNoTracking().Where(x=>x.FullName == model.FullName)
+                            .FirstOrDefaultAsync();
 
-
-            securityCheckStatus = (await DbContext
-                                        .InvestmentSecurityChecks
-                                        .AnyAsync(s => s.FullName == BCrypt.Net.BCrypt.HashPassword(securityCheckViewModel.FullName) &&
-                                                       s.MobileNumber == BCrypt.Net.BCrypt.HashPassword(securityCheckViewModel.MobileNumber) &&
-                                                       s.Security12DigitsPasscode == BCrypt.Net.BCrypt.HashPassword(securityCheckViewModel.Security12DigitsPasscode) &&
-                                                       s.Security6DigitsPincode == BCrypt.Net.BCrypt.HashPassword(securityCheckViewModel.Security6DigitsPincode))
-
-            );
-            if (!securityCheckStatus)
+            if (userData is null)
             {
-                logger.LogWarning("Security check failed for user with Full Name: {FullName}", securityCheckViewModel.FullName);
-                return securityCheckStatus;
+                securityCheckViewModel.SecurityStatus = DbContextUtils.InvestmentDetail_Data_DoesNot_Exists;
+                return securityCheckViewModel;
             }
-            return securityCheckStatus;
+            else
+            {
+                var mobileOk = BCryptHelper.VerifyPassword(model.MobileNumber, userData.MobileNumber);
+                var passcodeOk = BCryptHelper.VerifyPassword(model.Security12DigitsPasscode, userData.Security12DigitsPasscode);
+                var pinOk = BCryptHelper.VerifyPassword(model.Security6DigitsPincode, userData.Security6DigitsPincode);
+
+                var allOk = mobileOk && passcodeOk && pinOk;
+
+                if (userData.PasswordCount >= 3 && ((userData.SecurityStatus == false) || (userData.SecurityStatus == true)))
+                {
+                    securityCheckViewModel.SecurityStatus = DbContextUtils.InvestmentDetail_PasswordCountExceeds_MoreThanThreeTimes;
+
+                    if (allOk == true)
+                    {
+                        UpatePasswordCountAndStatus(model.FullName,
+                                                    (userData.PasswordCount ?? 0) + 1,
+                                                    userData.PasswordCount >= 3 ? false : true);
+                    }
+                    else
+                    {
+                        UpatePasswordCountAndStatus(model.FullName, 0, true);
+                    }
+
+                    return securityCheckViewModel;
+                }
+                else
+                {                 
+
+                    if (!allOk)
+                    {
+                        securityCheckViewModel.SecurityStatus = DbContextUtils.InvestmentDetail_Security_Options_Wrong;
+
+                        UpatePasswordCountAndStatus(model.FullName,
+                                                    (userData.PasswordCount ?? 0) + 1,
+                                                     userData.PasswordCount > 3 ? false : true);
+                        return securityCheckViewModel;
+                    }
+                    else
+                    {
+                        securityCheckViewModel.FullName = userData.FullName;
+                        securityCheckViewModel.MobileNumber = userData.MobileNumber;
+                        securityCheckViewModel.Security12DigitsPasscode = userData.Security12DigitsPasscode;
+                        securityCheckViewModel.Security6DigitsPincode = userData.Security6DigitsPincode;
+                        securityCheckViewModel.SecurityStatus = DbContextUtils.InvestmentDetail_SuccessStatus;
+                        UpatePasswordCountAndStatus(model.FullName, 0, true);
+                    }
+                }
+            }     
+            return securityCheckViewModel;
+        }
+        
+        private void UpatePasswordCountAndStatus(string fullName, int passwordCount, bool securityStatus)
+        {
+            var userData = DbContext.InvestmentSecurityChecks
+                            .Where(x => x.FullName == fullName)
+                            .FirstOrDefault();
+            if (userData != null)
+            {
+                userData.PasswordCount = passwordCount;
+                userData.SecurityStatus = securityStatus;
+                userData.UpdatedDate = DateTime.UtcNow;
+                DbContext.InvestmentSecurityChecks.Update(userData);
+                DbContext.SaveChanges();
+            }
         }
 
         public async Task<bool> AddInvestmentSummary(InvestmentSummaryViewModel investmentSummaryViewModel)
@@ -213,5 +266,18 @@ namespace GDB.Web.DataAccess.Implementation
                 return false;
             }
         }
+    }
+}
+
+public static class BCryptHelper
+{
+    private const int WorkFactor = 13; // increase if acceptable performance
+    public static string HashPassword(string password)
+    {
+        return BCrypt.Net.BCrypt.EnhancedHashPassword(password, WorkFactor);
+    }
+    public static bool VerifyPassword(string password, string hashedPassword)
+    {
+        return BCrypt.Net.BCrypt.EnhancedVerify(password, hashedPassword);
     }
 }

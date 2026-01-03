@@ -1,4 +1,5 @@
-﻿using Blazored.SessionStorage;
+﻿using Blazored.LocalStorage;
+using Blazored.SessionStorage;
 using Blazorise;
 using Blazorise.Bootstrap5;
 using GDB.Web.BLL.Implementation;
@@ -19,6 +20,8 @@ using System.Text;
 
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddBlazoredLocalStorage(); // register
 
 // Radzen Services (optional, but helpful if using more components)
 builder.Services.AddScoped<DialogService>();

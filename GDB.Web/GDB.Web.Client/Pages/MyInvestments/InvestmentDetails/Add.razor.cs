@@ -11,7 +11,8 @@ namespace GDB.Web.Client.Pages.MyInvestments.InvestmentDetails
     public partial class Add : ComponentBase
     {
         [Inject] public IInvestmentService investmentService { get; set; }
-        [Inject] public NavigationManager NavigationManager { get; set; }   
+        [Inject] public NavigationManager NavigationManager { get; set; }  
+        
         private List<InvestmentOptionCategoryViewModel>?  investmentOptionCategoryViewModel = null;
         private List<InvestmentOptionSubCategoryViewModel>? investmentOptionSubCategoryViewModel = null;
         private InvestmentViewModel investmentViewModel = new InvestmentViewModel();

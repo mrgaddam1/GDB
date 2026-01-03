@@ -8,19 +8,19 @@ namespace GDB.Web.Shared
         public int CustomerId { get; set; }
         public string? FirstName { get; set; }
         public string? LastName { get; set; }
-        public string? MobileNumber { get; set; }
+        public string? MobileNumber { get; set; }     
         public string? OrderTypeName { get; set; }
         public string? Location { get; set; }
-        public string? AdvertisementDescription { get; set; }       
+        public string? AdvertisementDescription { get; set; }
         public decimal Amount { get; set; }
         public bool? AmountPaid { get; set; }
         public DateTime? AmountPaidDate { get; set; }
         public int? StaterId { get; set; }
         public decimal? SelectedStaterPrice { get; set; }
         public decimal TotalPrice { get; set; }
-        public int OrderTypeId { get; set; }      
+        public int OrderTypeId { get; set; }
         public int Quantity{ get; set; }
-        public int PaymentTypeId { get; set; }
+        public int PaymentTypeId { get; set; }      
         public DateTime? OrderDate { get; set; }
         public string? PaymentType { get; set; }
         public string? StarterDescription { get; set; }
